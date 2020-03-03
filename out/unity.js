@@ -276,6 +276,66 @@ var feng3d;
             enumerable: true,
             configurable: true
         });
+        /**
+         * Creates a snapshot of LineRenderer and stores it in mesh.
+         *
+         * 创建LineRenderer的快照并将其存储在网格中。
+         *
+         * @param mesh	A static mesh that will receive the snapshot of the line.
+         * @param camera	The camera used for determining which way camera-space lines will face.
+         * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
+         */
+        LineRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
+        };
+        /**
+         * Get the position of a vertex in the line.
+         *
+         * 获取直线在顶点的位置。
+         *
+         * @param index	The index of the position to retrieve.
+         */
+        LineRenderer.prototype.GetPosition = function (index) {
+        };
+        /**
+         * Get the positions of all vertices in the line.
+         *
+         * 获取行中所有顶点的位置。
+         *
+         * @param positions	The array of positions to retrieve. The array passed should be of at least positionCount in size.
+         *
+         * @returns How many positions were actually stored in the output array.
+         */
+        LineRenderer.prototype.GetPositions = function (positions) {
+            if (positions === void 0) { positions = []; }
+        };
+        /**
+         * Set the position of a vertex in the line.
+         *
+         * 设置顶点在直线中的位置。
+         *
+         * @param index	Which position to set.
+         * @param position	The new position.
+         */
+        LineRenderer.prototype.setPosition = function (index, position) {
+        };
+        /**
+         * Set the positions of all vertices in the line.
+         *
+         * 设置线中所有顶点的位置。
+         *
+         * @param positions	The array of positions to set.
+         */
+        LineRenderer.prototype.SetPositions = function (positions) {
+        };
+        /**
+         * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
+         *
+         * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
+         *
+         * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
+         */
+        LineRenderer.prototype.Simplify = function (tolerance) {
+        };
         __decorate([
             feng3d.oav({ exclude: true })
         ], LineRenderer.prototype, "geometry", void 0);

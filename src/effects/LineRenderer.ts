@@ -238,42 +238,78 @@ namespace feng3d
          * Creates a snapshot of LineRenderer and stores it in mesh.
          * 
          * 创建LineRenderer的快照并将其存储在网格中。
+         * 
+         * @param mesh	A static mesh that will receive the snapshot of the line. 
+         * @param camera	The camera used for determining which way camera-space lines will face.
+         * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
-        BakeMesh
+        BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean)
+        {
+
+        }
 
         /**
          * Get the position of a vertex in the line.
          * 
          * 获取直线在顶点的位置。
+         * 
+         * @param index	The index of the position to retrieve.
          */
-        GetPosition
+        GetPosition(index: number)
+        {
+
+        }
 
         /**
          * Get the positions of all vertices in the line.
          * 
          * 获取行中所有顶点的位置。
+         * 
+         * @param positions	The array of positions to retrieve. The array passed should be of at least positionCount in size.
+         * 
+         * @returns How many positions were actually stored in the output array.
          */
-        GetPositions
+        GetPositions(positions: Vector3[] = [])
+        {
+
+        }
 
         /**
          * Set the position of a vertex in the line.
          * 
          * 设置顶点在直线中的位置。
+         * 
+         * @param index	Which position to set.
+         * @param position	The new position.
          */
-        SetPosition
+        setPosition(index: number, position: Vector3)
+        {
+
+        }
 
         /**
          * Set the positions of all vertices in the line.
          * 
          * 设置线中所有顶点的位置。
+         * 
+         * @param positions	The array of positions to set.
          */
-        SetPositions
+        SetPositions(positions: Vector3[])
+        {
+
+        }
 
         /**
          * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
          * 
          * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
+         * 
+         * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
          */
-        Simplify
+        Simplify(tolerance: number)
+        {
+
+        }
+
     }
 }
