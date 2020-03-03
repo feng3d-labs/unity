@@ -257,7 +257,7 @@ namespace feng3d
          */
         GetPosition(index: number)
         {
-
+            return this.positions[index];
         }
 
         /**
@@ -271,7 +271,13 @@ namespace feng3d
          */
         GetPositions(positions: Vector3[] = [])
         {
-
+            positions.length = this.positions.length;
+            for (let i = 0; i < this.positions.length; i++)
+            {
+                positions[i] = positions[i] || new Vector3();
+                positions[i].copy(this.positions[i]);
+            }
+            return positions;
         }
 
         /**
@@ -284,7 +290,7 @@ namespace feng3d
          */
         setPosition(index: number, position: Vector3)
         {
-
+            this.positions[index].copy(position);
         }
 
         /**
@@ -296,7 +302,12 @@ namespace feng3d
          */
         SetPositions(positions: Vector3[])
         {
-
+            this.positions.length = positions.length;
+            for (let i = 0; i < positions.length; i++)
+            {
+                this.positions[i] = this.positions[i] || new Vector3();
+                this.positions[i].copy(positions[i]);
+            }
         }
 
         /**
@@ -305,6 +316,8 @@ namespace feng3d
          * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
          * 
          * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
+         * 
+         * @todo
          */
         Simplify(tolerance: number)
         {

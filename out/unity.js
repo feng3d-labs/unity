@@ -295,6 +295,7 @@ var feng3d;
          * @param index	The index of the position to retrieve.
          */
         LineRenderer.prototype.GetPosition = function (index) {
+            return this.positions[index];
         };
         /**
          * Get the positions of all vertices in the line.
@@ -307,6 +308,12 @@ var feng3d;
          */
         LineRenderer.prototype.GetPositions = function (positions) {
             if (positions === void 0) { positions = []; }
+            positions.length = this.positions.length;
+            for (var i = 0; i < this.positions.length; i++) {
+                positions[i] = positions[i] || new feng3d.Vector3();
+                positions[i].copy(this.positions[i]);
+            }
+            return positions;
         };
         /**
          * Set the position of a vertex in the line.
@@ -317,6 +324,7 @@ var feng3d;
          * @param position	The new position.
          */
         LineRenderer.prototype.setPosition = function (index, position) {
+            this.positions[index].copy(position);
         };
         /**
          * Set the positions of all vertices in the line.
@@ -326,6 +334,11 @@ var feng3d;
          * @param positions	The array of positions to set.
          */
         LineRenderer.prototype.SetPositions = function (positions) {
+            this.positions.length = positions.length;
+            for (var i = 0; i < positions.length; i++) {
+                this.positions[i] = this.positions[i] || new feng3d.Vector3();
+                this.positions[i].copy(positions[i]);
+            }
         };
         /**
          * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
@@ -333,6 +346,8 @@ var feng3d;
          * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
          *
          * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
+         *
+         * @todo
          */
         LineRenderer.prototype.Simplify = function (tolerance) {
         };

@@ -195,7 +195,7 @@ declare namespace feng3d {
          *
          * @param index	The index of the position to retrieve.
          */
-        GetPosition(index: number): void;
+        GetPosition(index: number): Vector3;
         /**
          * Get the positions of all vertices in the line.
          *
@@ -205,7 +205,7 @@ declare namespace feng3d {
          *
          * @returns How many positions were actually stored in the output array.
          */
-        GetPositions(positions?: Vector3[]): void;
+        GetPositions(positions?: Vector3[]): Vector3[];
         /**
          * Set the position of a vertex in the line.
          *
@@ -229,6 +229,8 @@ declare namespace feng3d {
          * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
          *
          * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
+         *
+         * @todo
          */
         Simplify(tolerance: number): void;
     }
