@@ -100,7 +100,7 @@ var feng3d;
             /**
              * 顶点列表。
              */
-            _this.positions = [];
+            _this.positions = [new feng3d.Vector3(0, 0, 0), new feng3d.Vector3(1, 0, 0), new feng3d.Vector3(0, 0, 1), new feng3d.Vector3(0, 0, 0)];
             /**
              * 曲线宽度。
              */
@@ -309,8 +309,6 @@ var feng3d;
             // 用于计算线条中点生成两个点的偏移量
             var offset = new feng3d.Vector3();
             // 线条中点分别生成的两个偏移点
-            var positionOffset0 = [];
-            var positionOffset1 = [];
             var positionRate = [];
             // 摄像机在该对象空间内的坐标
             var positionCount = positions.length;
@@ -320,32 +318,22 @@ var feng3d;
                     var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
                     normal.copy(cameraPosition).sub(positions[i]).normalize();
                 }
-                // 
-                if (i == 0) {
-                    tangent.copy(positions[i + 1]).sub(positions[i]).normalize();
-                }
-                else if (i == positionCount - 1) {
-                    tangent.copy(positions[i]).sub(positions[i - 1]).normalize();
-                }
-                else {
-                    tangent.copy(positions[i + 1]).sub(positions[i - 1]).normalize();
-                }
-                rateAtLine = i / positionCount;
-                offset.copy(tangent).cross(normal).normalize(this.lineWidth.getValue(rateAtLine));
-                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
-                    offset.copy(tangent).cross(feng3d.Vector3.X_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
-                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
-                    offset.copy(tangent).cross(feng3d.Vector3.Y_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
-                positionOffset0[i] = positions[i].clone().add(offset);
-                positionOffset1[i] = positions[i].clone().sub(offset);
+                rateAtLine = i / (positionCount - 1);
                 positionRate[i] = rateAtLine;
                 if (i > 0) {
+                    // 
+                    tangent.copy(positions[i]).sub(positions[i - 1]).normalize();
+                    offset.copy(tangent).cross(normal).normalize(this.lineWidth.getValue(rateAtLine));
+                    if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
+                        offset.copy(tangent).cross(feng3d.Vector3.X_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
+                    if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
+                        offset.copy(tangent).cross(feng3d.Vector3.Y_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
                     // 重新计算面法线
                     normal.copy(offset).cross(tangent).normalize();
-                    var p00 = positionOffset0[i - 1];
-                    var p01 = positionOffset1[i - 1];
-                    var p10 = positionOffset0[i];
-                    var p11 = positionOffset1[i];
+                    var p00 = positions[i - 1].clone().add(offset);
+                    var p01 = positions[i - 1].clone().sub(offset);
+                    var p10 = positions[i].clone().add(offset);
+                    var p11 = positions[i].clone().sub(offset);
                     // 两个三角形
                     a_positions.push(p00.x, p00.y, p00.z, p10.x, p10.y, p10.z, p11.x, p11.y, p11.z);
                     a_positions.push(p00.x, p00.y, p00.z, p11.x, p11.y, p11.z, p01.x, p01.y, p01.z);
