@@ -245,7 +245,42 @@ namespace feng3d
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean)
         {
+            if (this.positions.length < 2) return;
 
+            var faceDir = new Vector3(0, 0, 1);
+
+            var positions = this.positions;
+
+            // 当前所在线条位置，0表示起点，1表示终点
+            var rateAtLine = 0;
+            // 用于计算线条中点生成两个点的偏移量
+            var offset = new Vector3();
+            // 线条中点分别生成的两个偏移点
+            var positionOffset0: Vector3[] = [];
+            var positionOffset1: Vector3[] = [];
+            // 摄像机在该对象空间内的坐标
+            var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
+            var positionCount = positions.length;
+            for (let i = 0; i < positionCount; i++)
+            {
+                // 计算随摄像机朝向
+                if (this.alignment == LineAlignment.View) faceDir.copy(cameraPosition).sub(positions[i]).normalize();
+                // 
+                if (i == 0)
+                {
+                    offset.copy(positions[i + 1]).sub(positions[i]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                } else if (i == positionCount - 1)
+                {
+                    offset.copy(positions[i]).sub(positions[i - 1]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                } else
+                {
+                    offset.copy(positions[i + 1]).sub(positions[i - 1]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                }
+                positionOffset0[i] = positions[i].clone().add(offset);
+                positionOffset1[i] = positions[i].clone().sub(offset);
+
+
+            }
         }
 
         /**
