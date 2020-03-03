@@ -86,7 +86,9 @@ var feng3d;
         __extends(LineRenderer, _super);
         function LineRenderer() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.geometry = new feng3d.SegmentGeometry();
+            _this.geometry = new feng3d.Geometry();
+            // @oav({ exclude: true })
+            // material: Material;
             _this.castShadows = false;
             _this.receiveShadows = false;
             /**
@@ -276,6 +278,10 @@ var feng3d;
             enumerable: true,
             configurable: true
         });
+        LineRenderer.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
+            this.BakeMesh(this.geometry, camera, false);
+            _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
+        };
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
@@ -288,7 +294,15 @@ var feng3d;
         LineRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
             if (this.positions.length < 2)
                 return;
-            var faceDir = new feng3d.Vector3(0, 0, 1);
+            var a_positions = [];
+            var a_normals = [];
+            var a_tangents = [];
+            var a_uvs = [];
+            var indices = [];
+            // 法线，面朝向
+            var normal = new feng3d.Vector3(0, 0, 1);
+            // 切线，线条方向
+            var tangent = new feng3d.Vector3(1, 0, 0);
             var positions = this.positions;
             // 当前所在线条位置，0表示起点，1表示终点
             var rateAtLine = 0;
@@ -297,26 +311,60 @@ var feng3d;
             // 线条中点分别生成的两个偏移点
             var positionOffset0 = [];
             var positionOffset1 = [];
+            var positionRate = [];
             // 摄像机在该对象空间内的坐标
-            var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
             var positionCount = positions.length;
             for (var i = 0; i < positionCount; i++) {
                 // 计算随摄像机朝向
-                if (this.alignment == feng3d.LineAlignment.View)
-                    faceDir.copy(cameraPosition).sub(positions[i]).normalize();
+                if (this.alignment == feng3d.LineAlignment.View) {
+                    var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
+                    normal.copy(cameraPosition).sub(positions[i]).normalize();
+                }
                 // 
                 if (i == 0) {
-                    offset.copy(positions[i + 1]).sub(positions[i]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                    tangent.copy(positions[i + 1]).sub(positions[i]).normalize();
                 }
                 else if (i == positionCount - 1) {
-                    offset.copy(positions[i]).sub(positions[i - 1]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                    tangent.copy(positions[i]).sub(positions[i - 1]).normalize();
                 }
                 else {
-                    offset.copy(positions[i + 1]).sub(positions[i - 1]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                    tangent.copy(positions[i + 1]).sub(positions[i - 1]).normalize();
                 }
+                rateAtLine = i / positionCount;
+                offset.copy(tangent).cross(normal).normalize(this.lineWidth.getValue(rateAtLine));
+                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
+                    offset.copy(tangent).cross(feng3d.Vector3.X_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
+                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
+                    offset.copy(tangent).cross(feng3d.Vector3.Y_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
                 positionOffset0[i] = positions[i].clone().add(offset);
                 positionOffset1[i] = positions[i].clone().sub(offset);
+                positionRate[i] = rateAtLine;
+                if (i > 0) {
+                    // 重新计算面法线
+                    normal.copy(offset).cross(tangent).normalize();
+                    var p00 = positionOffset0[i - 1];
+                    var p01 = positionOffset1[i - 1];
+                    var p10 = positionOffset0[i];
+                    var p11 = positionOffset1[i];
+                    // 两个三角形
+                    a_positions.push(p00.x, p00.y, p00.z, p10.x, p10.y, p10.z, p11.x, p11.y, p11.z);
+                    a_positions.push(p00.x, p00.y, p00.z, p11.x, p11.y, p11.z, p01.x, p01.y, p01.z);
+                    a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
+                    a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
+                    a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
+                    a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
+                    a_uvs.push(positionRate[i - 1], 1, positionRate[i], 1, positionRate[i], 0);
+                    a_uvs.push(positionRate[i - 1], 1, positionRate[i], 0, positionRate[i - 1], 0);
+                    var startIndex = 6 * (i - 1);
+                    indices.push(startIndex, startIndex + 1, startIndex + 2);
+                    indices.push(startIndex + 3, startIndex + 4, startIndex + 5);
+                }
             }
+            mesh.positions = a_positions;
+            mesh.normals = a_normals;
+            mesh.tangents = a_tangents;
+            mesh.uvs = a_uvs;
+            mesh.indices = indices;
         };
         /**
          * Get the position of a vertex in the line.
@@ -385,9 +433,6 @@ var feng3d;
         __decorate([
             feng3d.oav({ exclude: true })
         ], LineRenderer.prototype, "geometry", void 0);
-        __decorate([
-            feng3d.oav({ exclude: true })
-        ], LineRenderer.prototype, "material", void 0);
         __decorate([
             feng3d.oav({ exclude: true })
         ], LineRenderer.prototype, "castShadows", void 0);

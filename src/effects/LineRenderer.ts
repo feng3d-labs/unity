@@ -11,8 +11,8 @@ namespace feng3d
         @oav({ exclude: true })
         geometry = <any>new Geometry();
 
-        @oav({ exclude: true })
-        material: Material;
+        // @oav({ exclude: true })
+        // material: Material;
 
         @oav({ exclude: true })
         castShadows = false;
@@ -234,6 +234,13 @@ namespace feng3d
             this.widthCurve.keys[0].value = v / this.widthMultiplier;
         }
 
+        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera)
+        {
+            this.BakeMesh(this.geometry, camera, false);
+
+            super.beforeRender(gl, renderAtomic, scene, camera);
+        }
+
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          * 
@@ -251,6 +258,7 @@ namespace feng3d
             var a_normals: number[] = [];
             var a_tangents: number[] = [];
             var a_uvs: number[] = [];
+            var indices: number[] = [];
 
             // 法线，面朝向
             var normal = new Vector3(0, 0, 1);
@@ -268,25 +276,32 @@ namespace feng3d
             var positionOffset1: Vector3[] = [];
             var positionRate: number[] = [];
             // 摄像机在该对象空间内的坐标
-            var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
             var positionCount = positions.length;
             for (let i = 0; i < positionCount; i++)
             {
                 // 计算随摄像机朝向
-                if (this.alignment == LineAlignment.View) normal.copy(cameraPosition).sub(positions[i]).normalize();
+                if (this.alignment == LineAlignment.View)
+                {
+                    var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
+                    normal.copy(cameraPosition).sub(positions[i]).normalize();
+                }
                 // 
                 if (i == 0)
                 {
-                    tangent.copy(positions[i + 1]).sub(positions[i])
+                    tangent.copy(positions[i + 1]).sub(positions[i]).normalize();
                 } else if (i == positionCount - 1)
                 {
-                    tangent.copy(positions[i]).sub(positions[i - 1]);
+                    tangent.copy(positions[i]).sub(positions[i - 1]).normalize();
                 } else
                 {
-                    tangent.copy(positions[i + 1]).sub(positions[i - 1]);
+                    tangent.copy(positions[i + 1]).sub(positions[i - 1]).normalize();
                 }
                 rateAtLine = i / positionCount;
                 offset.copy(tangent).cross(normal).normalize(this.lineWidth.getValue(rateAtLine));
+                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
+                    offset.copy(tangent).cross(Vector3.X_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
+                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
+                    offset.copy(tangent).cross(Vector3.Y_AXIS).normalize(this.lineWidth.getValue(rateAtLine));
 
                 positionOffset0[i] = positions[i].clone().add(offset);
                 positionOffset1[i] = positions[i].clone().sub(offset);
@@ -295,7 +310,7 @@ namespace feng3d
                 if (i > 0)
                 {
                     // 重新计算面法线
-                    normal.copy(offset).cross(tangent);
+                    normal.copy(offset).cross(tangent).normalize();
 
                     var p00 = positionOffset0[i - 1];
                     var p01 = positionOffset1[i - 1];
@@ -314,6 +329,10 @@ namespace feng3d
 
                     a_uvs.push(positionRate[i - 1], 1, positionRate[i], 1, positionRate[i], 0);
                     a_uvs.push(positionRate[i - 1], 1, positionRate[i], 0, positionRate[i - 1], 0);
+
+                    var startIndex = 6 * (i - 1);
+                    indices.push(startIndex, startIndex + 1, startIndex + 2);
+                    indices.push(startIndex + 3, startIndex + 4, startIndex + 5);
                 }
             }
 
@@ -321,6 +340,7 @@ namespace feng3d
             mesh.normals = a_normals;
             mesh.tangents = a_tangents;
             mesh.uvs = a_uvs;
+            mesh.indices = indices;
         }
 
         /**

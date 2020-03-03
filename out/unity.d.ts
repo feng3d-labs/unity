@@ -59,8 +59,7 @@ declare namespace feng3d {
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
     class LineRenderer extends Renderable {
-        geometry: SegmentGeometry;
-        material: Material;
+        geometry: any;
         castShadows: boolean;
         receiveShadows: boolean;
         /**
@@ -178,6 +177,7 @@ declare namespace feng3d {
          */
         get startWidth(): number;
         set startWidth(v: number);
+        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
