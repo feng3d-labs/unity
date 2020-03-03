@@ -60,8 +60,6 @@ declare namespace feng3d {
      */
     class LineRenderer extends Renderable {
         geometry: any;
-        castShadows: boolean;
-        receiveShadows: boolean;
         /**
          * Connect the start and end positions of the line together to form a continuous loop.
          *
