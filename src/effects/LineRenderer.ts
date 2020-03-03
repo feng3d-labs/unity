@@ -9,7 +9,7 @@ namespace feng3d
     export class LineRenderer extends Renderable
     {
         @oav({ exclude: true })
-        geometry = new SegmentGeometry();
+        geometry = <any>new Geometry();
 
         @oav({ exclude: true })
         material: Material;
@@ -247,7 +247,15 @@ namespace feng3d
         {
             if (this.positions.length < 2) return;
 
-            var faceDir = new Vector3(0, 0, 1);
+            var a_positions: number[] = [];
+            var a_normals: number[] = [];
+            var a_tangents: number[] = [];
+            var a_uvs: number[] = [];
+
+            // 法线，面朝向
+            var normal = new Vector3(0, 0, 1);
+            // 切线，线条方向
+            var tangent = new Vector3(1, 0, 0);
 
             var positions = this.positions;
 
@@ -258,29 +266,61 @@ namespace feng3d
             // 线条中点分别生成的两个偏移点
             var positionOffset0: Vector3[] = [];
             var positionOffset1: Vector3[] = [];
+            var positionRate: number[] = [];
             // 摄像机在该对象空间内的坐标
             var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
             var positionCount = positions.length;
             for (let i = 0; i < positionCount; i++)
             {
                 // 计算随摄像机朝向
-                if (this.alignment == LineAlignment.View) faceDir.copy(cameraPosition).sub(positions[i]).normalize();
+                if (this.alignment == LineAlignment.View) normal.copy(cameraPosition).sub(positions[i]).normalize();
                 // 
                 if (i == 0)
                 {
-                    offset.copy(positions[i + 1]).sub(positions[i]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                    tangent.copy(positions[i + 1]).sub(positions[i])
                 } else if (i == positionCount - 1)
                 {
-                    offset.copy(positions[i]).sub(positions[i - 1]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                    tangent.copy(positions[i]).sub(positions[i - 1]);
                 } else
                 {
-                    offset.copy(positions[i + 1]).sub(positions[i - 1]).cross(faceDir).normalize(this.lineWidth.getValue(rateAtLine));
+                    tangent.copy(positions[i + 1]).sub(positions[i - 1]);
                 }
+                rateAtLine = i / positionCount;
+                offset.copy(tangent).cross(normal).normalize(this.lineWidth.getValue(rateAtLine));
+
                 positionOffset0[i] = positions[i].clone().add(offset);
                 positionOffset1[i] = positions[i].clone().sub(offset);
+                positionRate[i] = rateAtLine;
 
+                if (i > 0)
+                {
+                    // 重新计算面法线
+                    normal.copy(offset).cross(tangent);
 
+                    var p00 = positionOffset0[i - 1];
+                    var p01 = positionOffset1[i - 1];
+                    var p10 = positionOffset0[i];
+                    var p11 = positionOffset1[i];
+
+                    // 两个三角形
+                    a_positions.push(p00.x, p00.y, p00.z, p10.x, p10.y, p10.z, p11.x, p11.y, p11.z);
+                    a_positions.push(p00.x, p00.y, p00.z, p11.x, p11.y, p11.z, p01.x, p01.y, p01.z);
+
+                    a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
+                    a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
+
+                    a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
+                    a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
+
+                    a_uvs.push(positionRate[i - 1], 1, positionRate[i], 1, positionRate[i], 0);
+                    a_uvs.push(positionRate[i - 1], 1, positionRate[i], 0, positionRate[i - 1], 0);
+                }
             }
+
+            mesh.positions = a_positions;
+            mesh.normals = a_normals;
+            mesh.tangents = a_tangents;
+            mesh.uvs = a_uvs;
         }
 
         /**
