@@ -313,8 +313,8 @@ var feng3d;
             var positionCount = positions.length;
             // 计算线条总长度
             var totalLength = 0;
-            for (var i = 1; i < positionCount - 1; i++) {
-                totalLength += positions[i].distance(positions[i - 1]);
+            for (var i = 1; i < positionCount - 2; i++) {
+                totalLength += positions[i + 1].distance(positions[i]);
             }
             //
             var currentLength = 0;
