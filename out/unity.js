@@ -307,17 +307,32 @@ var feng3d;
             var rateAtLine = 0;
             // 用于计算线条中点生成两个点的偏移量
             var offset = new feng3d.Vector3();
-            // 摄像机在该对象空间内的坐标
+            //
             var positionCount = positions.length;
-            for (var ii = 0; ii < positionCount; ii++) {
+            // 计算线条总长度
+            var totalLength = 0;
+            for (var i = 0; i < positionCount; i++) {
+                if (i == 0) {
+                    if (this.loop) {
+                        totalLength += positions[0].distance(positions[positionCount - 1]);
+                    }
+                }
+                else {
+                    totalLength += positions[i].distance(positions[i - 1]);
+                }
+            }
+            //
+            var currentLength = 0;
+            // 摄像机在该对象空间内的坐标
+            for (var i = 0; i < positionCount; i++) {
                 //
-                var current = ii;
+                var current = i;
                 var pre = current - 1;
                 var next = current + 1;
-                if (ii == 0) {
+                if (i == 0) {
                     pre = this.loop ? positionCount - 1 : 0;
                 }
-                else if (ii == positionCount - 1) {
+                else if (i == positionCount - 1) {
                     next = this.loop ? 0 : positionCount - 1;
                 }
                 var prePosition = positions[pre];
@@ -357,12 +372,24 @@ var feng3d;
                 var offset1 = currentPosition.clone().sub(offset);
                 //
                 a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
-                a_uvs.push(rateAtLine, 1, rateAtLine, 0);
                 a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
                 a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
+                // 计算UV
+                if (this.textureMode == feng3d.LineTextureMode.Stretch) {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                }
+                else if (this.textureMode == feng3d.LineTextureMode.Tile) {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                }
+                else if (this.textureMode == feng3d.LineTextureMode.DistributePerSegment) {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                }
+                else if (this.textureMode == feng3d.LineTextureMode.RepeatPerSegment) {
+                    a_uvs.push(i, 1, i, 0);
+                }
                 //
-                if (this.loop || ii > 0) {
+                if (this.loop || i > 0) {
                     indices.push(pre * 2, current * 2, current * 2 + 1);
                     indices.push(pre * 2, current * 2 + 1, pre * 2 + 1);
                 }
