@@ -246,8 +246,20 @@ namespace feng3d
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean)
         {
-            var positions = this.positions;
+            var positions = this.positions.concat();
             if (positions.length < 2) return;
+
+            // 处理两端循环情况
+            if (this.loop)
+            {
+                positions.unshift(positions[positions.length - 1]);
+                positions.push(positions[1]);
+                positions.push(positions[2]);
+            } else
+            {
+                positions.unshift(positions[0]);
+                positions.push(positions[positions.length - 1]);
+            }
 
             var a_positions: number[] = [];
             var a_normals: number[] = [];
@@ -260,52 +272,26 @@ namespace feng3d
             var positionCount = positions.length;
             // 计算线条总长度
             var totalLength = 0;
-            for (var i = 0; i < positionCount; i++)
+            for (var i = 1; i < positionCount - 1; i++)
             {
-                if (i == 0)
-                {
-                    if (this.loop)
-                    {
-                        totalLength += positions[0].distance(positions[positionCount - 1]);
-                    }
-                }
-                else
-                {
-                    totalLength += positions[i].distance(positions[i - 1]);
-                }
+                totalLength += positions[i].distance(positions[i - 1]);
             }
             //
             var currentLength = 0;
             // 摄像机在该对象空间内的坐标
-            for (var i = 0; i <= positionCount; i++)
+            for (var i = 0; i < positionCount - 2; i++)
             {
-                if (!this.loop && i == positionCount) break;
                 // 顶点索引
-                var current = i % positionCount;
-                var pre = current - 1;
-                var next = current + 1;
-                //
-                current = (current + positionCount) % positionCount;
-                pre = (pre + positionCount) % positionCount;
-                next = (next + positionCount) % positionCount;
-                //
-                if (i == 0)
-                {
-                    pre = this.loop ? positionCount - 1 : 0;
-                } else if (i == positionCount - 1)
-                {
-                    next = this.loop ? 0 : positionCount - 1;
-                }
-                var prePosition = positions[pre];
-                var currentPosition = positions[current];
-                var nextPosition = positions[next];
+                var prePosition = positions[i];
+                var currentPosition = positions[i + 1];
+                var nextPosition = positions[i + 2];
                 //
                 if (i > 0)
                 {
                     currentLength += currentPosition.distance(prePosition);
                 }
                 // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (this.loop ? positionCount : positionCount - 1);
+                var rateAtLine = i / (positionCount - 2);
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
                 // 颜色
@@ -360,7 +346,7 @@ namespace feng3d
                     a_uvs.push(i, 1, i, 0);
                 }
 
-                //
+                // 计算索引
                 if (i > 0)
                 {
                     indices.push((i - 1) * 2, i * 2, i * 2 + 1);
