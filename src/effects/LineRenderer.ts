@@ -67,7 +67,8 @@ namespace feng3d
          */
         @serialize
         @oav({ component: "OAVEnum", tooltip: "选择线是否将面对摄像机，或转换组件的方向。", componentParam: { enumClass: LineAlignment } })
-        alignment = LineAlignment.View;
+        // alignment = LineAlignment.View;
+        alignment = LineAlignment.TransformZ;
 
         /**
          * Choose whether the U coordinate of the line texture is tiled or stretched.
@@ -252,7 +253,7 @@ namespace feng3d
             var indices: number[] = [];
 
             // 法线，面朝向
-            var normal = new Vector3(0, 0, 1);
+            var normal = new Vector3(0, 0, -1);
             // 切线，线条方向
             var tangent = new Vector3(1, 0, 0);
 
@@ -268,31 +269,34 @@ namespace feng3d
             var positionRate: number[] = [];
             // 摄像机在该对象空间内的坐标
             var positionCount = positions.length;
-            for (let i = 0; i < positionCount; i++)
+            for (let ii = 0; ii < positionCount; ii++)
             {
+                //
+                var current = ii;
+                var pre = current - 1;
+                var next = current + 1;
+                if (ii == 0)
+                {
+                    pre = this.loop ? positionCount - 1 : 0;
+                } else if (ii == positionCount - 1)
+                {
+                    next = this.loop ? 0 : positionCount - 1;
+                }
+
                 // 计算随摄像机朝向
                 if (this.alignment == LineAlignment.View)
                 {
                     var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
-                    normal.copy(cameraPosition).sub(positions[i]).normalize();
-                }
-                rateAtLine = i / positionCount;
-                positionRate[i] = rateAtLine;
-                // 与前一个点的线段方向
-                var tangent0: Vector3 = null;
-                // 与后一个点的线段方向
-                var tangent1: Vector3 = null;
-                if (i > 0)
+                    normal.copy(cameraPosition).sub(positions[current]).normalize();
+                } else
                 {
-                    tangent0 = positions[i].subTo(positions[i - 1]).normalize();
+                    normal.set(0, 0, -1);
                 }
-                if (i < positionCount - 1)
-                {
-                    tangent1 = positions[i + 1].subTo(positions[i]).normalize();
-                }
-                if (tangent0 == null) tangent0 = tangent1.clone();
-                if (tangent1 == null) tangent1 = tangent0.clone();
-
+                rateAtLine = current / positionCount;
+                positionRate[current] = rateAtLine;
+                //
+                var tangent0 = positions[current].subTo(positions[pre]).normalize();
+                var tangent1 = positions[next].subTo(positions[current]).normalize();
                 tangent.copy(tangent0).add(tangent1).normalize();
                 //
                 offset.copy(tangent).cross(normal);
@@ -306,18 +310,18 @@ namespace feng3d
                 offset.normalize(this.lineWidth.getValue(rateAtLine) / 2 / sin);
 
                 //
-                positionOffset0[i] = positions[i].clone().add(offset);
-                positionOffset1[i] = positions[i].clone().sub(offset);
+                positionOffset0[current] = positions[current].clone().add(offset);
+                positionOffset1[current] = positions[current].clone().sub(offset);
 
-                if (i > 0)
+                if (ii > 0)
                 {
                     // 重新计算面法线
                     normal.copy(offset).cross(tangent).normalize();
 
-                    var p00 = positionOffset0[i - 1];
-                    var p01 = positionOffset1[i - 1];
-                    var p10 = positionOffset0[i];
-                    var p11 = positionOffset1[i];
+                    var p00 = positionOffset0[pre];
+                    var p01 = positionOffset1[pre];
+                    var p10 = positionOffset0[current];
+                    var p11 = positionOffset1[current];
 
                     // 两个三角形
                     a_positions.push(p00.x, p00.y, p00.z, p10.x, p10.y, p10.z, p11.x, p11.y, p11.z);
@@ -329,12 +333,14 @@ namespace feng3d
                     a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
                     a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
 
-                    a_uvs.push(positionRate[i - 1], 1, positionRate[i], 1, positionRate[i], 0);
-                    a_uvs.push(positionRate[i - 1], 1, positionRate[i], 0, positionRate[i - 1], 0);
+                    a_uvs.push(positionRate[pre], 1, positionRate[current], 1, positionRate[current], 0);
+                    a_uvs.push(positionRate[pre], 1, positionRate[current], 0, positionRate[pre], 0);
 
-                    var startIndex = 6 * (i - 1);
-                    indices.push(startIndex, startIndex + 2, startIndex + 1);
-                    indices.push(startIndex + 3, startIndex + 5, startIndex + 4);
+                    var preStartIndex = 6 * pre;
+                    // var currentStartIndex = 6 * current;
+
+                    indices.push(preStartIndex, preStartIndex + 1, preStartIndex + 2);
+                    indices.push(preStartIndex + 3, preStartIndex + 4, preStartIndex + 5);
                 }
             }
 
