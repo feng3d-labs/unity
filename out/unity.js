@@ -303,7 +303,7 @@ var feng3d;
             var normal = new feng3d.Vector3(0, 0, -1);
             // 切线，线条方向
             var tangent = new feng3d.Vector3(1, 0, 0);
-            // 当前所在线条位置，0表示起点，1表示终点
+            // 当前所在线条，0表示起点，1表示终点
             var rateAtLine = 0;
             // 用于计算线条中点生成两个点的偏移量
             var offset = new feng3d.Vector3();
@@ -324,11 +324,18 @@ var feng3d;
             //
             var currentLength = 0;
             // 摄像机在该对象空间内的坐标
-            for (var i = 0; i < positionCount; i++) {
-                //
-                var current = i;
+            for (var i = 0; i <= positionCount; i++) {
+                if (!this.loop && i == positionCount)
+                    break;
+                // 顶点索引
+                var current = i % positionCount;
                 var pre = current - 1;
                 var next = current + 1;
+                //
+                current = (current + positionCount) % positionCount;
+                pre = (pre + positionCount) % positionCount;
+                next = (next + positionCount) % positionCount;
+                //
                 if (i == 0) {
                     pre = this.loop ? positionCount - 1 : 0;
                 }
@@ -339,7 +346,10 @@ var feng3d;
                 var currentPosition = positions[current];
                 var nextPosition = positions[next];
                 //
-                rateAtLine = current / (this.loop ? positionCount : positionCount - 1);
+                if (i > 0) {
+                    currentLength += currentPosition.distance(prePosition);
+                }
+                rateAtLine = i / (this.loop ? positionCount : positionCount - 1);
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
                 // 颜色
@@ -377,10 +387,10 @@ var feng3d;
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
                 // 计算UV
                 if (this.textureMode == feng3d.LineTextureMode.Stretch) {
-                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                    a_uvs.push(currentLength / totalLength, 1, currentLength / totalLength, 0);
                 }
                 else if (this.textureMode == feng3d.LineTextureMode.Tile) {
-                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                    a_uvs.push(currentLength, 1, currentLength, 0);
                 }
                 else if (this.textureMode == feng3d.LineTextureMode.DistributePerSegment) {
                     a_uvs.push(rateAtLine, 1, rateAtLine, 0);
@@ -389,9 +399,9 @@ var feng3d;
                     a_uvs.push(i, 1, i, 0);
                 }
                 //
-                if (this.loop || i > 0) {
-                    indices.push(pre * 2, current * 2, current * 2 + 1);
-                    indices.push(pre * 2, current * 2 + 1, pre * 2 + 1);
+                if (i > 0) {
+                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
+                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
                 }
             }
             mesh.positions = a_positions;
