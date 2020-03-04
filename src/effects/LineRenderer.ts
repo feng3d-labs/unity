@@ -25,7 +25,7 @@ namespace feng3d
          */
         @oav({ component: "OAVArray", tooltip: "顶点列表。", componentParam: { defaultItem: () => { return new Vector3(); } } })
         @serialize
-        positions: Vector3[] = [new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 0)];
+        positions: Vector3[] = [];
 
         /**
          * 曲线宽度。
@@ -263,10 +263,6 @@ namespace feng3d
             var rateAtLine = 0;
             // 用于计算线条中点生成两个点的偏移量
             var offset = new Vector3();
-            // 线条中点分别生成的两个偏移点
-            var positionOffset0: Vector3[] = [];
-            var positionOffset1: Vector3[] = [];
-            var positionRate: number[] = [];
             // 摄像机在该对象空间内的坐标
             var positionCount = positions.length;
             for (let ii = 0; ii < positionCount; ii++)
@@ -282,21 +278,24 @@ namespace feng3d
                 {
                     next = this.loop ? 0 : positionCount - 1;
                 }
+                var prePosition = positions[pre];
+                var currentPosition = positions[current];
+                var nextPosition = positions[next];
+                //
+                rateAtLine = current / positionCount;
 
                 // 计算随摄像机朝向
                 if (this.alignment == LineAlignment.View)
                 {
                     var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
-                    normal.copy(cameraPosition).sub(positions[current]).normalize();
+                    normal.copy(cameraPosition).sub(currentPosition).normalize();
                 } else
                 {
                     normal.set(0, 0, -1);
                 }
-                rateAtLine = current / positionCount;
-                positionRate[current] = rateAtLine;
                 //
-                var tangent0 = positions[current].subTo(positions[pre]).normalize();
-                var tangent1 = positions[next].subTo(positions[current]).normalize();
+                var tangent0 = currentPosition.subTo(prePosition).normalize();
+                var tangent1 = nextPosition.subTo(currentPosition).normalize();
                 tangent.copy(tangent0).add(tangent1).normalize();
                 //
                 offset.copy(tangent).cross(normal);
@@ -308,39 +307,22 @@ namespace feng3d
                 // 保持线条宽度
                 var sin = Math.sqrt(1 - Math.pow(offset.dot(tangent0), 2));
                 offset.normalize(this.lineWidth.getValue(rateAtLine) / 2 / sin);
+                // 重新计算面法线
+                normal.copy(offset).cross(tangent).normalize();
+                //
+                var offset0 = currentPosition.clone().add(offset);
+                var offset1 = currentPosition.clone().sub(offset);
+                //
+                a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
+                a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
+                a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
 
                 //
-                positionOffset0[current] = positions[current].clone().add(offset);
-                positionOffset1[current] = positions[current].clone().sub(offset);
-
-                if (ii > 0)
+                if (this.loop || ii > 0)
                 {
-                    // 重新计算面法线
-                    normal.copy(offset).cross(tangent).normalize();
-
-                    var p00 = positionOffset0[pre];
-                    var p01 = positionOffset1[pre];
-                    var p10 = positionOffset0[current];
-                    var p11 = positionOffset1[current];
-
-                    // 两个三角形
-                    a_positions.push(p00.x, p00.y, p00.z, p10.x, p10.y, p10.z, p11.x, p11.y, p11.z);
-                    a_positions.push(p00.x, p00.y, p00.z, p11.x, p11.y, p11.z, p01.x, p01.y, p01.z);
-
-                    a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
-                    a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
-
-                    a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
-                    a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
-
-                    a_uvs.push(positionRate[pre], 1, positionRate[current], 1, positionRate[current], 0);
-                    a_uvs.push(positionRate[pre], 1, positionRate[current], 0, positionRate[pre], 0);
-
-                    var preStartIndex = 6 * pre;
-                    // var currentStartIndex = 6 * current;
-
-                    indices.push(preStartIndex, preStartIndex + 1, preStartIndex + 2);
-                    indices.push(preStartIndex + 3, preStartIndex + 4, preStartIndex + 5);
+                    indices.push(pre * 2, current * 2, current * 2 + 1);
+                    indices.push(pre * 2, current * 2 + 1, pre * 2 + 1);
                 }
             }
 
