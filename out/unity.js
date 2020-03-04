@@ -277,6 +277,7 @@ var feng3d;
         });
         LineRenderer.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
             this.BakeMesh(this.geometry, camera, false);
+            renderAtomic.shaderMacro.HAS_a_color = true;
             _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
         };
         /**
@@ -289,18 +290,19 @@ var feng3d;
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
         LineRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
-            if (this.positions.length < 2)
+            var positions = this.positions;
+            if (positions.length < 2)
                 return;
             var a_positions = [];
             var a_normals = [];
             var a_tangents = [];
             var a_uvs = [];
+            var a_colors = [];
             var indices = [];
             // 法线，面朝向
             var normal = new feng3d.Vector3(0, 0, -1);
             // 切线，线条方向
             var tangent = new feng3d.Vector3(1, 0, 0);
-            var positions = this.positions;
             // 当前所在线条位置，0表示起点，1表示终点
             var rateAtLine = 0;
             // 用于计算线条中点生成两个点的偏移量
@@ -322,7 +324,11 @@ var feng3d;
                 var currentPosition = positions[current];
                 var nextPosition = positions[next];
                 //
-                rateAtLine = current / positionCount;
+                rateAtLine = current / (this.loop ? positionCount : positionCount - 1);
+                // 线条宽度
+                var lineWidth = this.lineWidth.getValue(rateAtLine);
+                // 颜色
+                var currentColor = this.colorGradient.getValue(rateAtLine);
                 // 计算随摄像机朝向
                 if (this.alignment == feng3d.LineAlignment.View) {
                     var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
@@ -343,7 +349,7 @@ var feng3d;
                     offset.copy(tangent).cross(feng3d.Vector3.Y_AXIS);
                 // 保持线条宽度
                 var sin = Math.sqrt(1 - Math.pow(offset.dot(tangent0), 2));
-                offset.normalize(this.lineWidth.getValue(rateAtLine) / 2 / sin);
+                offset.normalize(lineWidth / 2 / sin);
                 // 重新计算面法线
                 normal.copy(offset).cross(tangent).normalize();
                 //
@@ -354,6 +360,7 @@ var feng3d;
                 a_uvs.push(rateAtLine, 1, rateAtLine, 0);
                 a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
                 a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
+                a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
                 //
                 if (this.loop || ii > 0) {
                     indices.push(pre * 2, current * 2, current * 2 + 1);
@@ -364,6 +371,7 @@ var feng3d;
             mesh.normals = a_normals;
             mesh.tangents = a_tangents;
             mesh.uvs = a_uvs;
+            mesh.colors = a_colors;
             mesh.indices = indices;
         };
         /**
