@@ -187,6 +187,14 @@ declare namespace feng3d {
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean): void;
         /**
+         * 计算总长度
+         *
+         * @param positions 顶点列表
+         * @param loop 是否循环
+         */
+        private calcTotalLength;
+        private positionsToCurve;
+        /**
          * Get the position of a vertex in the line.
          *
          * 获取直线在顶点的位置。

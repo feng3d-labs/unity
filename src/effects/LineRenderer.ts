@@ -249,6 +249,11 @@ namespace feng3d
             var positions = this.positions.concat();
             if (positions.length < 2) return;
 
+            // 计算线条总长度
+            var totalLength = this.calcTotalLength(positions, this.loop);
+
+            this.positionsToCurve(positions, this.loop);
+
             // 处理两端循环情况
             if (this.loop)
             {
@@ -270,12 +275,6 @@ namespace feng3d
 
             //
             var positionCount = positions.length;
-            // 计算线条总长度
-            var totalLength = 0;
-            for (var i = 1; i < positionCount - 2; i++)
-            {
-                totalLength += positions[i + 1].distance(positions[i]);
-            }
             //
             var currentLength = 0;
             // 摄像机在该对象空间内的坐标
@@ -360,6 +359,51 @@ namespace feng3d
             mesh.uvs = a_uvs;
             mesh.colors = a_colors;
             mesh.indices = indices;
+        }
+
+        /**
+         * 计算总长度
+         * 
+         * @param positions 顶点列表
+         * @param loop 是否循环
+         */
+        private calcTotalLength(positions: Vector3[], loop: boolean)
+        {
+            var total = 0;
+            var length = positions.length;
+            for (let i = 0, n = length - 1; i < n; i++)
+            {
+                total += positions[i + 1].distance(positions[i]);
+            }
+            if (loop && length > 0)
+            {
+                total += positions[length - 1].distance(positions[0]);
+            }
+            return total;
+        }
+
+        private positionsToCurve(positions: Vector3[], loop: boolean)
+        {
+            // 处理两端循环情况
+            // if (loop)
+            // {
+            //     positions.unshift(positions[positions.length - 1]);
+            //     positions.push(positions[1]);
+            //     positions.push(positions[2]);
+            // } else
+            // {
+            //     positions.unshift(positions[0]);
+            //     positions.push(positions[positions.length - 1]);
+            // }
+
+
+
+            var xCurve = new AnimationCurve();
+            var yCurve = new AnimationCurve();
+            var zCurve = new AnimationCurve();
+
+
+
         }
 
         /**
