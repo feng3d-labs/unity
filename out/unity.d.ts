@@ -16,7 +16,11 @@ declare namespace feng3d {
          *
          * 线面向变换组件的Z轴。
          */
-        TransformZ = 1
+        TransformZ = 1,
+        /**
+         * 无特定朝向，自动根据线条走向确定面向(法线)
+         */
+        None = 2
     }
 }
 declare namespace feng3d {

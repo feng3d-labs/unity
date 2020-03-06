@@ -38,6 +38,10 @@ var feng3d;
          * 线面向变换组件的Z轴。
          */
         LineAlignment[LineAlignment["TransformZ"] = 1] = "TransformZ";
+        /**
+         * 无特定朝向，自动根据线条走向确定面向(法线)
+         */
+        LineAlignment[LineAlignment["None"] = 2] = "None";
     })(LineAlignment = feng3d.LineAlignment || (feng3d.LineAlignment = {}));
 })(feng3d || (feng3d = {}));
 var feng3d;
@@ -331,30 +335,44 @@ var feng3d;
                 var rateAtLine = i / (positionCount - 3);
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
+                // 切线，线条方向
+                var tangent = new feng3d.Vector3(1, 0, 0);
+                var tangent0 = currentPosition.subTo(prePosition).normalize();
+                var tangent1 = nextPosition.subTo(currentPosition).normalize();
+                tangent.copy(tangent0).add(tangent1).normalize();
+                // 处理切线为0的情况
+                if (tangent.lengthSquared == 0) {
+                    if (tangent0.lengthSquared != 0)
+                        tangent.copy(tangent0);
+                    else
+                        tangent.set(1, 0, 0);
+                }
                 // 法线，面朝向
                 var normal = new feng3d.Vector3(0, 0, -1);
                 if (this.alignment == feng3d.LineAlignment.View) {
                     var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
                     normal.copy(cameraPosition).sub(currentPosition).normalize();
                 }
-                // 切线，线条方向
-                var tangent = new feng3d.Vector3(1, 0, 0);
-                var tangent0 = currentPosition.subTo(prePosition).normalize();
-                var tangent1 = nextPosition.subTo(currentPosition).normalize();
-                tangent.copy(tangent0).add(tangent1).normalize();
-                //
+                else if (this.alignment == feng3d.LineAlignment.TransformZ) {
+                    normal.set(0, 0, -1);
+                }
+                // 使用强制面向Z轴或者摄像机，会出现 与 线条方向一致的情况
+                if (tangent.isParallel(normal)) {
+                    // 强制修改切线方向
+                    tangent.set(1, 0, 0);
+                    if (tangent.isParallel(normal))
+                        tangent.set(0, 1, 0);
+                    // 重新计算与法线垂直的切线
+                    var tempTN = tangent.crossTo(normal);
+                    tangent.copy(normal).cross(tempTN).normalize();
+                }
                 // 用于计算线条中点生成两个点的偏移量
                 var offset = new feng3d.Vector3();
-                offset.copy(tangent).cross(normal);
-                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
-                    offset.copy(tangent).cross(feng3d.Vector3.X_AXIS);
-                if (offset.length == 0) // 处理 tangent 与 normal 平行的情况
-                    offset.copy(tangent).cross(feng3d.Vector3.Y_AXIS);
+                offset.copy(tangent).cross(normal).normalize(lineWidth / 2);
                 // 保持线条宽度
-                var sin = Math.sqrt(1 - Math.pow(offset.dot(tangent0), 2));
-                offset.normalize(lineWidth / 2 / sin);
-                // 重新计算面法线
-                normal.copy(offset).cross(tangent).normalize();
+                var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
+                sin = Math.clamp(sin, 0.2, 5);
+                offset.scaleNumber(1 / sin);
                 //
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
