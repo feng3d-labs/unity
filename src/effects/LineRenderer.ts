@@ -266,20 +266,17 @@ namespace feng3d
                 positions.push(positions[positions.length - 1]);
             }
 
+            // 计算网格
+            var a_positions: number[] = [];
+            var a_normals: number[] = [];
+            var a_tangents: number[] = [];
+            var a_uvs: number[] = [];
+            var a_colors: number[] = [];
+            var indices: number[] = [];
             //
             var positionCount = positions.length;
             //
             var currentLength = 0;
-
-            // 线条内外点列表
-            var positionOffset0s: Vector3[] = [];
-            var positionOffset1s: Vector3[] = [];
-            //
-            var normals: Vector3[] = [];
-            var tangents: Vector3[] = [];
-            // 点到起点的距离
-            var currentLengths: number[] = [];
-
             // 摄像机在该对象空间内的坐标
             for (var i = 0; i < positionCount - 2; i++)
             {
@@ -292,9 +289,8 @@ namespace feng3d
                 {
                     currentLength += currentPosition.distance(prePosition);
                 }
-                currentLengths[i] = currentLength;
                 // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (positionCount - 2);
+                var rateAtLine = i / (positionCount - 3);
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
                 // 法线，面朝向
@@ -324,32 +320,8 @@ namespace feng3d
                 // 重新计算面法线
                 normal.copy(offset).cross(tangent).normalize();
                 //
-                positionOffset0s[i] = currentPosition.clone().add(offset);
-                positionOffset1s[i] = currentPosition.clone().sub(offset);
-                //
-                normals[i] = normal;
-                tangents[i] = tangent;
-            }
-
-            // 计算网格
-            var a_positions: number[] = [];
-            var a_normals: number[] = [];
-            var a_tangents: number[] = [];
-            var a_uvs: number[] = [];
-            var a_colors: number[] = [];
-            var indices: number[] = [];
-
-            for (var i = 0; i < positionCount - 2; i++)
-            {
-                var currentLength = currentLengths[i];
-                //
-                var offset0 = positionOffset0s[i];
-                var offset1 = positionOffset1s[i];
-                //
-                var normal = normals[i];
-                var tangent = tangents[i];
-                // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (positionCount - 2);
+                var offset0 = currentPosition.clone().add(offset);
+                var offset1 = currentPosition.clone().sub(offset);
                 // 颜色
                 var currentColor = this.colorGradient.getValue(rateAtLine);
                 //
