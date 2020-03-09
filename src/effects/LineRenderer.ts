@@ -251,6 +251,10 @@ namespace feng3d
 
             // 计算线条总长度
             var totalLength = this.calcTotalLength(positions, this.loop);
+            
+            // this.calcRate
+            
+            
 
             this.positionsToCurve(positions, this.loop);
 
@@ -396,23 +400,37 @@ namespace feng3d
 
         private positionsToCurve(positions: Vector3[], loop: boolean)
         {
-            // 处理两端循环情况
-            // if (loop)
-            // {
-            //     positions.unshift(positions[positions.length - 1]);
-            //     positions.push(positions[1]);
-            //     positions.push(positions[2]);
-            // } else
-            // {
-            //     positions.unshift(positions[0]);
-            //     positions.push(positions[positions.length - 1]);
-            // }
 
+            var totalLength = this.calcTotalLength(positions, loop);
 
 
             var xCurve = new AnimationCurve();
             var yCurve = new AnimationCurve();
             var zCurve = new AnimationCurve();
+
+            for (let i = 0, len = positions.length; i < len; i++)
+            {
+                var position = positions[i];
+                var prePosition: Vector3;
+                var nextPosition: Vector3;
+                if (i == 0)
+                {
+                    if (loop)
+                    {
+                        prePosition = positions[(i - 1 + len) % len];
+                        nextPosition = positions[(i + 1) % len];
+
+                        var tangent = nextPosition.subTo(prePosition);
+
+                        xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
+                        yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
+                        zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
+                    }
+
+                }
+
+
+            }
 
 
 
