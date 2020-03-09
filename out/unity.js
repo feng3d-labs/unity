@@ -300,6 +300,9 @@ var feng3d;
                 return;
             var textureMode = this.textureMode;
             var loop = this.loop;
+            var lineWidth = this.lineWidth;
+            var alignment = this.alignment;
+            var colorGradient = this.colorGradient;
             // 计算摄像机本地坐标
             var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
             // 计算线条总长度
@@ -307,9 +310,9 @@ var feng3d;
             // 计算结点所在线段位置
             var rateAtLines = LineRenderer_1.calcRateAtLines(positions, loop, textureMode);
             // 计算结点的顶点
-            var positionVectex = LineRenderer_1.calcPositionVectex(positions, camera, loop, rateAtLines, this.lineWidth, this.alignment, cameraPosition);
+            var positionVectex = LineRenderer_1.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
             // 计算网格
-            LineRenderer_1.calcMesh(positionVectex, textureMode, this.colorGradient, totalLength, mesh);
+            LineRenderer_1.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
         };
         /**
          * 计算网格
@@ -367,7 +370,17 @@ var feng3d;
             mesh.normals = feng3d.geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
             mesh.tangents = feng3d.geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
         };
-        LineRenderer.calcPositionVectex = function (positions, camera, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
+        /**
+         * 计算结点的三角形顶点列表
+         *
+         * @param positions 结点列表
+         * @param loop 是否成换线
+         * @param rateAtLines 结点所在线条位置
+         * @param lineWidth 线条宽度曲线
+         * @param alignment 朝向方式
+         * @param cameraPosition 摄像机局部坐标
+         */
+        LineRenderer.calcPositionVectex = function (positions, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
             // 
             var positionVectex = [];
             // 处理两端循环情况

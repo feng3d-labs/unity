@@ -251,6 +251,9 @@ namespace feng3d
 
             var textureMode = this.textureMode;
             var loop = this.loop;
+            var lineWidth = this.lineWidth;
+            var alignment = this.alignment;
+            var colorGradient = this.colorGradient;
 
             // 计算摄像机本地坐标
             var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
@@ -262,10 +265,10 @@ namespace feng3d
             var rateAtLines = LineRenderer.calcRateAtLines(positions, loop, textureMode);
 
             // 计算结点的顶点
-            var positionVectex = LineRenderer.calcPositionVectex(positions, camera, loop, rateAtLines, this.lineWidth, this.alignment, cameraPosition);
+            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
 
             // 计算网格
-            LineRenderer.calcMesh(positionVectex, textureMode, this.colorGradient, totalLength, mesh);
+            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
         }
 
         /**
@@ -335,7 +338,17 @@ namespace feng3d
             mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
         }
 
-        static calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
+        /**
+         * 计算结点的三角形顶点列表
+         * 
+         * @param positions 结点列表
+         * @param loop 是否成换线
+         * @param rateAtLines 结点所在线条位置
+         * @param lineWidth 线条宽度曲线
+         * @param alignment 朝向方式
+         * @param cameraPosition 摄像机局部坐标
+         */
+        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
         {
             // 
             var positionVectex: { vertexs: Vector3[], rateAtLine: number }[] = [];

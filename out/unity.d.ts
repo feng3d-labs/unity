@@ -203,7 +203,17 @@ declare namespace feng3d {
             vertexs: Vector3[];
             rateAtLine: number;
         }[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry): void;
-        static calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): {
+        /**
+         * 计算结点的三角形顶点列表
+         *
+         * @param positions 结点列表
+         * @param loop 是否成换线
+         * @param rateAtLines 结点所在线条位置
+         * @param lineWidth 线条宽度曲线
+         * @param alignment 朝向方式
+         * @param cameraPosition 摄像机局部坐标
+         */
+        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): {
             vertexs: Vector3[];
             rateAtLine: number;
         }[];
