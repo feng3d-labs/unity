@@ -351,7 +351,7 @@ var feng3d;
                 var nextPosition = positions[i + 2];
                 //
                 // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = rateAtLine[i];
+                var rateAtLine = rateAtLines[i];
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
                 // 切线，线条方向
