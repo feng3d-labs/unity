@@ -260,7 +260,7 @@ namespace feng3d
 
             // 移除死亡结点
             var nowTime = Date.now();
-            this.positions = this.positions.filter(v => ((nowTime - v.birthTime) > this.time * 1000));
+            this.positions = this.positions.filter(v => ((nowTime - v.birthTime) < this.time * 1000));
 
             //
             if (this.positions.length == 0)
@@ -289,8 +289,8 @@ namespace feng3d
             var alignment = this.alignment;
             var colorGradient = this.colorGradient;
 
-            // 计算摄像机本地坐标
-            var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
+            // 计算摄像机世界坐标
+            var cameraPosition = camera.transform.worldPosition;
 
             // 计算线条总长度
             var totalLength = LineRenderer.calcTotalLength(positions, loop);
@@ -300,6 +300,15 @@ namespace feng3d
 
             // 计算结点的顶点
             var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+
+            // 世界坐标转换为局部坐标
+            positionVectex.forEach(v =>
+            {
+                v.vertexs.forEach(ver =>
+                {
+                    this.transform.worldToLocalMatrix.transformVector(ver, ver);
+                });
+            });
 
             // 计算网格
             LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);

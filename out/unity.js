@@ -877,7 +877,7 @@ var feng3d;
             }
             // 移除死亡结点
             var nowTime = Date.now();
-            this.positions = this.positions.filter(function (v) { return ((nowTime - v.birthTime) > _this.time * 1000); });
+            this.positions = this.positions.filter(function (v) { return ((nowTime - v.birthTime) < _this.time * 1000); });
             //
             if (this.positions.length == 0) {
                 this._preworldPos == null;
@@ -893,6 +893,7 @@ var feng3d;
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
         TrailRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
+            var _this = this;
             var positions = this.positions.map(function (v) { return v.position; });
             if (positions.length < 2)
                 return;
@@ -901,14 +902,20 @@ var feng3d;
             var lineWidth = this.lineWidth;
             var alignment = this.alignment;
             var colorGradient = this.colorGradient;
-            // 计算摄像机本地坐标
-            var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
+            // 计算摄像机世界坐标
+            var cameraPosition = camera.transform.worldPosition;
             // 计算线条总长度
             var totalLength = feng3d.LineRenderer.calcTotalLength(positions, loop);
             // 计算结点所在线段位置
             var rateAtLines = feng3d.LineRenderer.calcRateAtLines(positions, loop, textureMode);
             // 计算结点的顶点
             var positionVectex = feng3d.LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            // 世界坐标转换为局部坐标
+            positionVectex.forEach(function (v) {
+                v.vertexs.forEach(function (ver) {
+                    _this.transform.worldToLocalMatrix.transformVector(ver, ver);
+                });
+            });
             // 计算网格
             feng3d.LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
         };
