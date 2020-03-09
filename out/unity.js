@@ -302,30 +302,25 @@ var feng3d;
                 return;
             var textureMode = this.textureMode;
             var loop = this.loop;
-            // 结点所在线段位置
-            var rateAtLines = [0];
-            // 线条总长度
-            var totalLength = 0;
-            var positionCount = positions.length;
-            for (var i_1 = 0, n_1 = positionCount - 1; i_1 < n_1; i_1++) {
-                totalLength += positions[i_1 + 1].distance(positions[i_1]);
-                rateAtLines[i_1 + 1] = totalLength;
-            }
-            if (loop && positionCount > 0) {
-                totalLength += positions[positionCount - 1].distance(positions[0]);
-                rateAtLines[positionCount] = totalLength;
-            }
+            // 计算线条总长度
+            var totalLength = this.calcTotalLength(positions, loop);
             // 计算结点所在线段位置
-            rateAtLines = rateAtLines.map(function (v, i) {
-                // 计算UV
-                if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
-                    return v / totalLength;
-                }
-                return i / (loop ? positionCount : (positionCount - 1));
-            });
+            var rateAtLines = this.calcRateAtLines(positions, loop, textureMode);
             // 计算结点的顶点
             var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
             // 计算网格
+            this.calcMesh(positionVectex, rateAtLines, textureMode, totalLength, mesh);
+        };
+        /**
+         * 计算网格
+         *
+         * @param positionVectex 顶点列表
+         * @param rateAtLines 顶点所在线条位置
+         * @param textureMode 纹理模式
+         * @param totalLength 线条总长度
+         * @param mesh 保存网格数据的对象
+         */
+        LineRenderer.prototype.calcMesh = function (positionVectex, rateAtLines, textureMode, totalLength, mesh) {
             var a_positions = [];
             var a_uvs = [];
             var a_colors = [];
@@ -444,7 +439,7 @@ var feng3d;
             return positionVectex;
         };
         /**
-         * 计算总长度
+         * 计算线条总长度
          *
          * @param positions 顶点列表
          * @param loop 是否循环
@@ -459,6 +454,36 @@ var feng3d;
                 total += positions[length - 1].distance(positions[0]);
             }
             return total;
+        };
+        /**
+         * 计算结点所在线段位置
+         *
+         * @param positions 顶点列表
+         * @param loop 是否循环
+         */
+        LineRenderer.prototype.calcRateAtLines = function (positions, loop, textureMode) {
+            // 结点所在线段位置
+            var rateAtLines = [0];
+            // 线条总长度
+            var totalLength = 0;
+            var positionCount = positions.length;
+            for (var i = 0, n = positionCount - 1; i < n; i++) {
+                totalLength += positions[i + 1].distance(positions[i]);
+                rateAtLines[i + 1] = totalLength;
+            }
+            if (loop && positionCount > 0) {
+                totalLength += positions[positionCount - 1].distance(positions[0]);
+                rateAtLines[positionCount] = totalLength;
+            }
+            // 计算结点所在线段位置
+            rateAtLines = rateAtLines.map(function (v, i) {
+                // 计算UV
+                if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
+                    return v / totalLength;
+                }
+                return i / (loop ? positionCount : (positionCount - 1));
+            });
+            return rateAtLines;
         };
         LineRenderer.prototype.positionsToCurve = function (positions, loop) {
             var totalLength = this.calcTotalLength(positions, loop);
@@ -828,9 +853,9 @@ var feng3d;
             // 线条总长度
             var totalLength = 0;
             var positionCount = positions.length;
-            for (var i_2 = 0, n = positionCount - 1; i_2 < n; i_2++) {
-                totalLength += positions[i_2 + 1].distance(positions[i_2]);
-                rateAtLines[i_2 + 1] = totalLength;
+            for (var i_1 = 0, n = positionCount - 1; i_1 < n; i_1++) {
+                totalLength += positions[i_1 + 1].distance(positions[i_1]);
+                rateAtLines[i_1 + 1] = totalLength;
             }
             if (loop && positionCount > 0) {
                 totalLength += positions[positionCount - 1].distance(positions[0]);

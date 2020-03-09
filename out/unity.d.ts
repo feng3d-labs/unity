@@ -190,14 +190,31 @@ declare namespace feng3d {
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean): void;
+        /**
+         * 计算网格
+         *
+         * @param positionVectex 顶点列表
+         * @param rateAtLines 顶点所在线条位置
+         * @param textureMode 纹理模式
+         * @param totalLength 线条总长度
+         * @param mesh 保存网格数据的对象
+         */
+        private calcMesh;
         private calcPositionVectex;
         /**
-         * 计算总长度
+         * 计算线条总长度
          *
          * @param positions 顶点列表
          * @param loop 是否循环
          */
         private calcTotalLength;
+        /**
+         * 计算结点所在线段位置
+         *
+         * @param positions 顶点列表
+         * @param loop 是否循环
+         */
+        private calcRateAtLines;
         private positionsToCurve;
         /**
          * Get the position of a vertex in the line.

@@ -255,36 +255,30 @@ namespace feng3d
             var textureMode = this.textureMode;
             var loop = this.loop;
 
-            // 结点所在线段位置
-            var rateAtLines: number[] = [0];
-            // 线条总长度
-            var totalLength = 0;
-            var positionCount = positions.length;
-            for (let i = 0, n = positionCount - 1; i < n; i++)
-            {
-                totalLength += positions[i + 1].distance(positions[i]);
-                rateAtLines[i + 1] = totalLength;
-            }
-            if (loop && positionCount > 0)
-            {
-                totalLength += positions[positionCount - 1].distance(positions[0]);
-                rateAtLines[positionCount] = totalLength;
-            }
+            // 计算线条总长度
+            var totalLength = this.calcTotalLength(positions, loop);
+
             // 计算结点所在线段位置
-            rateAtLines = rateAtLines.map((v, i) =>
-            {
-                // 计算UV
-                if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
-                {
-                    return v / totalLength;
-                }
-                return i / (loop ? positionCount : (positionCount - 1));
-            });
+            var rateAtLines = this.calcRateAtLines(positions, loop, textureMode);
 
             // 计算结点的顶点
             var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
 
             // 计算网格
+            this.calcMesh(positionVectex, rateAtLines, textureMode, totalLength, mesh);
+        }
+
+        /**
+         * 计算网格
+         * 
+         * @param positionVectex 顶点列表
+         * @param rateAtLines 顶点所在线条位置
+         * @param textureMode 纹理模式
+         * @param totalLength 线条总长度
+         * @param mesh 保存网格数据的对象
+         */
+        private calcMesh(positionVectex: Vector3[][], rateAtLines: number[], textureMode: LineTextureMode, totalLength: number, mesh: Geometry)
+        {
             var a_positions: number[] = [];
             var a_uvs: number[] = [];
             var a_colors: number[] = [];
@@ -303,22 +297,23 @@ namespace feng3d
                 //
                 a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
-
                 // 计算UV
                 if (textureMode == LineTextureMode.Stretch)
                 {
                     a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                } else if (textureMode == LineTextureMode.Tile)
+                }
+                else if (textureMode == LineTextureMode.Tile)
                 {
                     a_uvs.push(rateAtLine * totalLength, 1, rateAtLine * totalLength, 0);
-                } else if (textureMode == LineTextureMode.DistributePerSegment)
+                }
+                else if (textureMode == LineTextureMode.DistributePerSegment)
                 {
                     a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                } else if (textureMode == LineTextureMode.RepeatPerSegment)
+                }
+                else if (textureMode == LineTextureMode.RepeatPerSegment)
                 {
                     a_uvs.push(i, 1, i, 0);
                 }
-
                 // 计算索引
                 if (i > 0)
                 {
@@ -326,14 +321,13 @@ namespace feng3d
                     indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
                 }
             }
-
             mesh.positions = a_positions;
             mesh.uvs = a_uvs;
             mesh.colors = a_colors;
             mesh.indices = indices;
             //
             mesh.normals = geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
-            mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true)
+            mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
         }
 
         private calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[])
@@ -416,7 +410,7 @@ namespace feng3d
         }
 
         /**
-         * 计算总长度
+         * 计算线条总长度
          * 
          * @param positions 顶点列表
          * @param loop 是否循环
@@ -435,6 +429,43 @@ namespace feng3d
             }
             return total;
         }
+
+        /**
+         * 计算结点所在线段位置
+         * 
+         * @param positions 顶点列表
+         * @param loop 是否循环
+         */
+        private calcRateAtLines(positions: Vector3[], loop: boolean, textureMode: LineTextureMode)
+        {
+            // 结点所在线段位置
+            var rateAtLines: number[] = [0];
+            // 线条总长度
+            var totalLength = 0;
+            var positionCount = positions.length;
+            for (let i = 0, n = positionCount - 1; i < n; i++)
+            {
+                totalLength += positions[i + 1].distance(positions[i]);
+                rateAtLines[i + 1] = totalLength;
+            }
+            if (loop && positionCount > 0)
+            {
+                totalLength += positions[positionCount - 1].distance(positions[0]);
+                rateAtLines[positionCount] = totalLength;
+            }
+            // 计算结点所在线段位置
+            rateAtLines = rateAtLines.map((v, i) =>
+            {
+                // 计算UV
+                if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
+                {
+                    return v / totalLength;
+                }
+                return i / (loop ? positionCount : (positionCount - 1));
+            });
+            return rateAtLines;
+        }
+
 
         private positionsToCurve(positions: Vector3[], loop: boolean)
         {
