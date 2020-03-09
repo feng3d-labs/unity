@@ -656,9 +656,13 @@ var feng3d;
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.geometry = new feng3d.Geometry();
             /**
-             * 顶点列表。
+             * 结点列表。
              */
             _this.positions = [];
+            /**
+             * 结点生成时间
+             */
+            _this.birthTimes = [];
             /**
              * 曲线宽度。
              */
@@ -853,6 +857,11 @@ var feng3d;
             _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
         };
         /**
+         * 每帧执行
+         */
+        TrailRenderer.prototype.update = function (interval) {
+        };
+        /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
          * 创建LineRenderer的快照并将其存储在网格中。
@@ -867,176 +876,51 @@ var feng3d;
                 return;
             var textureMode = this.textureMode;
             var loop = false;
-            // 顶点所在线段位置
-            var rateAtLines = [0];
-            // 线条总长度
-            var totalLength = 0;
-            var positionCount = positions.length;
-            for (var i_1 = 0, n = positionCount - 1; i_1 < n; i_1++) {
-                totalLength += positions[i_1 + 1].distance(positions[i_1]);
-                rateAtLines[i_1 + 1] = totalLength;
-            }
-            if (loop && positionCount > 0) {
-                totalLength += positions[positionCount - 1].distance(positions[0]);
-                rateAtLines[positionCount] = totalLength;
-            }
-            // 计算顶点所在线段位置
-            rateAtLines = rateAtLines.map(function (v, i) {
-                // 计算UV
-                if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
-                    return v / totalLength;
-                }
-                return i / (loop ? positionCount : (positionCount - 1));
-            });
-            //
-            // 处理两端循环情况
-            if (loop) {
-                positions.unshift(positions[positions.length - 1]);
-                positions.push(positions[1]);
-                positions.push(positions[2]);
-            }
-            else {
-                positions.unshift(positions[0]);
-                positions.push(positions[positions.length - 1]);
-            }
+            var lineWidth = this.lineWidth;
+            var alignment = this.alignment;
+            var colorGradient = this.colorGradient;
+            // 计算摄像机本地坐标
+            var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
+            // 计算线条总长度
+            var totalLength = feng3d.LineRenderer.calcTotalLength(positions, loop);
+            // 计算结点所在线段位置
+            var rateAtLines = feng3d.LineRenderer.calcRateAtLines(positions, loop, textureMode);
+            // 计算结点的顶点
+            var positionVectex = feng3d.LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
             // 计算网格
-            var a_positions = [];
-            var a_normals = [];
-            var a_tangents = [];
-            var a_uvs = [];
-            var a_colors = [];
-            var indices = [];
-            //
-            var positionCount = positions.length;
-            //
-            var currentLength = 0;
-            // 摄像机在该对象空间内的坐标
-            for (var i = 0; i < positionCount - 2; i++) {
-                // 顶点索引
-                var prePosition = positions[i];
-                var currentPosition = positions[i + 1];
-                var nextPosition = positions[i + 2];
-                //
-                if (i > 0) {
-                    currentLength += currentPosition.distance(prePosition);
-                }
-                // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (positionCount - 3);
-                // 线条宽度
-                var lineWidth = this.lineWidth.getValue(rateAtLine);
-                // 切线，线条方向
-                var tangent = new feng3d.Vector3(1, 0, 0);
-                var tangent0 = currentPosition.subTo(prePosition).normalize();
-                var tangent1 = nextPosition.subTo(currentPosition).normalize();
-                tangent.copy(tangent0).add(tangent1).normalize();
-                // 处理切线为0的情况
-                if (tangent.lengthSquared == 0) {
-                    if (tangent0.lengthSquared != 0)
-                        tangent.copy(tangent0);
-                    else
-                        tangent.set(1, 0, 0);
-                }
-                // 法线，面朝向
-                var normal = new feng3d.Vector3(0, 0, -1);
-                if (this.alignment == feng3d.LineAlignment.View) {
-                    var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
-                    normal.copy(cameraPosition).sub(currentPosition).normalize();
-                }
-                else if (this.alignment == feng3d.LineAlignment.TransformZ) {
-                    normal.set(0, 0, -1);
-                }
-                // 使用强制面向Z轴或者摄像机，会出现 与 线条方向一致的情况
-                if (tangent.isParallel(normal)) {
-                    // 强制修改切线方向
-                    tangent.set(1, 0, 0);
-                    if (tangent.isParallel(normal))
-                        tangent.set(0, 1, 0);
-                    // 重新计算与法线垂直的切线
-                    var tempTN = tangent.crossTo(normal);
-                    tangent.copy(normal).cross(tempTN).normalize();
-                }
-                // 用于计算线条中点生成两个点的偏移量
-                var offset = new feng3d.Vector3();
-                offset.copy(tangent).cross(normal).normalize(lineWidth / 2);
-                // 保持线条宽度
-                var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
-                sin = Math.clamp(sin, 0.2, 5);
-                offset.scaleNumber(1 / sin);
-                //
-                var offset0 = currentPosition.clone().add(offset);
-                var offset1 = currentPosition.clone().sub(offset);
-                // 颜色
-                var currentColor = this.colorGradient.getValue(rateAtLine);
-                //
-                a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
-                a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
-                a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
-                a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
-                // 计算UV
-                if (this.textureMode == feng3d.LineTextureMode.Stretch) {
-                    a_uvs.push(currentLength / totalLength, 1, currentLength / totalLength, 0);
-                }
-                else if (this.textureMode == feng3d.LineTextureMode.Tile) {
-                    a_uvs.push(currentLength, 1, currentLength, 0);
-                }
-                else if (this.textureMode == feng3d.LineTextureMode.DistributePerSegment) {
-                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                }
-                else if (this.textureMode == feng3d.LineTextureMode.RepeatPerSegment) {
-                    a_uvs.push(i, 1, i, 0);
-                }
-                // 计算索引
-                if (i > 0) {
-                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
-                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
-                }
-            }
-            mesh.positions = a_positions;
-            mesh.normals = a_normals;
-            mesh.tangents = a_tangents;
-            mesh.uvs = a_uvs;
-            mesh.colors = a_colors;
-            mesh.indices = indices;
+            feng3d.LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
         };
         /**
-         * 计算总长度
+         * Adds a position to the trail.
          *
-         * @param positions 顶点列表
-         * @param loop 是否循环
+         * @param position	The position to add to the trail.
          */
-        TrailRenderer.prototype.calcTotalLength = function (positions, loop) {
-            var total = 0;
-            var length = positions.length;
-            for (var i = 0, n = length - 1; i < n; i++) {
-                total += positions[i + 1].distance(positions[i]);
-            }
-            if (loop && length > 0) {
-                total += positions[length - 1].distance(positions[0]);
-            }
-            return total;
+        TrailRenderer.prototype.AddPosition = function (position) {
+            this.positions.push(position);
+            this.birthTimes.push(Date.now());
         };
-        TrailRenderer.prototype.calcRateAtLines = function (positions, loop) {
-        };
-        TrailRenderer.prototype.positionsToCurve = function (positions, loop) {
-            var totalLength = this.calcTotalLength(positions, loop);
-            var xCurve = new feng3d.AnimationCurve();
-            var yCurve = new feng3d.AnimationCurve();
-            var zCurve = new feng3d.AnimationCurve();
-            for (var i = 0, len = positions.length; i < len; i++) {
-                var position = positions[i];
-                var prePosition;
-                var nextPosition;
-                if (i == 0) {
-                    if (loop) {
-                        prePosition = positions[(i - 1 + len) % len];
-                        nextPosition = positions[(i + 1) % len];
-                        var tangent = nextPosition.subTo(prePosition);
-                        xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
-                        yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
-                        zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
-                    }
-                }
+        /**
+         * Add an array of positions to the trail.
+         *
+         * All points inside a TrailRenderer store a timestamp when they are born. This, together with the TrailRenderer.time property, is used to determine when they will be removed. For trails to disappear smoothly, each position must have a unique, increasing timestamp. When positions are supplied from script and the current time is identical for multiple points, position timestamps are adjusted to interpolate smoothly between the timestamp of the newest existing point in the trail and the current time.
+         *
+         * @param positions	The positions to add to the trail.
+         */
+        TrailRenderer.prototype.AddPositions = function (positions) {
+            var preTime = Date.now();
+            if (this.birthTimes.length > 0)
+                preTime = this.birthTimes[this.birthTimes.length - 1];
+            for (var i = 0, n = positions.length; i < n; i++) {
+                this.positions.push(positions[i]);
+                this.birthTimes.push(Math.lerp(preTime, Date.now(), (i + 1) / n));
             }
+        };
+        /**
+         * Removes all points from the TrailRenderer. Useful for restarting a trail from a new position.
+         */
+        TrailRenderer.prototype.Clear = function () {
+            this.positions.length = 0;
+            this.birthTimes.length = 0;
         };
         /**
          * Get the position of a vertex in the line.
@@ -1090,17 +974,6 @@ var feng3d;
                 this.positions[i] = this.positions[i] || new feng3d.Vector3();
                 this.positions[i].copy(positions[i]);
             }
-        };
-        /**
-         * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
-         *
-         * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
-         *
-         * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
-         *
-         * @todo
-         */
-        TrailRenderer.prototype.Simplify = function (tolerance) {
         };
         __decorate([
             feng3d.oav({ exclude: true })

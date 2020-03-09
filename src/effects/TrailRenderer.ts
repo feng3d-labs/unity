@@ -12,9 +12,14 @@ namespace feng3d
         geometry = <any>new Geometry();
 
         /**
-         * 顶点列表。
+         * 结点列表。
          */
         private positions: Vector3[] = [];
+
+		/**
+		 * 结点生成时间
+		 */
+        private birthTimes: number[] = [];
 
         /**
          * 曲线宽度。
@@ -236,6 +241,14 @@ namespace feng3d
         }
 
         /**
+         * 每帧执行
+         */
+        update(interval?: number)
+        {
+            
+        }
+
+        /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          * 
          * 创建LineRenderer的快照并将其存储在网格中。
@@ -251,215 +264,64 @@ namespace feng3d
 
             var textureMode = this.textureMode;
             var loop = false;
+            var lineWidth = this.lineWidth;
+            var alignment = this.alignment;
+            var colorGradient = this.colorGradient;
 
-            // 顶点所在线段位置
-            var rateAtLines: number[] = [0];
-            // 线条总长度
-            var totalLength = 0;
-            var positionCount = positions.length;
-            for (let i = 0, n = positionCount - 1; i < n; i++)
-            {
-                totalLength += positions[i + 1].distance(positions[i]);
-                rateAtLines[i + 1] = totalLength;
-            }
-            if (loop && positionCount > 0)
-            {
-                totalLength += positions[positionCount - 1].distance(positions[0]);
-                rateAtLines[positionCount] = totalLength;
-            }
-            // 计算顶点所在线段位置
-            rateAtLines = rateAtLines.map((v, i) =>
-            {
-                // 计算UV
-                if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
-                {
-                    return v / totalLength;
-                }
-                return i / (loop ? positionCount : (positionCount - 1));
-            });
-            //
+            // 计算摄像机本地坐标
+            var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
 
-            // 处理两端循环情况
-            if (loop)
-            {
-                positions.unshift(positions[positions.length - 1]);
-                positions.push(positions[1]);
-                positions.push(positions[2]);
-            } else
-            {
-                positions.unshift(positions[0]);
-                positions.push(positions[positions.length - 1]);
-            }
+            // 计算线条总长度
+            var totalLength = LineRenderer.calcTotalLength(positions, loop);
+
+            // 计算结点所在线段位置
+            var rateAtLines = LineRenderer.calcRateAtLines(positions, loop, textureMode);
+
+            // 计算结点的顶点
+            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
 
             // 计算网格
-            var a_positions: number[] = [];
-            var a_normals: number[] = [];
-            var a_tangents: number[] = [];
-            var a_uvs: number[] = [];
-            var a_colors: number[] = [];
-            var indices: number[] = [];
-            //
-            var positionCount = positions.length;
-            //
-            var currentLength = 0;
-            // 摄像机在该对象空间内的坐标
-            for (var i = 0; i < positionCount - 2; i++)
-            {
-                // 顶点索引
-                var prePosition = positions[i];
-                var currentPosition = positions[i + 1];
-                var nextPosition = positions[i + 2];
-                //
-                if (i > 0)
-                {
-                    currentLength += currentPosition.distance(prePosition);
-                }
-                // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (positionCount - 3);
-                // 线条宽度
-                var lineWidth = this.lineWidth.getValue(rateAtLine);
-                // 切线，线条方向
-                var tangent = new Vector3(1, 0, 0);
-                var tangent0 = currentPosition.subTo(prePosition).normalize();
-                var tangent1 = nextPosition.subTo(currentPosition).normalize();
-                tangent.copy(tangent0).add(tangent1).normalize();
-                // 处理切线为0的情况
-                if (tangent.lengthSquared == 0)
-                {
-                    if (tangent0.lengthSquared != 0) tangent.copy(tangent0);
-                    else tangent.set(1, 0, 0);
-                }
-                // 法线，面朝向
-                var normal = new Vector3(0, 0, -1);
-                if (this.alignment == LineAlignment.View)
-                {
-                    var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
-                    normal.copy(cameraPosition).sub(currentPosition).normalize();
-                } else if (this.alignment == LineAlignment.TransformZ)
-                {
-                    normal.set(0, 0, -1);
-                }
-                // 使用强制面向Z轴或者摄像机，会出现 与 线条方向一致的情况
-                if (tangent.isParallel(normal))
-                {
-                    // 强制修改切线方向
-                    tangent.set(1, 0, 0);
-                    if (tangent.isParallel(normal)) tangent.set(0, 1, 0);
-                    // 重新计算与法线垂直的切线
-                    var tempTN = tangent.crossTo(normal);
-                    tangent.copy(normal).cross(tempTN).normalize();
-                }
-                // 用于计算线条中点生成两个点的偏移量
-                var offset = new Vector3();
-                offset.copy(tangent).cross(normal).normalize(lineWidth / 2);
-                // 保持线条宽度
-                var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
-                sin = Math.clamp(sin, 0.2, 5);
-                offset.scaleNumber(1 / sin);
-                //
-                var offset0 = currentPosition.clone().add(offset);
-                var offset1 = currentPosition.clone().sub(offset);
-                // 颜色
-                var currentColor = this.colorGradient.getValue(rateAtLine);
-                //
-                a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
-                a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
-                a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
-                a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
-
-                // 计算UV
-                if (this.textureMode == LineTextureMode.Stretch)
-                {
-                    a_uvs.push(currentLength / totalLength, 1, currentLength / totalLength, 0);
-                } else if (this.textureMode == LineTextureMode.Tile)
-                {
-                    a_uvs.push(currentLength, 1, currentLength, 0);
-                } else if (this.textureMode == LineTextureMode.DistributePerSegment)
-                {
-                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                } else if (this.textureMode == LineTextureMode.RepeatPerSegment)
-                {
-                    a_uvs.push(i, 1, i, 0);
-                }
-
-                // 计算索引
-                if (i > 0)
-                {
-                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
-                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
-                }
-            }
-
-            mesh.positions = a_positions;
-            mesh.normals = a_normals;
-            mesh.tangents = a_tangents;
-            mesh.uvs = a_uvs;
-            mesh.colors = a_colors;
-            mesh.indices = indices;
+            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
         }
 
         /**
-         * 计算总长度
+         * Adds a position to the trail.
          * 
-         * @param positions 顶点列表
-         * @param loop 是否循环
+         * @param position	The position to add to the trail.
          */
-        private calcTotalLength(positions: Vector3[], loop: boolean)
+        AddPosition(position: Vector3)
         {
-            var total = 0;
-            var length = positions.length;
-            for (let i = 0, n = length - 1; i < n; i++)
-            {
-                total += positions[i + 1].distance(positions[i]);
-            }
-            if (loop && length > 0)
-            {
-                total += positions[length - 1].distance(positions[0]);
-            }
-            return total;
+            this.positions.push(position);
+            this.birthTimes.push(Date.now());
         }
 
-        private calcRateAtLines(positions: Vector3[], loop: boolean)
+        /**
+         * Add an array of positions to the trail.
+         * 
+         * All points inside a TrailRenderer store a timestamp when they are born. This, together with the TrailRenderer.time property, is used to determine when they will be removed. For trails to disappear smoothly, each position must have a unique, increasing timestamp. When positions are supplied from script and the current time is identical for multiple points, position timestamps are adjusted to interpolate smoothly between the timestamp of the newest existing point in the trail and the current time.
+         * 
+         * @param positions	The positions to add to the trail.
+         */
+        AddPositions(positions: Vector3[])
         {
+            var preTime = Date.now();
+            if (this.birthTimes.length > 0)
+                preTime = this.birthTimes[this.birthTimes.length - 1];
 
+            for (let i = 0, n = positions.length; i < n; i++)
+            {
+                this.positions.push(positions[i]);
+                this.birthTimes.push(Math.lerp(preTime, Date.now(), (i + 1) / n));
+            }
         }
 
-        private positionsToCurve(positions: Vector3[], loop: boolean)
+        /**
+         * Removes all points from the TrailRenderer. Useful for restarting a trail from a new position.
+         */
+        Clear()
         {
-
-            var totalLength = this.calcTotalLength(positions, loop);
-
-
-            var xCurve = new AnimationCurve();
-            var yCurve = new AnimationCurve();
-            var zCurve = new AnimationCurve();
-
-            for (let i = 0, len = positions.length; i < len; i++)
-            {
-                var position = positions[i];
-                var prePosition: Vector3;
-                var nextPosition: Vector3;
-                if (i == 0)
-                {
-                    if (loop)
-                    {
-                        prePosition = positions[(i - 1 + len) % len];
-                        nextPosition = positions[(i + 1) % len];
-
-                        var tangent = nextPosition.subTo(prePosition);
-
-                        xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
-                        yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
-                        zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
-                    }
-
-                }
-
-
-            }
-
-
-
+            this.positions.length = 0;
+            this.birthTimes.length = 0;
         }
 
         /**
@@ -523,20 +385,5 @@ namespace feng3d
                 this.positions[i].copy(positions[i]);
             }
         }
-
-        /**
-         * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
-         * 
-         * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
-         * 
-         * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
-         * 
-         * @todo
-         */
-        Simplify(tolerance: number)
-        {
-
-        }
-
     }
 }

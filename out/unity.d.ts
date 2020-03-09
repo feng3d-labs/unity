@@ -287,9 +287,13 @@ declare namespace feng3d {
     class TrailRenderer extends Renderable {
         geometry: any;
         /**
-         * 顶点列表。
+         * 结点列表。
          */
         private positions;
+        /**
+         * 结点生成时间
+         */
+        private birthTimes;
         /**
          * 曲线宽度。
          */
@@ -407,6 +411,10 @@ declare namespace feng3d {
         set startWidth(v: number);
         beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
         /**
+         * 每帧执行
+         */
+        update(interval?: number): void;
+        /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
          * 创建LineRenderer的快照并将其存储在网格中。
@@ -417,14 +425,23 @@ declare namespace feng3d {
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean): void;
         /**
-         * 计算总长度
+         * Adds a position to the trail.
          *
-         * @param positions 顶点列表
-         * @param loop 是否循环
+         * @param position	The position to add to the trail.
          */
-        private calcTotalLength;
-        private calcRateAtLines;
-        private positionsToCurve;
+        AddPosition(position: Vector3): void;
+        /**
+         * Add an array of positions to the trail.
+         *
+         * All points inside a TrailRenderer store a timestamp when they are born. This, together with the TrailRenderer.time property, is used to determine when they will be removed. For trails to disappear smoothly, each position must have a unique, increasing timestamp. When positions are supplied from script and the current time is identical for multiple points, position timestamps are adjusted to interpolate smoothly between the timestamp of the newest existing point in the trail and the current time.
+         *
+         * @param positions	The positions to add to the trail.
+         */
+        AddPositions(positions: Vector3[]): void;
+        /**
+         * Removes all points from the TrailRenderer. Useful for restarting a trail from a new position.
+         */
+        Clear(): void;
         /**
          * Get the position of a vertex in the line.
          *
@@ -460,16 +477,6 @@ declare namespace feng3d {
          * @param positions	The array of positions to set.
          */
         SetPositions(positions: Vector3[]): void;
-        /**
-         * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
-         *
-         * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
-         *
-         * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
-         *
-         * @todo
-         */
-        Simplify(tolerance: number): void;
     }
 }
 //# sourceMappingURL=unity.d.ts.map
