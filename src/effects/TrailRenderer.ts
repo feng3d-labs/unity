@@ -14,12 +14,7 @@ namespace feng3d
         /**
          * 结点列表。
          */
-        private positions: Vector3[] = [];
-
-		/**
-		 * 结点生成时间
-		 */
-        private birthTimes: number[] = [];
+        private positions: { position: Vector3, birthTime: number }[] = [];
 
         /**
          * 曲线宽度。
@@ -233,6 +228,7 @@ namespace feng3d
 
         beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera)
         {
+            this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
 
             renderAtomic.shaderMacro.HAS_a_color = true;
@@ -245,7 +241,32 @@ namespace feng3d
          */
         update(interval?: number)
         {
-            
+
+            if (this.emitting)
+            {
+                var currentPosition = this.transform.worldPosition.clone();
+
+                // 初始化一个必定添加顶点的值
+                var moveDistanceSquared = this.minVertexDistance * this.minVertexDistance * 2;
+                if (this._preworldPos) moveDistanceSquared = currentPosition.distanceSquared(this._preworldPos);
+
+                // 移动新增结点
+                if (moveDistanceSquared >= this.minVertexDistance * this.minVertexDistance)
+                {
+                    this.AddPosition(currentPosition);
+                    this._preworldPos = currentPosition;
+                }
+            }
+
+            // 移除死亡结点
+            var nowTime = Date.now();
+            this.positions = this.positions.filter(v => ((nowTime - v.birthTime) > this.time * 1000));
+
+            //
+            if (this.positions.length == 0)
+            {
+                this._preworldPos == null;
+            }
         }
 
         /**
@@ -259,7 +280,7 @@ namespace feng3d
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean)
         {
-            var positions = this.positions.concat();
+            var positions = this.positions.map(v => v.position);
             if (positions.length < 2) return;
 
             var textureMode = this.textureMode;
@@ -291,8 +312,7 @@ namespace feng3d
          */
         AddPosition(position: Vector3)
         {
-            this.positions.push(position);
-            this.birthTimes.push(Date.now());
+            this.positions.push({ position: position, birthTime: Date.now() });
         }
 
         /**
@@ -305,13 +325,12 @@ namespace feng3d
         AddPositions(positions: Vector3[])
         {
             var preTime = Date.now();
-            if (this.birthTimes.length > 0)
-                preTime = this.birthTimes[this.birthTimes.length - 1];
+            if (this.positions.length > 0)
+                preTime = this.positions[this.positions.length - 1].birthTime;
 
             for (let i = 0, n = positions.length; i < n; i++)
             {
-                this.positions.push(positions[i]);
-                this.birthTimes.push(Math.lerp(preTime, Date.now(), (i + 1) / n));
+                this.positions.push({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
             }
         }
 
@@ -321,7 +340,7 @@ namespace feng3d
         Clear()
         {
             this.positions.length = 0;
-            this.birthTimes.length = 0;
+            this._preworldPos = null;
         }
 
         /**
@@ -351,7 +370,7 @@ namespace feng3d
             for (let i = 0; i < this.positions.length; i++)
             {
                 positions[i] = positions[i] || new Vector3();
-                positions[i].copy(this.positions[i]);
+                positions[i].copy(this.positions[i].position);
             }
             return positions;
         }
@@ -366,7 +385,7 @@ namespace feng3d
          */
         setPosition(index: number, position: Vector3)
         {
-            this.positions[index].copy(position);
+            this.positions[index].position.copy(position);
         }
 
         /**
@@ -381,9 +400,14 @@ namespace feng3d
             this.positions.length = positions.length;
             for (let i = 0; i < positions.length; i++)
             {
-                this.positions[i] = this.positions[i] || new Vector3();
-                this.positions[i].copy(positions[i]);
+                if (this.positions[i])
+                    this.positions[i].position.copy(positions[i]);
             }
         }
+
+        /**
+         * 上次结点位置
+         */
+        private _preworldPos: Vector3 = null;
     }
 }

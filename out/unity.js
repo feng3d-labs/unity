@@ -281,6 +281,7 @@ var feng3d;
             configurable: true
         });
         LineRenderer.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
+            this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
             renderAtomic.shaderMacro.HAS_a_color = true;
             _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
@@ -660,10 +661,6 @@ var feng3d;
              */
             _this.positions = [];
             /**
-             * 结点生成时间
-             */
-            _this.birthTimes = [];
-            /**
              * 曲线宽度。
              */
             _this.lineWidth = feng3d.serialization.setValue(new feng3d.MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: feng3d.MinMaxCurveMode.Curve });
@@ -725,6 +722,10 @@ var feng3d;
              * 是否自动生成灯光所需的法线与切线。
              */
             _this.generateLightingData = false;
+            /**
+             * 上次结点位置
+             */
+            _this._preworldPos = null;
             return _this;
         }
         Object.defineProperty(TrailRenderer.prototype, "widthCurve", {
@@ -852,6 +853,7 @@ var feng3d;
             configurable: true
         });
         TrailRenderer.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
+            this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
             renderAtomic.shaderMacro.HAS_a_color = true;
             _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
@@ -860,6 +862,26 @@ var feng3d;
          * 每帧执行
          */
         TrailRenderer.prototype.update = function (interval) {
+            var _this = this;
+            if (this.emitting) {
+                var currentPosition = this.transform.worldPosition.clone();
+                // 初始化一个必定添加顶点的值
+                var moveDistanceSquared = this.minVertexDistance * this.minVertexDistance * 2;
+                if (this._preworldPos)
+                    moveDistanceSquared = currentPosition.distanceSquared(this._preworldPos);
+                // 移动新增结点
+                if (moveDistanceSquared >= this.minVertexDistance * this.minVertexDistance) {
+                    this.AddPosition(currentPosition);
+                    this._preworldPos = currentPosition;
+                }
+            }
+            // 移除死亡结点
+            var nowTime = Date.now();
+            this.positions = this.positions.filter(function (v) { return ((nowTime - v.birthTime) > _this.time * 1000); });
+            //
+            if (this.positions.length == 0) {
+                this._preworldPos == null;
+            }
         };
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
@@ -871,7 +893,7 @@ var feng3d;
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
         TrailRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
-            var positions = this.positions.concat();
+            var positions = this.positions.map(function (v) { return v.position; });
             if (positions.length < 2)
                 return;
             var textureMode = this.textureMode;
@@ -896,8 +918,7 @@ var feng3d;
          * @param position	The position to add to the trail.
          */
         TrailRenderer.prototype.AddPosition = function (position) {
-            this.positions.push(position);
-            this.birthTimes.push(Date.now());
+            this.positions.push({ position: position, birthTime: Date.now() });
         };
         /**
          * Add an array of positions to the trail.
@@ -908,11 +929,10 @@ var feng3d;
          */
         TrailRenderer.prototype.AddPositions = function (positions) {
             var preTime = Date.now();
-            if (this.birthTimes.length > 0)
-                preTime = this.birthTimes[this.birthTimes.length - 1];
+            if (this.positions.length > 0)
+                preTime = this.positions[this.positions.length - 1].birthTime;
             for (var i = 0, n = positions.length; i < n; i++) {
-                this.positions.push(positions[i]);
-                this.birthTimes.push(Math.lerp(preTime, Date.now(), (i + 1) / n));
+                this.positions.push({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
             }
         };
         /**
@@ -920,7 +940,7 @@ var feng3d;
          */
         TrailRenderer.prototype.Clear = function () {
             this.positions.length = 0;
-            this.birthTimes.length = 0;
+            this._preworldPos = null;
         };
         /**
          * Get the position of a vertex in the line.
@@ -946,7 +966,7 @@ var feng3d;
             positions.length = this.positions.length;
             for (var i = 0; i < this.positions.length; i++) {
                 positions[i] = positions[i] || new feng3d.Vector3();
-                positions[i].copy(this.positions[i]);
+                positions[i].copy(this.positions[i].position);
             }
             return positions;
         };
@@ -959,7 +979,7 @@ var feng3d;
          * @param position	The new position.
          */
         TrailRenderer.prototype.setPosition = function (index, position) {
-            this.positions[index].copy(position);
+            this.positions[index].position.copy(position);
         };
         /**
          * Set the positions of all vertices in the line.
@@ -971,8 +991,8 @@ var feng3d;
         TrailRenderer.prototype.SetPositions = function (positions) {
             this.positions.length = positions.length;
             for (var i = 0; i < positions.length; i++) {
-                this.positions[i] = this.positions[i] || new feng3d.Vector3();
-                this.positions[i].copy(positions[i]);
+                if (this.positions[i])
+                    this.positions[i].position.copy(positions[i]);
             }
         };
         __decorate([

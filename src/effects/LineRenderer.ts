@@ -228,6 +228,7 @@ namespace feng3d
 
         beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera)
         {
+            this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
 
             renderAtomic.shaderMacro.HAS_a_color = true;

@@ -291,10 +291,6 @@ declare namespace feng3d {
          */
         private positions;
         /**
-         * 结点生成时间
-         */
-        private birthTimes;
-        /**
          * 曲线宽度。
          */
         lineWidth: MinMaxCurve;
@@ -449,7 +445,10 @@ declare namespace feng3d {
          *
          * @param index	The index of the position to retrieve.
          */
-        GetPosition(index: number): Vector3;
+        GetPosition(index: number): {
+            position: Vector3;
+            birthTime: number;
+        };
         /**
          * Get the positions of all vertices in the line.
          *
@@ -477,6 +476,10 @@ declare namespace feng3d {
          * @param positions	The array of positions to set.
          */
         SetPositions(positions: Vector3[]): void;
+        /**
+         * 上次结点位置
+         */
+        private _preworldPos;
     }
 }
 //# sourceMappingURL=unity.d.ts.map
