@@ -282,89 +282,26 @@ namespace feng3d
             });
 
             // 计算结点的顶点
-            this.calcPositionVectex(positions, camera, loop);
-
-            // 处理两端循环情况
-            if (loop)
-            {
-                positions.unshift(positions[positions.length - 1]);
-                positions.push(positions[1]);
-                positions.push(positions[2]);
-            } else
-            {
-                positions.unshift(positions[0]);
-                positions.push(positions[positions.length - 1]);
-            }
+            var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
 
             // 计算网格
             var a_positions: number[] = [];
-            var a_normals: number[] = [];
-            var a_tangents: number[] = [];
             var a_uvs: number[] = [];
             var a_colors: number[] = [];
             var indices: number[] = [];
             //
-            var positionCount = positions.length;
-            //
             // 摄像机在该对象空间内的坐标
-            for (var i = 0; i < positionCount - 2; i++)
+            for (var i = 0, n = positionVectex.length; i < n; i++)
             {
-                // 顶点索引
-                var prePosition = positions[i];
-                var currentPosition = positions[i + 1];
-                var nextPosition = positions[i + 2];
                 //
-                // 当前所在线条，0表示起点，1表示终点
+                var offset0 = positionVectex[i][0];
+                var offset1 = positionVectex[i][1];
+                //
                 var rateAtLine = rateAtLines[i];
-                // 线条宽度
-                var lineWidth = this.lineWidth.getValue(rateAtLine);
-                // 切线，线条方向
-                var tangent = new Vector3(1, 0, 0);
-                var tangent0 = currentPosition.subTo(prePosition).normalize();
-                var tangent1 = nextPosition.subTo(currentPosition).normalize();
-                tangent.copy(tangent0).add(tangent1).normalize();
-                // 处理切线为0的情况
-                if (tangent.lengthSquared == 0)
-                {
-                    if (tangent0.lengthSquared != 0) tangent.copy(tangent0);
-                    else tangent.set(1, 0, 0);
-                }
-                // 法线，面朝向
-                var normal = new Vector3(0, 0, -1);
-                if (this.alignment == LineAlignment.View)
-                {
-                    var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
-                    normal.copy(cameraPosition).sub(currentPosition).normalize();
-                } else if (this.alignment == LineAlignment.TransformZ)
-                {
-                    normal.set(0, 0, -1);
-                }
-                // 使用强制面向Z轴或者摄像机，会出现 与 线条方向一致的情况
-                if (tangent.isParallel(normal))
-                {
-                    // 强制修改切线方向
-                    tangent.set(1, 0, 0);
-                    if (tangent.isParallel(normal)) tangent.set(0, 1, 0);
-                    // 重新计算与法线垂直的切线
-                    var tempTN = tangent.crossTo(normal);
-                    tangent.copy(normal).cross(tempTN).normalize();
-                }
-                // 用于计算线条中点生成两个点的偏移量
-                var offset = new Vector3();
-                offset.copy(tangent).cross(normal).normalize(lineWidth / 2);
-                // 保持线条宽度
-                var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
-                sin = Math.clamp(sin, 0.2, 5);
-                offset.scaleNumber(1 / sin);
-                //
-                var offset0 = currentPosition.clone().add(offset);
-                var offset1 = currentPosition.clone().sub(offset);
                 // 颜色
                 var currentColor = this.colorGradient.getValue(rateAtLine);
                 //
                 a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
-                a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
-                a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
 
                 // 计算UV
@@ -391,15 +328,19 @@ namespace feng3d
             }
 
             mesh.positions = a_positions;
-            mesh.normals = a_normals;
-            mesh.tangents = a_tangents;
             mesh.uvs = a_uvs;
             mesh.colors = a_colors;
             mesh.indices = indices;
+            //
+            mesh.normals = geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
+            mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true)
         }
 
-        private calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean)
+        private calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[])
         {
+            // 
+            var positionVectex: Vector3[][] = [];
+
             // 处理两端循环情况
             if (loop)
             {
@@ -468,9 +409,10 @@ namespace feng3d
                 //
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
-
-                
+                ///
+                positionVectex[i] = [offset0, offset1];
             }
+            return positionVectex;
         }
 
         /**

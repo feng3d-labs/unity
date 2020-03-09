@@ -307,7 +307,7 @@ var feng3d;
             // 线条总长度
             var totalLength = 0;
             var positionCount = positions.length;
-            for (var i_1 = 0, n = positionCount - 1; i_1 < n; i_1++) {
+            for (var i_1 = 0, n_1 = positionCount - 1; i_1 < n_1; i_1++) {
                 totalLength += positions[i_1 + 1].distance(positions[i_1]);
                 rateAtLines[i_1 + 1] = totalLength;
             }
@@ -324,7 +324,55 @@ var feng3d;
                 return i / (loop ? positionCount : (positionCount - 1));
             });
             // 计算结点的顶点
-            this.calcPositionVectex();
+            var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
+            // 计算网格
+            var a_positions = [];
+            var a_uvs = [];
+            var a_colors = [];
+            var indices = [];
+            //
+            // 摄像机在该对象空间内的坐标
+            for (var i = 0, n = positionVectex.length; i < n; i++) {
+                //
+                var offset0 = positionVectex[i][0];
+                var offset1 = positionVectex[i][1];
+                //
+                var rateAtLine = rateAtLines[i];
+                // 颜色
+                var currentColor = this.colorGradient.getValue(rateAtLine);
+                //
+                a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
+                a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
+                // 计算UV
+                if (textureMode == feng3d.LineTextureMode.Stretch) {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                }
+                else if (textureMode == feng3d.LineTextureMode.Tile) {
+                    a_uvs.push(rateAtLine * totalLength, 1, rateAtLine * totalLength, 0);
+                }
+                else if (textureMode == feng3d.LineTextureMode.DistributePerSegment) {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                }
+                else if (textureMode == feng3d.LineTextureMode.RepeatPerSegment) {
+                    a_uvs.push(i, 1, i, 0);
+                }
+                // 计算索引
+                if (i > 0) {
+                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
+                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
+                }
+            }
+            mesh.positions = a_positions;
+            mesh.uvs = a_uvs;
+            mesh.colors = a_colors;
+            mesh.indices = indices;
+            //
+            mesh.normals = feng3d.geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
+            mesh.tangents = feng3d.geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
+        };
+        LineRenderer.prototype.calcPositionVectex = function (positions, camera, loop, rateAtLines) {
+            // 
+            var positionVectex = [];
             // 处理两端循环情况
             if (loop) {
                 positions.unshift(positions[positions.length - 1]);
@@ -335,13 +383,6 @@ var feng3d;
                 positions.unshift(positions[0]);
                 positions.push(positions[positions.length - 1]);
             }
-            // 计算网格
-            var a_positions = [];
-            var a_normals = [];
-            var a_tangents = [];
-            var a_uvs = [];
-            var a_colors = [];
-            var indices = [];
             //
             var positionCount = positions.length;
             //
@@ -397,40 +438,10 @@ var feng3d;
                 //
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
-                // 颜色
-                var currentColor = this.colorGradient.getValue(rateAtLine);
-                //
-                a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
-                a_tangents.push(tangent.x, tangent.y, tangent.z, tangent.x, tangent.y, tangent.z);
-                a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
-                a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
-                // 计算UV
-                if (textureMode == feng3d.LineTextureMode.Stretch) {
-                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                }
-                else if (textureMode == feng3d.LineTextureMode.Tile) {
-                    a_uvs.push(rateAtLine * totalLength, 1, rateAtLine * totalLength, 0);
-                }
-                else if (textureMode == feng3d.LineTextureMode.DistributePerSegment) {
-                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                }
-                else if (textureMode == feng3d.LineTextureMode.RepeatPerSegment) {
-                    a_uvs.push(i, 1, i, 0);
-                }
-                // 计算索引
-                if (i > 0) {
-                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
-                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
-                }
+                ///
+                positionVectex[i] = [offset0, offset1];
             }
-            mesh.positions = a_positions;
-            mesh.normals = a_normals;
-            mesh.tangents = a_tangents;
-            mesh.uvs = a_uvs;
-            mesh.colors = a_colors;
-            mesh.indices = indices;
-        };
-        LineRenderer.prototype.calcPositionVectex = function () {
+            return positionVectex;
         };
         /**
          * 计算总长度
