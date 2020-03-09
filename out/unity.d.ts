@@ -247,22 +247,16 @@ declare namespace feng3d {
 }
 declare namespace feng3d {
     /**
-     * The line renderer is used to draw free-floating lines in 3D space.
+     * The trail renderer is used to make trails behind objects in the Scene as they move about.
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
     class TrailRenderer extends Renderable {
         geometry: any;
         /**
-         * Connect the start and end positions of the line together to form a continuous loop.
-         *
-         * 将直线的起点和终点连接在一起，形成一个连续的回路。
-         */
-        loop: boolean;
-        /**
          * 顶点列表。
          */
-        positions: Vector3[];
+        private positions;
         /**
          * 曲线宽度。
          */
@@ -291,6 +285,22 @@ declare namespace feng3d {
          */
         alignment: LineAlignment;
         /**
+         * Does the GameObject of this Trail Renderer auto destruct?
+         */
+        autodestruct: boolean;
+        /**
+         * Creates trails when the GameObject moves.
+         */
+        emitting: boolean;
+        /**
+         * Set the minimum distance the trail can travel before a new vertex is added to it.
+         */
+        minVertexDistance: number;
+        /**
+         * How long does the trail take to fade out.
+         */
+        time: number;
+        /**
          * Choose whether the U coordinate of the line texture is tiled or stretched.
          *
          * 选择是平铺还是拉伸线纹理的U坐标。
@@ -308,12 +318,6 @@ declare namespace feng3d {
          * 是否自动生成灯光所需的法线与切线。
          */
         generateLightingData: boolean;
-        /**
-         * If enabled, the lines are defined in world space.
-         *
-         * 如果启用，则在世界空间中定义线。
-         */
-        useWorldSpace: boolean;
         /**
          * Set the curve describing the width of the line at various points along its length.
          *
@@ -386,6 +390,7 @@ declare namespace feng3d {
          * @param loop 是否循环
          */
         private calcTotalLength;
+        private calcRateAtLines;
         private positionsToCurve;
         /**
          * Get the position of a vertex in the line.

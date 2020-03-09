@@ -249,17 +249,40 @@ namespace feng3d
             var positions = this.positions.concat();
             if (positions.length < 2) return;
 
-            // 计算线条总长度
-            var totalLength = this.calcTotalLength(positions, this.loop);
-            
-            // this.calcRate
-            
-            
+            var positions = this.positions.concat();
+            if (positions.length < 2) return;
 
-            this.positionsToCurve(positions, this.loop);
+            var textureMode = this.textureMode;
+            var loop = this.loop;
+
+            // 顶点所在线段位置
+            var rateAtLines: number[] = [0];
+            // 线条总长度
+            var totalLength = 0;
+            var positionCount = positions.length;
+            for (let i = 0, n = positionCount - 1; i < n; i++)
+            {
+                totalLength += positions[i + 1].distance(positions[i]);
+                rateAtLines[i + 1] = totalLength;
+            }
+            if (loop && positionCount > 0)
+            {
+                totalLength += positions[positionCount - 1].distance(positions[0]);
+                rateAtLines[positionCount] = totalLength;
+            }
+            // 计算顶点所在线段位置
+            rateAtLines = rateAtLines.map((v, i) =>
+            {
+                // 计算UV
+                if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
+                {
+                    return v / totalLength;
+                }
+                return i / (loop ? positionCount : (positionCount - 1));
+            });
 
             // 处理两端循环情况
-            if (this.loop)
+            if (loop)
             {
                 positions.unshift(positions[positions.length - 1]);
                 positions.push(positions[1]);
@@ -280,7 +303,6 @@ namespace feng3d
             //
             var positionCount = positions.length;
             //
-            var currentLength = 0;
             // 摄像机在该对象空间内的坐标
             for (var i = 0; i < positionCount - 2; i++)
             {
@@ -289,12 +311,8 @@ namespace feng3d
                 var currentPosition = positions[i + 1];
                 var nextPosition = positions[i + 2];
                 //
-                if (i > 0)
-                {
-                    currentLength += currentPosition.distance(prePosition);
-                }
                 // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (positionCount - 3);
+                var rateAtLine = rateAtLine[i];
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
                 // 切线，线条方向
@@ -347,16 +365,16 @@ namespace feng3d
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
 
                 // 计算UV
-                if (this.textureMode == LineTextureMode.Stretch)
-                {
-                    a_uvs.push(currentLength / totalLength, 1, currentLength / totalLength, 0);
-                } else if (this.textureMode == LineTextureMode.Tile)
-                {
-                    a_uvs.push(currentLength, 1, currentLength, 0);
-                } else if (this.textureMode == LineTextureMode.DistributePerSegment)
+                if (textureMode == LineTextureMode.Stretch)
                 {
                     a_uvs.push(rateAtLine, 1, rateAtLine, 0);
-                } else if (this.textureMode == LineTextureMode.RepeatPerSegment)
+                } else if (textureMode == LineTextureMode.Tile)
+                {
+                    a_uvs.push(rateAtLine * totalLength, 1, rateAtLine * totalLength, 0);
+                } else if (textureMode == LineTextureMode.DistributePerSegment)
+                {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                } else if (textureMode == LineTextureMode.RepeatPerSegment)
                 {
                     a_uvs.push(i, 1, i, 0);
                 }

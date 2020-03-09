@@ -297,12 +297,34 @@ var feng3d;
             var positions = this.positions.concat();
             if (positions.length < 2)
                 return;
-            // 计算线条总长度
-            var totalLength = this.calcTotalLength(positions, this.loop);
-            // this.calcRate
-            this.positionsToCurve(positions, this.loop);
+            var positions = this.positions.concat();
+            if (positions.length < 2)
+                return;
+            var textureMode = this.textureMode;
+            var loop = this.loop;
+            // 顶点所在线段位置
+            var rateAtLines = [0];
+            // 线条总长度
+            var totalLength = 0;
+            var positionCount = positions.length;
+            for (var i_1 = 0, n = positionCount - 1; i_1 < n; i_1++) {
+                totalLength += positions[i_1 + 1].distance(positions[i_1]);
+                rateAtLines[i_1 + 1] = totalLength;
+            }
+            if (loop && positionCount > 0) {
+                totalLength += positions[positionCount - 1].distance(positions[0]);
+                rateAtLines[positionCount] = totalLength;
+            }
+            // 计算顶点所在线段位置
+            rateAtLines = rateAtLines.map(function (v, i) {
+                // 计算UV
+                if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
+                    return v / totalLength;
+                }
+                return i / (loop ? positionCount : (positionCount - 1));
+            });
             // 处理两端循环情况
-            if (this.loop) {
+            if (loop) {
                 positions.unshift(positions[positions.length - 1]);
                 positions.push(positions[1]);
                 positions.push(positions[2]);
@@ -321,7 +343,6 @@ var feng3d;
             //
             var positionCount = positions.length;
             //
-            var currentLength = 0;
             // 摄像机在该对象空间内的坐标
             for (var i = 0; i < positionCount - 2; i++) {
                 // 顶点索引
@@ -329,11 +350,8 @@ var feng3d;
                 var currentPosition = positions[i + 1];
                 var nextPosition = positions[i + 2];
                 //
-                if (i > 0) {
-                    currentLength += currentPosition.distance(prePosition);
-                }
                 // 当前所在线条，0表示起点，1表示终点
-                var rateAtLine = i / (positionCount - 3);
+                var rateAtLine = rateAtLine[i];
                 // 线条宽度
                 var lineWidth = this.lineWidth.getValue(rateAtLine);
                 // 切线，线条方向
@@ -385,16 +403,16 @@ var feng3d;
                 a_normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
                 // 计算UV
-                if (this.textureMode == feng3d.LineTextureMode.Stretch) {
-                    a_uvs.push(currentLength / totalLength, 1, currentLength / totalLength, 0);
-                }
-                else if (this.textureMode == feng3d.LineTextureMode.Tile) {
-                    a_uvs.push(currentLength, 1, currentLength, 0);
-                }
-                else if (this.textureMode == feng3d.LineTextureMode.DistributePerSegment) {
+                if (textureMode == feng3d.LineTextureMode.Stretch) {
                     a_uvs.push(rateAtLine, 1, rateAtLine, 0);
                 }
-                else if (this.textureMode == feng3d.LineTextureMode.RepeatPerSegment) {
+                else if (textureMode == feng3d.LineTextureMode.Tile) {
+                    a_uvs.push(rateAtLine * totalLength, 1, rateAtLine * totalLength, 0);
+                }
+                else if (textureMode == feng3d.LineTextureMode.DistributePerSegment) {
+                    a_uvs.push(rateAtLine, 1, rateAtLine, 0);
+                }
+                else if (textureMode == feng3d.LineTextureMode.RepeatPerSegment) {
                     a_uvs.push(i, 1, i, 0);
                 }
                 // 计算索引
@@ -569,7 +587,7 @@ var feng3d;
 var feng3d;
 (function (feng3d) {
     /**
-     * The line renderer is used to draw free-floating lines in 3D space.
+     * The trail renderer is used to make trails behind objects in the Scene as they move about.
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
@@ -578,12 +596,6 @@ var feng3d;
         function TrailRenderer() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.geometry = new feng3d.Geometry();
-            /**
-             * Connect the start and end positions of the line together to form a continuous loop.
-             *
-             * 将直线的起点和终点连接在一起，形成一个连续的回路。
-             */
-            _this.loop = false;
             /**
              * 顶点列表。
              */
@@ -617,6 +629,22 @@ var feng3d;
             // alignment = LineAlignment.View;
             _this.alignment = feng3d.LineAlignment.TransformZ;
             /**
+             * Does the GameObject of this Trail Renderer auto destruct?
+             */
+            _this.autodestruct = false;
+            /**
+             * Creates trails when the GameObject moves.
+             */
+            _this.emitting = true;
+            /**
+             * Set the minimum distance the trail can travel before a new vertex is added to it.
+             */
+            _this.minVertexDistance = 0.1;
+            /**
+             * How long does the trail take to fade out.
+             */
+            _this.time = 5;
+            /**
              * Choose whether the U coordinate of the line texture is tiled or stretched.
              *
              * 选择是平铺还是拉伸线纹理的U坐标。
@@ -634,12 +662,6 @@ var feng3d;
              * 是否自动生成灯光所需的法线与切线。
              */
             _this.generateLightingData = false;
-            /**
-             * If enabled, the lines are defined in world space.
-             *
-             * 如果启用，则在世界空间中定义线。
-             */
-            _this.useWorldSpace = false;
             return _this;
         }
         Object.defineProperty(TrailRenderer.prototype, "widthCurve", {
@@ -784,12 +806,32 @@ var feng3d;
             var positions = this.positions.concat();
             if (positions.length < 2)
                 return;
-            // 计算线条总长度
-            var totalLength = this.calcTotalLength(positions, this.loop);
-            // this.calcRate
-            this.positionsToCurve(positions, this.loop);
+            var textureMode = this.textureMode;
+            var loop = false;
+            // 顶点所在线段位置
+            var rateAtLines = [0];
+            // 线条总长度
+            var totalLength = 0;
+            var positionCount = positions.length;
+            for (var i_2 = 0, n = positionCount - 1; i_2 < n; i_2++) {
+                totalLength += positions[i_2 + 1].distance(positions[i_2]);
+                rateAtLines[i_2 + 1] = totalLength;
+            }
+            if (loop && positionCount > 0) {
+                totalLength += positions[positionCount - 1].distance(positions[0]);
+                rateAtLines[positionCount] = totalLength;
+            }
+            // 计算顶点所在线段位置
+            rateAtLines = rateAtLines.map(function (v, i) {
+                // 计算UV
+                if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
+                    return v / totalLength;
+                }
+                return i / (loop ? positionCount : (positionCount - 1));
+            });
+            //
             // 处理两端循环情况
-            if (this.loop) {
+            if (loop) {
                 positions.unshift(positions[positions.length - 1]);
                 positions.push(positions[1]);
                 positions.push(positions[2]);
@@ -914,6 +956,8 @@ var feng3d;
             }
             return total;
         };
+        TrailRenderer.prototype.calcRateAtLines = function (positions, loop) {
+        };
         TrailRenderer.prototype.positionsToCurve = function (positions, loop) {
             var totalLength = this.calcTotalLength(positions, loop);
             var xCurve = new feng3d.AnimationCurve();
@@ -1003,14 +1047,6 @@ var feng3d;
             feng3d.oav({ exclude: true })
         ], TrailRenderer.prototype, "geometry", void 0);
         __decorate([
-            feng3d.oav({ tooltip: "将直线的起点和终点连接在一起，形成一个连续的回路。" }),
-            feng3d.serialize
-        ], TrailRenderer.prototype, "loop", void 0);
-        __decorate([
-            feng3d.oav({ component: "OAVArray", tooltip: "顶点列表。", componentParam: { defaultItem: function () { return new feng3d.Vector3(); } } }),
-            feng3d.serialize
-        ], TrailRenderer.prototype, "positions", void 0);
-        __decorate([
             feng3d.oav({ tooltip: "曲线宽度。" }),
             feng3d.serialize
         ], TrailRenderer.prototype, "lineWidth", void 0);
@@ -1042,10 +1078,6 @@ var feng3d;
             feng3d.serialize,
             feng3d.oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
         ], TrailRenderer.prototype, "generateLightingData", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "如果启用，则在世界空间中定义线。" })
-        ], TrailRenderer.prototype, "useWorldSpace", void 0);
         TrailRenderer = __decorate([
             feng3d.AddComponentMenu("Effects/TrailRenderer")
         ], TrailRenderer);
