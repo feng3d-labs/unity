@@ -249,9 +249,6 @@ namespace feng3d
             var positions = this.positions.concat();
             if (positions.length < 2) return;
 
-            var positions = this.positions.concat();
-            if (positions.length < 2) return;
-
             var textureMode = this.textureMode;
             var loop = this.loop;
 
@@ -265,7 +262,7 @@ namespace feng3d
             var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
 
             // 计算网格
-            this.calcMesh(positionVectex, rateAtLines, textureMode, totalLength, mesh);
+            this.calcMesh(positionVectex, textureMode, totalLength, mesh);
         }
 
         /**
@@ -277,7 +274,10 @@ namespace feng3d
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        private calcMesh(positionVectex: Vector3[][], rateAtLines: number[], textureMode: LineTextureMode, totalLength: number, mesh: Geometry)
+        private calcMesh(positionVectex: {
+            vertexs: Vector3[];
+            rateAtLine: number;
+        }[], textureMode: LineTextureMode, totalLength: number, mesh: Geometry)
         {
             var a_positions: number[] = [];
             var a_uvs: number[] = [];
@@ -288,10 +288,12 @@ namespace feng3d
             for (var i = 0, n = positionVectex.length; i < n; i++)
             {
                 //
-                var offset0 = positionVectex[i][0];
-                var offset1 = positionVectex[i][1];
+                var vertex = positionVectex[i];
                 //
-                var rateAtLine = rateAtLines[i];
+                var offset0 = vertex.vertexs[0];
+                var offset1 = vertex.vertexs[1];
+                //
+                var rateAtLine = vertex.rateAtLine;
                 // 颜色
                 var currentColor = this.colorGradient.getValue(rateAtLine);
                 //
@@ -333,7 +335,7 @@ namespace feng3d
         private calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[])
         {
             // 
-            var positionVectex: Vector3[][] = [];
+            var positionVectex: { vertexs: Vector3[], rateAtLine: number }[] = [];
 
             // 处理两端循环情况
             if (loop)
@@ -404,7 +406,7 @@ namespace feng3d
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
                 ///
-                positionVectex[i] = [offset0, offset1];
+                positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
             }
             return positionVectex;
         }

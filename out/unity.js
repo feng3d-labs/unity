@@ -297,9 +297,6 @@ var feng3d;
             var positions = this.positions.concat();
             if (positions.length < 2)
                 return;
-            var positions = this.positions.concat();
-            if (positions.length < 2)
-                return;
             var textureMode = this.textureMode;
             var loop = this.loop;
             // 计算线条总长度
@@ -309,7 +306,7 @@ var feng3d;
             // 计算结点的顶点
             var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
             // 计算网格
-            this.calcMesh(positionVectex, rateAtLines, textureMode, totalLength, mesh);
+            this.calcMesh(positionVectex, textureMode, totalLength, mesh);
         };
         /**
          * 计算网格
@@ -320,7 +317,7 @@ var feng3d;
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        LineRenderer.prototype.calcMesh = function (positionVectex, rateAtLines, textureMode, totalLength, mesh) {
+        LineRenderer.prototype.calcMesh = function (positionVectex, textureMode, totalLength, mesh) {
             var a_positions = [];
             var a_uvs = [];
             var a_colors = [];
@@ -329,10 +326,12 @@ var feng3d;
             // 摄像机在该对象空间内的坐标
             for (var i = 0, n = positionVectex.length; i < n; i++) {
                 //
-                var offset0 = positionVectex[i][0];
-                var offset1 = positionVectex[i][1];
+                var vertex = positionVectex[i];
                 //
-                var rateAtLine = rateAtLines[i];
+                var offset0 = vertex.vertexs[0];
+                var offset1 = vertex.vertexs[1];
+                //
+                var rateAtLine = vertex.rateAtLine;
                 // 颜色
                 var currentColor = this.colorGradient.getValue(rateAtLine);
                 //
@@ -434,7 +433,7 @@ var feng3d;
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
                 ///
-                positionVectex[i] = [offset0, offset1];
+                positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
             }
             return positionVectex;
         };
