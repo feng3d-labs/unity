@@ -4,7 +4,8 @@
     "sourceFiles": [
       "../src/effects/enums/LineAlignment.ts",
       "../src/effects/enums/LineTextureMode.ts",
-      "../src/effects/LineRenderer.ts"
+      "../src/effects/LineRenderer.ts",
+      "../src/effects/TrailRenderer.ts"
     ],
     "js": {
       "sections": [
@@ -22,7 +23,7 @@
         },
         {
           "pos": 1177,
-          "end": 24507,
+          "end": 45582,
           "kind": "text"
         }
       ],
@@ -37,7 +38,7 @@
       "sections": [
         {
           "pos": 0,
-          "end": 8064,
+          "end": 14458,
           "kind": "text"
         }
       ]

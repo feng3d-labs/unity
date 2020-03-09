@@ -22,6 +22,7 @@
         //
         "src/effects/enums/LineAlignment.ts",
         "src/effects/enums/LineTextureMode.ts",
-        "src/effects/LineRenderer.ts"
+        "src/effects/LineRenderer.ts",
+        "src/effects/TrailRenderer.ts"
     ]
 }
