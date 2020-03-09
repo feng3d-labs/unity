@@ -190,6 +190,7 @@ declare namespace feng3d {
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean): void;
+        private calcPositionVectex;
         /**
          * 计算总长度
          *

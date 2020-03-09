@@ -302,7 +302,7 @@ var feng3d;
                 return;
             var textureMode = this.textureMode;
             var loop = this.loop;
-            // 顶点所在线段位置
+            // 结点所在线段位置
             var rateAtLines = [0];
             // 线条总长度
             var totalLength = 0;
@@ -315,7 +315,7 @@ var feng3d;
                 totalLength += positions[positionCount - 1].distance(positions[0]);
                 rateAtLines[positionCount] = totalLength;
             }
-            // 计算顶点所在线段位置
+            // 计算结点所在线段位置
             rateAtLines = rateAtLines.map(function (v, i) {
                 // 计算UV
                 if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
@@ -323,6 +323,8 @@ var feng3d;
                 }
                 return i / (loop ? positionCount : (positionCount - 1));
             });
+            // 计算结点的顶点
+            this.calcPositionVectex();
             // 处理两端循环情况
             if (loop) {
                 positions.unshift(positions[positions.length - 1]);
@@ -427,6 +429,8 @@ var feng3d;
             mesh.uvs = a_uvs;
             mesh.colors = a_colors;
             mesh.indices = indices;
+        };
+        LineRenderer.prototype.calcPositionVectex = function () {
         };
         /**
          * 计算总长度
