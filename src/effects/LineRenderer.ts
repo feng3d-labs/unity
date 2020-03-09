@@ -252,17 +252,20 @@ namespace feng3d
             var textureMode = this.textureMode;
             var loop = this.loop;
 
+            // 计算摄像机本地坐标
+            var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
+
             // 计算线条总长度
-            var totalLength = this.calcTotalLength(positions, loop);
+            var totalLength = LineRenderer.calcTotalLength(positions, loop);
 
             // 计算结点所在线段位置
-            var rateAtLines = this.calcRateAtLines(positions, loop, textureMode);
+            var rateAtLines = LineRenderer.calcRateAtLines(positions, loop, textureMode);
 
             // 计算结点的顶点
-            var positionVectex = this.calcPositionVectex(positions, camera, loop, rateAtLines);
+            var positionVectex = LineRenderer.calcPositionVectex(positions, camera, loop, rateAtLines, this.lineWidth, this.alignment, cameraPosition);
 
             // 计算网格
-            this.calcMesh(positionVectex, textureMode, totalLength, mesh);
+            LineRenderer.calcMesh(positionVectex, textureMode, this.colorGradient, totalLength, mesh);
         }
 
         /**
@@ -274,10 +277,10 @@ namespace feng3d
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        private calcMesh(positionVectex: {
+        static calcMesh(positionVectex: {
             vertexs: Vector3[];
             rateAtLine: number;
-        }[], textureMode: LineTextureMode, totalLength: number, mesh: Geometry)
+        }[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry)
         {
             var a_positions: number[] = [];
             var a_uvs: number[] = [];
@@ -295,7 +298,7 @@ namespace feng3d
                 //
                 var rateAtLine = vertex.rateAtLine;
                 // 颜色
-                var currentColor = this.colorGradient.getValue(rateAtLine);
+                var currentColor = colorGradient.getValue(rateAtLine);
                 //
                 a_positions.push(offset0.x, offset0.y, offset0.z, offset1.x, offset1.y, offset1.z);
                 a_colors.push(currentColor.r, currentColor.g, currentColor.b, currentColor.a, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
@@ -332,7 +335,7 @@ namespace feng3d
             mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
         }
 
-        private calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[])
+        static calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
         {
             // 
             var positionVectex: { vertexs: Vector3[], rateAtLine: number }[] = [];
@@ -363,7 +366,7 @@ namespace feng3d
                 // 当前所在线条，0表示起点，1表示终点
                 var rateAtLine = rateAtLines[i];
                 // 线条宽度
-                var lineWidth = this.lineWidth.getValue(rateAtLine);
+                var currentLineWidth = lineWidth.getValue(rateAtLine);
                 // 切线，线条方向
                 var tangent = new Vector3(1, 0, 0);
                 var tangent0 = currentPosition.subTo(prePosition).normalize();
@@ -377,11 +380,10 @@ namespace feng3d
                 }
                 // 法线，面朝向
                 var normal = new Vector3(0, 0, -1);
-                if (this.alignment == LineAlignment.View)
+                if (alignment == LineAlignment.View)
                 {
-                    var cameraPosition = this.transform.inverseTransformPoint(camera.transform.worldPosition);
                     normal.copy(cameraPosition).sub(currentPosition).normalize();
-                } else if (this.alignment == LineAlignment.TransformZ)
+                } else if (alignment == LineAlignment.TransformZ)
                 {
                     normal.set(0, 0, -1);
                 }
@@ -397,7 +399,7 @@ namespace feng3d
                 }
                 // 用于计算线条中点生成两个点的偏移量
                 var offset = new Vector3();
-                offset.copy(tangent).cross(normal).normalize(lineWidth / 2);
+                offset.copy(tangent).cross(normal).normalize(currentLineWidth / 2);
                 // 保持线条宽度
                 var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
                 sin = Math.clamp(sin, 0.2, 5);
@@ -417,7 +419,7 @@ namespace feng3d
          * @param positions 顶点列表
          * @param loop 是否循环
          */
-        private calcTotalLength(positions: Vector3[], loop: boolean)
+        static calcTotalLength(positions: Vector3[], loop: boolean)
         {
             var total = 0;
             var length = positions.length;
@@ -438,7 +440,7 @@ namespace feng3d
          * @param positions 顶点列表
          * @param loop 是否循环
          */
-        private calcRateAtLines(positions: Vector3[], loop: boolean, textureMode: LineTextureMode)
+        static calcRateAtLines(positions: Vector3[], loop: boolean, textureMode: LineTextureMode)
         {
             // 结点所在线段位置
             var rateAtLines: number[] = [0];
@@ -469,43 +471,43 @@ namespace feng3d
         }
 
 
-        private positionsToCurve(positions: Vector3[], loop: boolean)
-        {
+        // private positionsToCurve(positions: Vector3[], loop: boolean)
+        // {
 
-            var totalLength = this.calcTotalLength(positions, loop);
-
-
-            var xCurve = new AnimationCurve();
-            var yCurve = new AnimationCurve();
-            var zCurve = new AnimationCurve();
-
-            for (let i = 0, len = positions.length; i < len; i++)
-            {
-                var position = positions[i];
-                var prePosition: Vector3;
-                var nextPosition: Vector3;
-                if (i == 0)
-                {
-                    if (loop)
-                    {
-                        prePosition = positions[(i - 1 + len) % len];
-                        nextPosition = positions[(i + 1) % len];
-
-                        var tangent = nextPosition.subTo(prePosition);
-
-                        xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
-                        yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
-                        zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
-                    }
-
-                }
+        //     var totalLength = this.calcTotalLength(positions, loop);
 
 
-            }
+        //     var xCurve = new AnimationCurve();
+        //     var yCurve = new AnimationCurve();
+        //     var zCurve = new AnimationCurve();
+
+        //     for (let i = 0, len = positions.length; i < len; i++)
+        //     {
+        //         var position = positions[i];
+        //         var prePosition: Vector3;
+        //         var nextPosition: Vector3;
+        //         if (i == 0)
+        //         {
+        //             if (loop)
+        //             {
+        //                 prePosition = positions[(i - 1 + len) % len];
+        //                 nextPosition = positions[(i + 1) % len];
+
+        //                 var tangent = nextPosition.subTo(prePosition);
+
+        //                 xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
+        //                 yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
+        //                 zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
+        //             }
+
+        //         }
+
+
+        //     }
 
 
 
-        }
+        // }
 
         /**
          * Get the position of a vertex in the line.

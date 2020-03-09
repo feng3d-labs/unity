@@ -199,23 +199,28 @@ declare namespace feng3d {
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        private calcMesh;
-        private calcPositionVectex;
+        static calcMesh(positionVectex: {
+            vertexs: Vector3[];
+            rateAtLine: number;
+        }[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry): void;
+        static calcPositionVectex(positions: Vector3[], camera: Camera, loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): {
+            vertexs: Vector3[];
+            rateAtLine: number;
+        }[];
         /**
          * 计算线条总长度
          *
          * @param positions 顶点列表
          * @param loop 是否循环
          */
-        private calcTotalLength;
+        static calcTotalLength(positions: Vector3[], loop: boolean): number;
         /**
          * 计算结点所在线段位置
          *
          * @param positions 顶点列表
          * @param loop 是否循环
          */
-        private calcRateAtLines;
-        private positionsToCurve;
+        static calcRateAtLines(positions: Vector3[], loop: boolean, textureMode: LineTextureMode): number[];
         /**
          * Get the position of a vertex in the line.
          *
