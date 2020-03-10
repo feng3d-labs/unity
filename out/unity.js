@@ -925,7 +925,7 @@ var feng3d;
          * @param position	The position to add to the trail.
          */
         TrailRenderer.prototype.AddPosition = function (position) {
-            this.positions.push({ position: position, birthTime: Date.now() });
+            this.positions.unshift({ position: position, birthTime: Date.now() });
         };
         /**
          * Add an array of positions to the trail.
@@ -939,7 +939,7 @@ var feng3d;
             if (this.positions.length > 0)
                 preTime = this.positions[this.positions.length - 1].birthTime;
             for (var i = 0, n = positions.length; i < n; i++) {
-                this.positions.push({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
+                this.positions.unshift({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
             }
         };
         /**

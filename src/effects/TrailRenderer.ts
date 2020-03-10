@@ -321,7 +321,7 @@ namespace feng3d
          */
         AddPosition(position: Vector3)
         {
-            this.positions.push({ position: position, birthTime: Date.now() });
+            this.positions.unshift({ position: position, birthTime: Date.now() });
         }
 
         /**
@@ -339,7 +339,7 @@ namespace feng3d
 
             for (let i = 0, n = positions.length; i < n; i++)
             {
-                this.positions.push({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
+                this.positions.unshift({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
             }
         }
 
