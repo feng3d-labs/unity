@@ -24,6 +24,34 @@ namespace feng3d
         lineWidth = serialization.setValue(new MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: MinMaxCurveMode.Curve });
 
         /**
+         * How long does the trail take to fade out.
+         */
+        @serialize
+        @oav({ tooltip: "How long does the trail take to fade out." })
+        time = 5;
+
+        /**
+         * Set the minimum distance the trail can travel before a new vertex is added to it.
+         */
+        @serialize
+        @oav({ tooltip: "How long does the trail take to fade out." })
+        minVertexDistance = 0.1;
+
+        /**
+         * Does the GameObject of this Trail Renderer auto destruct?
+         */
+        @serialize
+        @oav({ tooltip: "How long does the trail take to fade out." })
+        autodestruct = false;
+
+        /**
+         * Creates trails when the GameObject moves.
+         */
+        @serialize
+        @oav({ tooltip: "How long does the trail take to fade out." })
+        emitting = true;
+
+        /**
          * 
          * 线条颜色。
          */
@@ -60,26 +88,6 @@ namespace feng3d
         alignment = LineAlignment.TransformZ;
 
         /**
-         * Does the GameObject of this Trail Renderer auto destruct?
-         */
-        autodestruct = false;
-
-        /**
-         * Creates trails when the GameObject moves.
-         */
-        emitting = true;
-
-        /**
-         * Set the minimum distance the trail can travel before a new vertex is added to it.
-         */
-        minVertexDistance = 0.1;
-
-        /**
-         * How long does the trail take to fade out.
-         */
-        time = 5;
-
-        /**
          * Choose whether the U coordinate of the line texture is tiled or stretched.
          * 
          * 选择是平铺还是拉伸线纹理的U坐标。
@@ -89,15 +97,6 @@ namespace feng3d
         textureMode = LineTextureMode.Stretch;
 
         /**
-         * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
-         * 
-         * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
-         */
-        @serialize
-        @oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
-        shadowBias = 0.5;
-
-        /**
          * Configures a line to generate Normals and Tangents. With this data, Scene lighting can affect the line via Normal Maps and the Unity Standard Shader, or your own custom-built Shaders.
          * 
          * 是否自动生成灯光所需的法线与切线。
@@ -105,6 +104,15 @@ namespace feng3d
         @serialize
         @oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
         generateLightingData = false;
+
+        /**
+         * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
+         * 
+         * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
+         */
+        @serialize
+        @oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
+        shadowBias = 0.5;
 
         /**
          * Set the curve describing the width of the line at various points along its length.

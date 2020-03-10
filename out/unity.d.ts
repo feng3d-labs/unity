@@ -295,6 +295,22 @@ declare namespace feng3d {
          */
         lineWidth: MinMaxCurve;
         /**
+         * How long does the trail take to fade out.
+         */
+        time: number;
+        /**
+         * Set the minimum distance the trail can travel before a new vertex is added to it.
+         */
+        minVertexDistance: number;
+        /**
+         * Does the GameObject of this Trail Renderer auto destruct?
+         */
+        autodestruct: boolean;
+        /**
+         * Creates trails when the GameObject moves.
+         */
+        emitting: boolean;
+        /**
          *
          * 线条颜色。
          */
@@ -318,39 +334,23 @@ declare namespace feng3d {
          */
         alignment: LineAlignment;
         /**
-         * Does the GameObject of this Trail Renderer auto destruct?
-         */
-        autodestruct: boolean;
-        /**
-         * Creates trails when the GameObject moves.
-         */
-        emitting: boolean;
-        /**
-         * Set the minimum distance the trail can travel before a new vertex is added to it.
-         */
-        minVertexDistance: number;
-        /**
-         * How long does the trail take to fade out.
-         */
-        time: number;
-        /**
          * Choose whether the U coordinate of the line texture is tiled or stretched.
          *
          * 选择是平铺还是拉伸线纹理的U坐标。
          */
         textureMode: LineTextureMode;
         /**
-         * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
-         *
-         * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
-         */
-        shadowBias: number;
-        /**
          * Configures a line to generate Normals and Tangents. With this data, Scene lighting can affect the line via Normal Maps and the Unity Standard Shader, or your own custom-built Shaders.
          *
          * 是否自动生成灯光所需的法线与切线。
          */
         generateLightingData: boolean;
+        /**
+         * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
+         *
+         * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
+         */
+        shadowBias: number;
         /**
          * Set the curve describing the width of the line at various points along its length.
          *

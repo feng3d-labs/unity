@@ -665,6 +665,22 @@ var feng3d;
              */
             _this.lineWidth = feng3d.serialization.setValue(new feng3d.MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: feng3d.MinMaxCurveMode.Curve });
             /**
+             * How long does the trail take to fade out.
+             */
+            _this.time = 5;
+            /**
+             * Set the minimum distance the trail can travel before a new vertex is added to it.
+             */
+            _this.minVertexDistance = 0.1;
+            /**
+             * Does the GameObject of this Trail Renderer auto destruct?
+             */
+            _this.autodestruct = false;
+            /**
+             * Creates trails when the GameObject moves.
+             */
+            _this.emitting = true;
+            /**
              *
              * 线条颜色。
              */
@@ -689,39 +705,23 @@ var feng3d;
             // alignment = LineAlignment.View;
             _this.alignment = feng3d.LineAlignment.TransformZ;
             /**
-             * Does the GameObject of this Trail Renderer auto destruct?
-             */
-            _this.autodestruct = false;
-            /**
-             * Creates trails when the GameObject moves.
-             */
-            _this.emitting = true;
-            /**
-             * Set the minimum distance the trail can travel before a new vertex is added to it.
-             */
-            _this.minVertexDistance = 0.1;
-            /**
-             * How long does the trail take to fade out.
-             */
-            _this.time = 5;
-            /**
              * Choose whether the U coordinate of the line texture is tiled or stretched.
              *
              * 选择是平铺还是拉伸线纹理的U坐标。
              */
             _this.textureMode = feng3d.LineTextureMode.Stretch;
             /**
-             * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
-             *
-             * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
-             */
-            _this.shadowBias = 0.5;
-            /**
              * Configures a line to generate Normals and Tangents. With this data, Scene lighting can affect the line via Normal Maps and the Unity Standard Shader, or your own custom-built Shaders.
              *
              * 是否自动生成灯光所需的法线与切线。
              */
             _this.generateLightingData = false;
+            /**
+             * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
+             *
+             * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
+             */
+            _this.shadowBias = 0.5;
             /**
              * 上次结点位置
              */
@@ -1011,6 +1011,22 @@ var feng3d;
         ], TrailRenderer.prototype, "lineWidth", void 0);
         __decorate([
             feng3d.serialize,
+            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+        ], TrailRenderer.prototype, "time", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+        ], TrailRenderer.prototype, "minVertexDistance", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+        ], TrailRenderer.prototype, "autodestruct", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+        ], TrailRenderer.prototype, "emitting", void 0);
+        __decorate([
+            feng3d.serialize,
             feng3d.oav({ tooltip: "线条颜色。" })
         ], TrailRenderer.prototype, "lineColor", void 0);
         __decorate([
@@ -1031,12 +1047,12 @@ var feng3d;
         ], TrailRenderer.prototype, "textureMode", void 0);
         __decorate([
             feng3d.serialize,
-            feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
-        ], TrailRenderer.prototype, "shadowBias", void 0);
-        __decorate([
-            feng3d.serialize,
             feng3d.oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
         ], TrailRenderer.prototype, "generateLightingData", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
+        ], TrailRenderer.prototype, "shadowBias", void 0);
         TrailRenderer = __decorate([
             feng3d.AddComponentMenu("Effects/TrailRenderer")
         ], TrailRenderer);
