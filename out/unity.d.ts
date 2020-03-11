@@ -481,5 +481,8 @@ declare namespace feng3d {
          */
         private _preworldPos;
     }
+    interface PrimitiveGameObject {
+        "TrailRenderer": GameObject;
+    }
 }
 //# sourceMappingURL=unity.d.ts.map

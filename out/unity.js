@@ -794,10 +794,10 @@ var feng3d;
              * 设置线尾宽度。
              */
             get: function () {
-                return this.widthCurve.keys[this.widthCurve.keys.length - 1].value;
+                return this.widthCurve.keys[this.widthCurve.keys.length - 1].value * this.widthMultiplier;
             },
             set: function (v) {
-                this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v;
+                this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v / this.widthMultiplier;
             },
             enumerable: true,
             configurable: true
@@ -1059,5 +1059,8 @@ var feng3d;
         return TrailRenderer;
     }(feng3d.Renderable));
     feng3d.TrailRenderer = TrailRenderer;
+    feng3d.GameObject.registerPrimitive("TrailRenderer", function (g) {
+        g.addComponent(TrailRenderer);
+    });
 })(feng3d || (feng3d = {}));
 //# sourceMappingURL=unity.js.map

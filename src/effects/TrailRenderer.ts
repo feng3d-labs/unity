@@ -176,12 +176,12 @@ namespace feng3d
          */
         get endWidth()
         {
-            return this.widthCurve.keys[this.widthCurve.keys.length - 1].value;
+            return this.widthCurve.keys[this.widthCurve.keys.length - 1].value * this.widthMultiplier;
         }
 
         set endWidth(v)
         {
-            this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v;
+            this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v / this.widthMultiplier;
         }
 
         /**
@@ -426,5 +426,15 @@ namespace feng3d
          * 上次结点位置
          */
         private _preworldPos: Vector3 = null;
+    }
+
+    GameObject.registerPrimitive("TrailRenderer", (g) =>
+    {
+        g.addComponent(TrailRenderer);
+    });
+
+    export interface PrimitiveGameObject
+    {
+        "TrailRenderer": GameObject;
     }
 }
