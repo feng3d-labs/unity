@@ -563,15 +563,35 @@ var feng3d;
             var length = positions.length;
             for (var i_1 = 0; i_1 < length; i_1++) {
                 position = positions[i_1];
-                xCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.x, inTangent: 0, outTangent: 0 };
-                yCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.y, inTangent: 0, outTangent: 0 };
-                zCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.z, inTangent: 0, outTangent: 0 };
+                // 计算切线
+                var prei = i_1 - 1;
+                var nexti = i_1 + 1;
+                var pretime = rateAtLines[prei];
+                var nexttime = rateAtLines[nexti];
+                if (i_1 == 0) {
+                    prei = 0;
+                    pretime = 0;
+                    if (loop) {
+                        prei = length - 1;
+                    }
+                }
+                else if (i_1 == length - 1) {
+                    nexti = length - 1;
+                    nexttime = 1;
+                    if (loop) {
+                        nexti = 0;
+                    }
+                }
+                var tangent = positions[nexti].subTo(positions[prei]).scaleNumber(1 / (nexttime - pretime));
+                xCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.x, inTangent: tangent.x, outTangent: tangent.x };
+                yCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.y, inTangent: tangent.y, outTangent: tangent.y };
+                zCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.z, inTangent: tangent.z, outTangent: tangent.z };
             }
             if (loop && length > 0) {
                 position = positions[0];
-                xCurve.keys[length] = { time: 1, value: position.x, inTangent: 0, outTangent: 0 };
-                yCurve.keys[length] = { time: 1, value: position.y, inTangent: 0, outTangent: 0 };
-                zCurve.keys[length] = { time: 1, value: position.z, inTangent: 0, outTangent: 0 };
+                xCurve.keys[length] = { time: 1, value: position.x, inTangent: xCurve.keys[0].inTangent, outTangent: xCurve.keys[0].outTangent };
+                yCurve.keys[length] = { time: 1, value: position.y, inTangent: yCurve.keys[0].inTangent, outTangent: yCurve.keys[0].outTangent };
+                zCurve.keys[length] = { time: 1, value: position.z, inTangent: zCurve.keys[0].inTangent, outTangent: zCurve.keys[0].outTangent };
             }
             // 重新计算 positions以及rateAtLines
             positions.length = 0;
