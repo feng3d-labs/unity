@@ -2,6 +2,9 @@
   "bundle": {
     "commonSourceDirectory": "..",
     "sourceFiles": [
+      "../src/shaders/Line_Trail.vertex.glsl.ts",
+      "../src/shaders/Line_Trail.fragment.glsl.ts",
+      "../src/shaders/Line_Trail.shader.ts",
       "../src/effects/enums/LineAlignment.ts",
       "../src/effects/enums/LineTextureMode.ts",
       "../src/effects/LineRenderer.ts",
@@ -11,26 +14,26 @@
       "sections": [
         {
           "pos": 0,
-          "end": 597,
-          "kind": "emitHelpers",
-          "data": "typescript:extends"
-        },
-        {
-          "pos": 599,
-          "end": 1175,
+          "end": 576,
           "kind": "emitHelpers",
           "data": "typescript:decorate"
         },
         {
+          "pos": 578,
+          "end": 1175,
+          "kind": "emitHelpers",
+          "data": "typescript:extends"
+        },
+        {
           "pos": 1177,
-          "end": 45520,
+          "end": 47786,
           "kind": "text"
         }
       ],
       "sources": {
         "helpers": [
-          "typescript:extends",
-          "typescript:decorate"
+          "typescript:decorate",
+          "typescript:extends"
         ]
       }
     },
@@ -38,7 +41,7 @@
       "sections": [
         {
           "pos": 0,
-          "end": 16486,
+          "end": 17081,
           "kind": "text"
         }
       ]

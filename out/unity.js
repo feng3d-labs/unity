@@ -1,3 +1,9 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11,12 +17,50 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
+var feng3d;
+(function (feng3d) {
+    feng3d.Line_Trail_vertex = "\n\nattribute vec3 a_position;\nattribute vec2 a_uv;\nattribute vec4 a_color;\n\nuniform mat4 u_modelMatrix;\nuniform mat4 u_viewProjection;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nvoid main() \n{\n    vec3 position = a_position;\n    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);\n    v_uv = a_uv;\n    v_color = a_color;\n}\n    ";
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    feng3d.Line_Trail_fragment = "\nprecision mediump float;\n\nuniform sampler2D s_texture;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nuniform vec4 u_color;\n\nvoid main() \n{\n    vec4 color = texture2D(s_texture, v_uv);\n    gl_FragColor = color * u_color * v_color;\n}\n    ";
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    /**
+     * 线条拖尾
+     */
+    var Line_TrailUniforms = /** @class */ (function () {
+        function Line_TrailUniforms() {
+            this.s_texture = feng3d.Texture2D.white;
+            this.u_color = new feng3d.Color4();
+        }
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], Line_TrailUniforms.prototype, "s_texture", void 0);
+        __decorate([
+            feng3d.oav()
+        ], Line_TrailUniforms.prototype, "u_color", void 0);
+        return Line_TrailUniforms;
+    }());
+    feng3d.Line_TrailUniforms = Line_TrailUniforms;
+    feng3d.shaderConfig.shaders["Line_Trail"] =
+        {
+            vertex: feng3d.Line_Trail_vertex,
+            fragment: feng3d.Line_Trail_fragment,
+            cls: Line_TrailUniforms,
+            renderParams: {
+                enableBlend: true,
+                sfactor: feng3d.BlendFactor.ONE,
+                dfactor: feng3d.BlendFactor.ONE_MINUS_SRC_ALPHA,
+                colorMask: feng3d.ColorMask.RGBA,
+                cullFace: feng3d.CullFace.BACK,
+                depthMask: true,
+            },
+        };
+    feng3d.Material.setDefault("Line_Trail-Material", { shaderName: "Line_Trail" });
+})(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
     /**
@@ -91,6 +135,7 @@ var feng3d;
         function LineRenderer() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.geometry = new feng3d.Geometry();
+            _this.material = feng3d.Material.getDefault("Line_Trail-Material");
             /**
              * Connect the start and end positions of the line together to form a continuous loop.
              *
@@ -656,6 +701,7 @@ var feng3d;
         function TrailRenderer() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.geometry = new feng3d.Geometry();
+            _this.material = feng3d.Material.getDefault("Line_Trail-Material");
             /**
              * 结点列表。
              */

@@ -11,6 +11,8 @@ namespace feng3d
         @oav({ exclude: true })
         geometry = <any>new Geometry();
 
+        material = Material.getDefault("Line_Trail-Material");
+
         /**
          * Connect the start and end positions of the line together to form a continuous loop.
          * 

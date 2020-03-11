@@ -20,9 +20,13 @@
     ],
     "files": [
         //
+        "src/shaders/Line_Trail.vertex.glsl.ts",
+        "src/shaders/Line_Trail.fragment.glsl.ts",
+        "src/shaders/Line_Trail.shader.ts",
+        //
         "src/effects/enums/LineAlignment.ts",
         "src/effects/enums/LineTextureMode.ts",
         "src/effects/LineRenderer.ts",
-        "src/effects/TrailRenderer.ts"
+        "src/effects/TrailRenderer.ts",
     ]
 }

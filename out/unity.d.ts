@@ -1,4 +1,28 @@
 declare namespace feng3d {
+    var Line_Trail_vertex: string;
+}
+declare namespace feng3d {
+    var Line_Trail_fragment: string;
+}
+declare namespace feng3d {
+    /**
+     * 线条拖尾
+     */
+    class Line_TrailUniforms {
+        __class__: "feng3d.Line_TrailUniforms";
+        s_texture: Texture2D;
+        u_color: Color4;
+    }
+}
+declare namespace feng3d {
+    interface UniformsTypes {
+        "Line_Trail": Line_TrailUniforms;
+    }
+    interface DefaultMaterial {
+        "Line_Trail-Material": Material;
+    }
+}
+declare namespace feng3d {
     /**
      * Control the direction lines face, when using the LineRenderer or TrailRenderer.
      *
@@ -64,6 +88,7 @@ declare namespace feng3d {
      */
     class LineRenderer extends Renderable {
         geometry: any;
+        material: Material;
         /**
          * Connect the start and end positions of the line together to form a continuous loop.
          *
@@ -286,6 +311,7 @@ declare namespace feng3d {
      */
     class TrailRenderer extends Renderable {
         geometry: any;
+        material: Material;
         /**
          * 结点列表。
          */

@@ -11,6 +11,8 @@ namespace feng3d
         @oav({ exclude: true })
         geometry = <any>new Geometry();
 
+        material = Material.getDefault("Line_Trail-Material");
+
         /**
          * 结点列表。
          */
