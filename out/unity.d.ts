@@ -96,6 +96,7 @@ declare namespace feng3d {
          */
         loop: boolean;
         useCurve: boolean;
+        curveSamples: number;
         /**
          * 顶点列表。
          */

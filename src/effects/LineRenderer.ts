@@ -26,6 +26,10 @@ namespace feng3d
         @serialize
         useCurve = false;
 
+        @oav({ tooltip: "曲线采样次数。" })
+        @serialize
+        curveSamples = 10;
+
         /**
          * 顶点列表。
          */
@@ -273,7 +277,7 @@ namespace feng3d
 
             if (this.useCurve)
             {
-                LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines);
+                LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines, this.curveSamples);
             }
 
             // 计算结点的顶点
