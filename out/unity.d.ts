@@ -86,7 +86,7 @@ declare namespace feng3d {
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    class LineRenderer extends Renderable {
+    export class LineRenderer extends Renderable {
         geometry: any;
         material: Material;
         /**
@@ -95,6 +95,7 @@ declare namespace feng3d {
          * 将直线的起点和终点连接在一起，形成一个连续的回路。
          */
         loop: boolean;
+        useCurve: boolean;
         /**
          * 顶点列表。
          */
@@ -224,10 +225,7 @@ declare namespace feng3d {
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        static calcMesh(positionVectex: {
-            vertexs: Vector3[];
-            rateAtLine: number;
-        }[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry): void;
+        static calcMesh(positionVectex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry): void;
         /**
          * 计算结点的三角形顶点列表
          *
@@ -238,10 +236,7 @@ declare namespace feng3d {
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): {
-            vertexs: Vector3[];
-            rateAtLine: number;
-        }[];
+        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): VertexInfo[];
         /**
          * 计算线条总长度
          *
@@ -256,6 +251,7 @@ declare namespace feng3d {
          * @param loop 是否循环
          */
         static calcRateAtLines(positions: Vector3[], loop: boolean, textureMode: LineTextureMode): number[];
+        static calcPositionsToCurve(positions: Vector3[], loop: boolean, rateAtLines: number[], numSamples?: number): void;
         /**
          * Get the position of a vertex in the line.
          *
@@ -302,6 +298,14 @@ declare namespace feng3d {
          */
         Simplify(tolerance: number): void;
     }
+    /**
+     * 顶点信息
+     */
+    type VertexInfo = {
+        rateAtLine: number;
+        vertexs: Vector3[];
+    };
+    export {};
 }
 declare namespace feng3d {
     /**

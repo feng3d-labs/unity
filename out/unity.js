@@ -142,6 +142,7 @@ var feng3d;
              * 将直线的起点和终点连接在一起，形成一个连续的回路。
              */
             _this.loop = false;
+            _this.useCurve = false;
             /**
              * 顶点列表。
              */
@@ -355,6 +356,9 @@ var feng3d;
             var totalLength = LineRenderer_1.calcTotalLength(positions, loop);
             // 计算结点所在线段位置
             var rateAtLines = LineRenderer_1.calcRateAtLines(positions, loop, textureMode);
+            if (this.useCurve) {
+                LineRenderer_1.calcPositionsToCurve(positions, loop, rateAtLines);
+            }
             // 计算结点的顶点
             var positionVectex = LineRenderer_1.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
             // 计算网格
@@ -370,6 +374,7 @@ var feng3d;
          * @param mesh 保存网格数据的对象
          */
         LineRenderer.calcMesh = function (positionVectex, textureMode, colorGradient, totalLength, mesh) {
+            //
             var a_positions = [];
             var a_uvs = [];
             var a_colors = [];
@@ -493,7 +498,7 @@ var feng3d;
                 //
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
-                ///
+                //
                 positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
             }
             return positionVectex;
@@ -545,31 +550,43 @@ var feng3d;
             });
             return rateAtLines;
         };
-        // private positionsToCurve(positions: Vector3[], loop: boolean)
-        // {
-        //     var totalLength = this.calcTotalLength(positions, loop);
-        //     var xCurve = new AnimationCurve();
-        //     var yCurve = new AnimationCurve();
-        //     var zCurve = new AnimationCurve();
-        //     for (let i = 0, len = positions.length; i < len; i++)
-        //     {
-        //         var position = positions[i];
-        //         var prePosition: Vector3;
-        //         var nextPosition: Vector3;
-        //         if (i == 0)
-        //         {
-        //             if (loop)
-        //             {
-        //                 prePosition = positions[(i - 1 + len) % len];
-        //                 nextPosition = positions[(i + 1) % len];
-        //                 var tangent = nextPosition.subTo(prePosition);
-        //                 xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
-        //                 yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
-        //                 zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
-        //             }
-        //         }
-        //     }
-        // }
+        LineRenderer.calcPositionsToCurve = function (positions, loop, rateAtLines, numSamples) {
+            if (numSamples === void 0) { numSamples = 100; }
+            var xCurve = new feng3d.AnimationCurve();
+            var yCurve = new feng3d.AnimationCurve();
+            var zCurve = new feng3d.AnimationCurve();
+            xCurve.keys.length = 0;
+            yCurve.keys.length = 0;
+            zCurve.keys.length = 0;
+            var position;
+            var length = positions.length;
+            for (var i_1 = 0; i_1 < length; i_1++) {
+                position = positions[i_1];
+                xCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.x, inTangent: 0, outTangent: 0 };
+                yCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.y, inTangent: 0, outTangent: 0 };
+                zCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.z, inTangent: 0, outTangent: 0 };
+            }
+            if (loop && length > 0) {
+                position = positions[0];
+                xCurve.keys[length] = { time: 1, value: position.x, inTangent: 0, outTangent: 0 };
+                yCurve.keys[length] = { time: 1, value: position.y, inTangent: 0, outTangent: 0 };
+                zCurve.keys[length] = { time: 1, value: position.z, inTangent: 0, outTangent: 0 };
+            }
+            // 重新计算 positions以及rateAtLines
+            positions.length = 0;
+            rateAtLines.length = 0;
+            var step = 1 / numSamples;
+            for (var i = 0, currentStep = 0; i <= numSamples; i++, currentStep += step) {
+                var x = xCurve.getValue(currentStep);
+                var y = yCurve.getValue(currentStep);
+                var z = zCurve.getValue(currentStep);
+                positions[i] = new feng3d.Vector3(x, y, z);
+                rateAtLines[i] = currentStep;
+            }
+            if (loop && length > 0) {
+                positions.pop();
+            }
+        };
         /**
          * Get the position of a vertex in the line.
          *
@@ -642,6 +659,10 @@ var feng3d;
             feng3d.oav({ tooltip: "将直线的起点和终点连接在一起，形成一个连续的回路。" }),
             feng3d.serialize
         ], LineRenderer.prototype, "loop", void 0);
+        __decorate([
+            feng3d.oav({ tooltip: "是否使用曲线。" }),
+            feng3d.serialize
+        ], LineRenderer.prototype, "useCurve", void 0);
         __decorate([
             feng3d.oav({ component: "OAVArray", tooltip: "顶点列表。", componentParam: { defaultItem: function () { return new feng3d.Vector3(); } } }),
             feng3d.serialize

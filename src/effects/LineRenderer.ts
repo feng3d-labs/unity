@@ -22,6 +22,10 @@ namespace feng3d
         @serialize
         loop = false;
 
+        @oav({ tooltip: "是否使用曲线。" })
+        @serialize
+        useCurve = false;
+
         /**
          * 顶点列表。
          */
@@ -267,6 +271,11 @@ namespace feng3d
             // 计算结点所在线段位置
             var rateAtLines = LineRenderer.calcRateAtLines(positions, loop, textureMode);
 
+            if (this.useCurve)
+            {
+                LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines);
+            }
+
             // 计算结点的顶点
             var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
 
@@ -283,11 +292,9 @@ namespace feng3d
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        static calcMesh(positionVectex: {
-            vertexs: Vector3[];
-            rateAtLine: number;
-        }[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry)
+        static calcMesh(positionVectex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry)
         {
+            //
             var a_positions: number[] = [];
             var a_uvs: number[] = [];
             var a_colors: number[] = [];
@@ -354,7 +361,7 @@ namespace feng3d
         static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
         {
             // 
-            var positionVectex: { vertexs: Vector3[], rateAtLine: number }[] = [];
+            var positionVectex: VertexInfo[] = [];
 
             // 处理两端循环情况
             if (loop)
@@ -423,7 +430,7 @@ namespace feng3d
                 //
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
-                ///
+                //
                 positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
             }
             return positionVectex;
@@ -486,44 +493,52 @@ namespace feng3d
             return rateAtLines;
         }
 
+        static calcPositionsToCurve(positions: Vector3[], loop: boolean, rateAtLines: number[], numSamples = 100)
+        {
+            var xCurve = new AnimationCurve();
+            var yCurve = new AnimationCurve();
+            var zCurve = new AnimationCurve();
 
-        // private positionsToCurve(positions: Vector3[], loop: boolean)
-        // {
+            xCurve.keys.length = 0;
+            yCurve.keys.length = 0;
+            zCurve.keys.length = 0;
 
-        //     var totalLength = this.calcTotalLength(positions, loop);
+            var position: Vector3;
+            var length = positions.length;
+            for (let i = 0; i < length; i++)
+            {
+                position = positions[i];
 
+                xCurve.keys[i] = { time: rateAtLines[i], value: position.x, inTangent: 0, outTangent: 0 };
+                yCurve.keys[i] = { time: rateAtLines[i], value: position.y, inTangent: 0, outTangent: 0 };
+                zCurve.keys[i] = { time: rateAtLines[i], value: position.z, inTangent: 0, outTangent: 0 };
+            }
+            if (loop && length > 0)
+            {
+                position = positions[0];
+                xCurve.keys[length] = { time: 1, value: position.x, inTangent: 0, outTangent: 0 };
+                yCurve.keys[length] = { time: 1, value: position.y, inTangent: 0, outTangent: 0 };
+                zCurve.keys[length] = { time: 1, value: position.z, inTangent: 0, outTangent: 0 };
+            }
 
-        //     var xCurve = new AnimationCurve();
-        //     var yCurve = new AnimationCurve();
-        //     var zCurve = new AnimationCurve();
+            // 重新计算 positions以及rateAtLines
+            positions.length = 0;
+            rateAtLines.length = 0;
+            var step = 1 / numSamples;
+            for (var i = 0, currentStep = 0; i <= numSamples; i++, currentStep += step)
+            {
+                var x = xCurve.getValue(currentStep)
+                var y = yCurve.getValue(currentStep)
+                var z = zCurve.getValue(currentStep)
+                positions[i] = new Vector3(x, y, z);
+                rateAtLines[i] = currentStep;
+            }
 
-        //     for (let i = 0, len = positions.length; i < len; i++)
-        //     {
-        //         var position = positions[i];
-        //         var prePosition: Vector3;
-        //         var nextPosition: Vector3;
-        //         if (i == 0)
-        //         {
-        //             if (loop)
-        //             {
-        //                 prePosition = positions[(i - 1 + len) % len];
-        //                 nextPosition = positions[(i + 1) % len];
-
-        //                 var tangent = nextPosition.subTo(prePosition);
-
-        //                 xCurve.addKey({ time: 0, value: position.x, inTangent: tangent.x, outTangent: tangent.x });
-        //                 yCurve.addKey({ time: 0, value: position.y, inTangent: tangent.y, outTangent: tangent.y });
-        //                 zCurve.addKey({ time: 0, value: position.z, inTangent: tangent.z, outTangent: tangent.z });
-        //             }
-
-        //         }
-
-
-        //     }
-
-
-
-        // }
+            if (loop && length > 0)
+            {
+                positions.pop();
+            }
+        }
 
         /**
          * Get the position of a vertex in the line.
@@ -602,4 +617,15 @@ namespace feng3d
         }
 
     }
+
+
+    /**
+     * 顶点信息
+     */
+    type VertexInfo = {
+        rateAtLine: number;
+        vertexs: Vector3[];
+    }
+
+
 }
