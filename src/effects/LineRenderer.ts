@@ -26,7 +26,7 @@ namespace feng3d
         @serialize
         useCurve = false;
 
-        @oav({ tooltip: "曲线采样次数。" })
+        @oav({ tooltip: "曲线采样频率。" })
         @serialize
         curveSamples = 10;
 
@@ -277,7 +277,7 @@ namespace feng3d
 
             if (this.useCurve)
             {
-                LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines, this.curveSamples);
+                LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines, loop ? (this.curveSamples * this.positionCount) : (this.positionCount + (this.curveSamples - 1) * (this.positionCount - 1)));
             }
 
             // 计算结点的顶点
@@ -366,6 +366,10 @@ namespace feng3d
         {
             // 
             var positionVectex: VertexInfo[] = [];
+            if (positions.length == 0)
+            {
+                return positionVectex;
+            }
 
             // 处理两端循环情况
             if (loop)
@@ -552,8 +556,9 @@ namespace feng3d
             // 重新计算 positions以及rateAtLines
             positions.length = 0;
             rateAtLines.length = 0;
-            var step = 1 / numSamples;
-            for (var i = 0, currentStep = 0; i <= numSamples; i++, currentStep += step)
+            if (loop) numSamples = numSamples + 1;
+            var step = 1 / (numSamples - 1);
+            for (var i = 0, currentStep = 0; i < numSamples; i++, currentStep += step)
             {
                 var x = xCurve.getValue(currentStep)
                 var y = yCurve.getValue(currentStep)

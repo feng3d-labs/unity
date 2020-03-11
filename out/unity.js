@@ -82,10 +82,6 @@ var feng3d;
          * 线面向变换组件的Z轴。
          */
         LineAlignment[LineAlignment["TransformZ"] = 1] = "TransformZ";
-        /**
-         * 无特定朝向，自动根据线条走向确定面向(法线)
-         */
-        LineAlignment[LineAlignment["None"] = 2] = "None";
     })(LineAlignment = feng3d.LineAlignment || (feng3d.LineAlignment = {}));
 })(feng3d || (feng3d = {}));
 var feng3d;
@@ -358,7 +354,7 @@ var feng3d;
             // 计算结点所在线段位置
             var rateAtLines = LineRenderer_1.calcRateAtLines(positions, loop, textureMode);
             if (this.useCurve) {
-                LineRenderer_1.calcPositionsToCurve(positions, loop, rateAtLines, this.curveSamples);
+                LineRenderer_1.calcPositionsToCurve(positions, loop, rateAtLines, loop ? (this.curveSamples * this.positionCount) : (this.positionCount + (this.curveSamples - 1) * (this.positionCount - 1)));
             }
             // 计算结点的顶点
             var positionVectex = LineRenderer_1.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
@@ -435,6 +431,9 @@ var feng3d;
         LineRenderer.calcPositionVectex = function (positions, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
             // 
             var positionVectex = [];
+            if (positions.length == 0) {
+                return positionVectex;
+            }
             // 处理两端循环情况
             if (loop) {
                 positions.unshift(positions[positions.length - 1]);
@@ -596,8 +595,10 @@ var feng3d;
             // 重新计算 positions以及rateAtLines
             positions.length = 0;
             rateAtLines.length = 0;
-            var step = 1 / numSamples;
-            for (var i = 0, currentStep = 0; i <= numSamples; i++, currentStep += step) {
+            if (loop)
+                numSamples = numSamples + 1;
+            var step = 1 / (numSamples - 1);
+            for (var i = 0, currentStep = 0; i < numSamples; i++, currentStep += step) {
                 var x = xCurve.getValue(currentStep);
                 var y = yCurve.getValue(currentStep);
                 var z = zCurve.getValue(currentStep);
@@ -685,7 +686,7 @@ var feng3d;
             feng3d.serialize
         ], LineRenderer.prototype, "useCurve", void 0);
         __decorate([
-            feng3d.oav({ tooltip: "曲线采样次数。" }),
+            feng3d.oav({ tooltip: "曲线采样频率。" }),
             feng3d.serialize
         ], LineRenderer.prototype, "curveSamples", void 0);
         __decorate([
