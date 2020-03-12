@@ -275,18 +275,13 @@ namespace feng3d
             // 计算结点所在线段位置
             var rateAtLines = LineRenderer.calcRateAtLines(positions, loop, textureMode);
 
-            var vertexs = LineRenderer.calcPositionVectex0(positions, loop, textureMode, lineWidth, colorGradient);
-
             if (this.useCurve)
             {
                 LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines, loop ? (this.curveSamples * this.positionCount) : (this.positionCount + (this.curveSamples - 1) * (this.positionCount - 1)));
             }
 
             // 计算结点的顶点
-            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition, this.numCapVertices);
-
-            LineRenderer.calcPositionVectex1(vertexs, alignment, cameraPosition);
-
+            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
 
             // 计算网格
             LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
@@ -367,7 +362,7 @@ namespace feng3d
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3, numCapVertices = 0)
+        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
         {
             // 
             var positionVectex: VertexInfo[] = [];
@@ -446,13 +441,6 @@ namespace feng3d
                 //
                 positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
             }
-            //
-            if (loop && numCapVertices > 0)
-            {
-
-            }
-
-
             return positionVectex;
         }
 
@@ -475,141 +463,6 @@ namespace feng3d
                 total += positions[length - 1].distance(positions[0]);
             }
             return total;
-        }
-
-        /**
-         * 计算结点信息
-         * 
-         * @param positions 顶点列表
-         * @param loop 是否循环
-         */
-        static calcPositionVectex0(positions: Vector3[], loop: boolean, textureMode: LineTextureMode, lineWidth: MinMaxCurve, colorGradient: Gradient)
-        {
-            // 结点所在线段位置
-            var rateAtLines: number[] = [0];
-            // 线条总长度
-            var totalLength = 0;
-            var positionCount = positions.length;
-            for (let i = 0, n = positionCount - 1; i < n; i++)
-            {
-                totalLength += positions[i + 1].distance(positions[i]);
-                rateAtLines[i + 1] = totalLength;
-            }
-            if (loop && positionCount > 0)
-            {
-                totalLength += positions[positionCount - 1].distance(positions[0]);
-                rateAtLines[positionCount] = totalLength;
-            }
-            // 计算结点所在线段位置
-            rateAtLines = rateAtLines.map((v, i) =>
-            {
-                //
-                if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
-                {
-                    return v / totalLength;
-                }
-                return i / (loop ? positionCount : (positionCount - 1));
-            });
-            // 计算 UV_U
-            var uv_Us = rateAtLines.map((v, i) =>
-            {
-                if (textureMode == LineTextureMode.Tile) return v * totalLength;
-                if (textureMode == LineTextureMode.RepeatPerSegment) return v * (loop ? positionCount : (positionCount - 1));
-                return v;
-            });
-            // 计算切线
-            var tangents: Vector3[] = [];
-            // 一半夹角的sin值
-            var halfAngleSins: number[] = [];
-            for (let i = 0; i < positionCount; i++)
-            {
-                // 计算切线
-                var prei = i - 1;
-                var nexti = i + 1;
-                var pretime = rateAtLines[prei];
-                var nexttime = rateAtLines[nexti];
-                if (i == 0)
-                {
-                    prei = 0;
-                    pretime = 0;
-                    if (loop)
-                    {
-                        prei = positionCount - 1;
-                    }
-                } else if (i == positionCount - 1)
-                {
-                    nexti = positionCount - 1;
-                    nexttime = 1;
-                    if (loop)
-                    {
-                        nexti = 0;
-                    }
-                }
-                tangents[i] = positions[nexti].subTo(positions[prei]).scaleNumber(1 / (nexttime - pretime));
-                
-
-            }
-            if (loop && positionCount > 0)
-            {
-                tangents[positionCount] = tangents[0];
-            }
-            //
-            positions = positions.concat();
-            if (loop) positions.push(positions[0]);
-
-            // 收集结点信息
-            var vertexs: LinellaeNode[] = positions.map((v, i) =>
-            {
-                return {
-                    position: positions[i],
-                    tangent: tangents[i],
-                    rateAtLine: rateAtLines[i],
-                    uv_U: uv_Us[i],
-                    width: lineWidth.getValue(rateAtLines[i]),
-                    color: colorGradient.getValue(rateAtLines[i])
-                };
-            });
-            return vertexs;
-        }
-
-        static calcPositionVectex1(vertexs: LinellaeNode[], alignment: LineAlignment, cameraPosition: Vector3)
-        {
-            vertexs.forEach(v =>
-            {
-                // 切线，线条方向
-                var tangent = v.tangent;
-                var position = v.position;
-                // 法线，面朝向
-                var normal = new Vector3(0, 0, -1);
-                if (alignment == LineAlignment.View)
-                {
-                    normal.copy(cameraPosition).sub(position).normalize();
-                } else if (alignment == LineAlignment.TransformZ)
-                {
-                    normal.set(0, 0, -1);
-                }
-                // 使用强制面向Z轴或者摄像机，会出现 与 线条方向一致的情况
-                if (tangent.isParallel(normal))
-                {
-                    // 强制修改切线方向
-                    tangent.set(1, 0, 0);
-                    if (tangent.isParallel(normal)) tangent.set(0, 1, 0);
-                    // 重新计算与法线垂直的切线
-                    var tempTN = tangent.crossTo(normal);
-                    tangent.copy(normal).cross(tempTN).normalize();
-                }
-                // 用于计算线条中点生成两个点的偏移量
-                var offset = new Vector3();
-                offset.copy(tangent).cross(normal).normalize(v.width / 2);
-                // 保持线条宽度
-                var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
-                sin = Math.clamp(sin, 0.2, 5);
-                offset.scaleNumber(1 / sin);
-                //
-                v.offsets = [];
-                v.offsets[0] = position.clone().add(offset);
-                v.offsets[1] = position.clone().sub(offset);
-            });
         }
 
         /**
@@ -807,45 +660,5 @@ namespace feng3d
         vertexs: Vector3[];
     }
 
-    /**
-     * 线条结点
-     */
-    interface LinellaeNode
-    {
-        /**
-         * 坐标
-         */
-        position: Vector3;
-
-        /**
-         * 法线
-         */
-        tangent: Vector3;
-
-        /**
-         * 结点在线条的位置
-         */
-        rateAtLine: number;
-
-        /**
-         * uv的U值
-         */
-        uv_U: number;
-
-        /**
-         * 当前结点尺寸
-         */
-        width: number;
-
-        /**
-         * 当前结点颜色
-         */
-        color: Color4;
-
-        /**
-         * 当前结点的顶点列表
-         */
-        offsets?: Vector3[];
-    }
 
 }
