@@ -275,13 +275,15 @@ namespace feng3d
             // 计算结点所在线段位置
             var rateAtLines = LineRenderer.calcRateAtLines(positions, loop, textureMode);
 
+            LineRenderer.calcPositionVectex0(positions, loop, textureMode);
+
             if (this.useCurve)
             {
                 LineRenderer.calcPositionsToCurve(positions, loop, rateAtLines, loop ? (this.curveSamples * this.positionCount) : (this.positionCount + (this.curveSamples - 1) * (this.positionCount - 1)));
             }
 
             // 计算结点的顶点
-            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition, this.numCapVertices);
 
             // 计算网格
             LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
@@ -362,7 +364,7 @@ namespace feng3d
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
+        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3, numCapVertices = 0)
         {
             // 
             var positionVectex: VertexInfo[] = [];
@@ -441,6 +443,13 @@ namespace feng3d
                 //
                 positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
             }
+            //
+            if (loop && numCapVertices > 0)
+            {
+
+            }
+
+
             return positionVectex;
         }
 
@@ -463,6 +472,52 @@ namespace feng3d
                 total += positions[length - 1].distance(positions[0]);
             }
             return total;
+        }
+
+        /**
+         * 计算结点信息
+         * 
+         * @param positions 顶点列表
+         * @param loop 是否循环
+         */
+        static calcPositionVectex0(positions: Vector3[], loop: boolean, textureMode: LineTextureMode)
+        {
+            // 结点所在线段位置
+            var rateAtLines: number[] = [0];
+            // 线条总长度
+            var totalLength = 0;
+            var positionCount = positions.length;
+            for (let i = 0, n = positionCount - 1; i < n; i++)
+            {
+                totalLength += positions[i + 1].distance(positions[i]);
+                rateAtLines[i + 1] = totalLength;
+            }
+            if (loop && positionCount > 0)
+            {
+                totalLength += positions[positionCount - 1].distance(positions[0]);
+                rateAtLines[positionCount] = totalLength;
+            }
+            // 计算结点所在线段位置
+            rateAtLines = rateAtLines.map((v, i) =>
+            {
+                // 计算UV
+                if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
+                {
+                    return v / totalLength;
+                }
+                return i / (loop ? positionCount : (positionCount - 1));
+            });
+            // 计算 UV_U
+            var uv_Us = rateAtLines.map((v, i) =>
+            {
+                if (textureMode == LineTextureMode.Tile) return v * totalLength;
+                if (textureMode == LineTextureMode.RepeatPerSegment) return v * (loop ? positionCount : (positionCount - 1));
+                return v;
+            });
+            // 计算切线
+            
+
+
         }
 
         /**
