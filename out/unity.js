@@ -444,7 +444,7 @@ var feng3d;
                 var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
                 var newVertex = {
                     rateAtLine: rateAtLine,
-                    vertexs: [center, addPoint],
+                    vertexs: [addPoint, center],
                     tangent: tangent,
                     normal: normal,
                 };
