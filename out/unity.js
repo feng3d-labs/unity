@@ -374,32 +374,8 @@ var feng3d;
             if (numCapVertices === void 0) { numCapVertices = 0; }
             if (loop === void 0) { loop = false; }
             if (!loop && numCapVertices > 0) {
-                var ishead = true;
-                var step = Math.PI / (numCapVertices + 1);
-                // 处理头尾
-                var vertex = positionVertex[0];
-                if (!ishead)
-                    vertex = positionVertex[positionVertex.length - 1];
-                var rateAtLine = vertex.rateAtLine;
-                var normal = vertex.normal;
-                var tangent = vertex.tangent;
-                if (ishead)
-                    tangent = tangent.negateTo();
-                var offset0 = vertex.vertexs[0];
-                var offset1 = vertex.vertexs[1];
-                var center = offset0.addTo(offset1).scaleNumber(0.5);
-                var width = offset0.distance(offset1);
-                for (var i = 0; i <= numCapVertices + 1; i++) {
-                    var angle = step * i;
-                    var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
-                    // 添加
-                    positionVertex.unshift({
-                        rateAtLine: rateAtLine,
-                        vertexs: [center, addPoint],
-                        tangent: tangent,
-                        normal: normal,
-                    });
-                }
+                LineRenderer_1.calcCapVertices(numCapVertices, positionVertex, true);
+                LineRenderer_1.calcCapVertices(numCapVertices, positionVertex, false);
                 //
             }
             //
@@ -448,6 +424,36 @@ var feng3d;
             //
             mesh.normals = feng3d.geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
             mesh.tangents = feng3d.geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
+        };
+        LineRenderer.calcCapVertices = function (numCapVertices, positionVertex, ishead) {
+            var step = Math.PI / (numCapVertices + 1);
+            var vertex = positionVertex[0];
+            if (!ishead)
+                vertex = positionVertex[positionVertex.length - 1];
+            var rateAtLine = vertex.rateAtLine;
+            var normal = vertex.normal.clone();
+            var tangent = vertex.tangent;
+            if (ishead)
+                tangent = tangent.negateTo();
+            var offset0 = vertex.vertexs[0];
+            var offset1 = vertex.vertexs[1];
+            var center = offset0.addTo(offset1).scaleNumber(0.5);
+            var width = offset0.distance(offset1);
+            for (var i = 0; i <= numCapVertices + 1; i++) {
+                var angle = step * i;
+                var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
+                var newVertex = {
+                    rateAtLine: rateAtLine,
+                    vertexs: [center, addPoint],
+                    tangent: tangent,
+                    normal: normal,
+                };
+                // 添加
+                if (ishead)
+                    positionVertex.unshift(newVertex);
+                else
+                    positionVertex.push(newVertex);
+            }
         };
         /**
          * 计算结点的三角形顶点列表

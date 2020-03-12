@@ -223,6 +223,7 @@ declare namespace feng3d {
          * @param mesh 保存网格数据的对象
          */
         static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, loop?: boolean): void;
+        private static calcCapVertices;
         /**
          * 计算结点的三角形顶点列表
          *

@@ -300,32 +300,8 @@ namespace feng3d
         {
             if (!loop && numCapVertices > 0)
             {
-                var ishead = true;
-                var step = Math.PI / (numCapVertices + 1);
-                // 处理头尾
-                var vertex = positionVertex[0];
-                if (!ishead) vertex = positionVertex[positionVertex.length - 1];
-                var rateAtLine = vertex.rateAtLine;
-                var normal = vertex.normal;
-                var tangent = vertex.tangent;
-                if (ishead) tangent = tangent.negateTo();
-                var offset0 = vertex.vertexs[0];
-                var offset1 = vertex.vertexs[1];
-                var center = offset0.addTo(offset1).scaleNumber(0.5);
-                var width = offset0.distance(offset1);
-                for (var i = 0; i <= numCapVertices + 1; i++)
-                {
-                    var angle = step * i;
-                    var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
-                    // 添加
-                    positionVertex.unshift(
-                        {
-                            rateAtLine: rateAtLine,
-                            vertexs: [center, addPoint],
-                            tangent: tangent,
-                            normal: normal,
-                        });
-                }
+                LineRenderer.calcCapVertices(numCapVertices, positionVertex, true);
+                LineRenderer.calcCapVertices(numCapVertices, positionVertex, false);
                 //
             }
 
@@ -381,6 +357,40 @@ namespace feng3d
             //
             mesh.normals = geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
             mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
+        }
+
+        private static calcCapVertices(numCapVertices: number, positionVertex: VertexInfo[], ishead: boolean)
+        {
+            var step = Math.PI / (numCapVertices + 1);
+            var vertex = positionVertex[0];
+            if (!ishead)
+                vertex = positionVertex[positionVertex.length - 1];
+            var rateAtLine = vertex.rateAtLine;
+            var normal = vertex.normal.clone();
+            var tangent = vertex.tangent;
+            if (ishead)
+                tangent = tangent.negateTo();
+            var offset0 = vertex.vertexs[0];
+            var offset1 = vertex.vertexs[1];
+            var center = offset0.addTo(offset1).scaleNumber(0.5);
+            var width = offset0.distance(offset1);
+            for (var i = 0; i <= numCapVertices + 1; i++)
+            {
+                var angle = step * i;
+                var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
+                var newVertex = {
+                    rateAtLine: rateAtLine,
+                    vertexs: [center, addPoint],
+                    tangent: tangent,
+                    normal: normal,
+                };
+
+                // 添加
+                if (ishead)
+                    positionVertex.unshift(newVertex);
+                else
+                    positionVertex.push(newVertex);
+            }
         }
 
         /**
