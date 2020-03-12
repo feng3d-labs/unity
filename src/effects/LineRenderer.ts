@@ -500,7 +500,7 @@ namespace feng3d
             // 计算结点所在线段位置
             rateAtLines = rateAtLines.map((v, i) =>
             {
-                // 计算UV
+                //
                 if (textureMode == LineTextureMode.Stretch || textureMode == LineTextureMode.Tile)
                 {
                     return v / totalLength;
@@ -515,9 +515,48 @@ namespace feng3d
                 return v;
             });
             // 计算切线
-            
+            var tangents: Vector3[] = [];
+            for (let i = 0; i < positionCount; i++)
+            {
+                // 计算切线
+                var prei = i - 1;
+                var nexti = i + 1;
+                var pretime = rateAtLines[prei];
+                var nexttime = rateAtLines[nexti];
+                if (i == 0)
+                {
+                    prei = 0;
+                    pretime = 0;
+                    if (loop)
+                    {
+                        prei = positionCount - 1;
+                    }
+                } else if (i == positionCount - 1)
+                {
+                    nexti = positionCount - 1;
+                    nexttime = 1;
+                    if (loop)
+                    {
+                        nexti = 0;
+                    }
+                }
+                tangents[i] = positions[nexti].subTo(positions[prei]).scaleNumber(1 / (nexttime - pretime));
+            }
+            if (loop && positionCount > 0)
+            {
+                tangents[positionCount] = tangents[0];
+            }
+            //
+            positions = positions.concat();
+            if (loop) positions.push(positions[0]);
 
+            //
+            var vertexs = positions.map((v, i) =>
+            {
+                return { position: positions[i], tangent: tangents[i], rateAtLine: rateAtLines[i], uv_U: uv_Us[i] };
+            });
 
+            return vertexs;
         }
 
         /**
