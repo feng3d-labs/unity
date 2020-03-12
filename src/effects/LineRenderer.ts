@@ -284,7 +284,7 @@ namespace feng3d
             var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
 
             // 计算网格
-            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
+            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.loop);
         }
 
         /**
@@ -296,8 +296,29 @@ namespace feng3d
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        static calcMesh(positionVectex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry)
+        static calcMesh(positionVectex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices = 0, loop = false)
         {
+            if (loop && numCapVertices > 0)
+            {
+                var step = Math.PI / (numCapVertices + 1);
+                // 处理头尾
+                var tangent = positionVectex[0].tangent;
+                var offset0 = positionVectex[0].vertexs[0];
+                var offset1 = positionVectex[0].vertexs[1];
+                var width = offset0.distance(offset1);
+                // 计算添加的点
+                var headAddPoints: Vector3[] = [];
+                for (var i = 0; i < numCapVertices; i++)
+                {
+                    var angle = step * (i + 1);
+                    headAddPoints[i] = offset0.addTo(offset1.subTo(offset0).scaleNumber(0.5 - Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
+                }
+
+                //
+                
+
+            }
+
             //
             var a_positions: number[] = [];
             var a_uvs: number[] = [];
@@ -439,7 +460,12 @@ namespace feng3d
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
                 //
-                positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
+                positionVectex[i] = {
+                    vertexs: [offset0, offset1],
+                    rateAtLine: rateAtLine,
+                    tangent: tangent,
+                    normal: normal,
+                };
             }
             return positionVectex;
         }
@@ -658,6 +684,8 @@ namespace feng3d
     type VertexInfo = {
         rateAtLine: number;
         vertexs: Vector3[];
+        tangent: Vector3;
+        normal: Vector3;
     }
 
 
