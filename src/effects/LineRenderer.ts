@@ -290,33 +290,43 @@ namespace feng3d
         /**
          * 计算网格
          * 
-         * @param positionVectex 顶点列表
+         * @param positionVertex 顶点列表
          * @param rateAtLines 顶点所在线条位置
          * @param textureMode 纹理模式
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        static calcMesh(positionVectex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices = 0, loop = false)
+        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices = 0, loop = false)
         {
-            if (loop && numCapVertices > 0)
+            if (!loop && numCapVertices > 0)
             {
+                var ishead = true;
                 var step = Math.PI / (numCapVertices + 1);
                 // 处理头尾
-                var tangent = positionVectex[0].tangent;
-                var offset0 = positionVectex[0].vertexs[0];
-                var offset1 = positionVectex[0].vertexs[1];
+                var vertex = positionVertex[0];
+                if (!ishead) vertex = positionVertex[positionVertex.length - 1];
+                var rateAtLine = vertex.rateAtLine;
+                var normal = vertex.normal;
+                var tangent = vertex.tangent;
+                if (ishead) tangent = tangent.negateTo();
+                var offset0 = vertex.vertexs[0];
+                var offset1 = vertex.vertexs[1];
+                var center = offset0.addTo(offset1).scaleNumber(0.5);
                 var width = offset0.distance(offset1);
-                // 计算添加的点
-                var headAddPoints: Vector3[] = [];
-                for (var i = 0; i < numCapVertices; i++)
+                for (var i = 0; i <= numCapVertices + 1; i++)
                 {
-                    var angle = step * (i + 1);
-                    headAddPoints[i] = offset0.addTo(offset1.subTo(offset0).scaleNumber(0.5 - Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
+                    var angle = step * i;
+                    var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
+                    // 添加
+                    positionVertex.unshift(
+                        {
+                            rateAtLine: rateAtLine,
+                            vertexs: [center, addPoint],
+                            tangent: tangent,
+                            normal: normal,
+                        });
                 }
-
                 //
-                
-
             }
 
             //
@@ -326,10 +336,10 @@ namespace feng3d
             var indices: number[] = [];
             //
             // 摄像机在该对象空间内的坐标
-            for (var i = 0, n = positionVectex.length; i < n; i++)
+            for (var i = 0, n = positionVertex.length; i < n; i++)
             {
                 //
-                var vertex = positionVectex[i];
+                var vertex = positionVertex[i];
                 //
                 var offset0 = vertex.vertexs[0];
                 var offset1 = vertex.vertexs[1];
@@ -360,8 +370,8 @@ namespace feng3d
                 // 计算索引
                 if (i > 0)
                 {
-                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
-                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
+                    indices.push((i - 1) * 2, i * 2, (i - 1) * 2 + 1);
+                    indices.push((i - 1) * 2 + 1, i * 2, i * 2 + 1);
                 }
             }
             mesh.positions = a_positions;

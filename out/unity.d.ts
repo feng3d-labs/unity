@@ -216,13 +216,13 @@ declare namespace feng3d {
         /**
          * 计算网格
          *
-         * @param positionVectex 顶点列表
+         * @param positionVertex 顶点列表
          * @param rateAtLines 顶点所在线条位置
          * @param textureMode 纹理模式
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        static calcMesh(positionVectex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry): void;
+        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, loop?: boolean): void;
         /**
          * 计算结点的三角形顶点列表
          *
@@ -301,6 +301,8 @@ declare namespace feng3d {
     type VertexInfo = {
         rateAtLine: number;
         vertexs: Vector3[];
+        tangent: Vector3;
+        normal: Vector3;
     };
     export {};
 }

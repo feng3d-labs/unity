@@ -359,18 +359,49 @@ var feng3d;
             // 计算结点的顶点
             var positionVectex = LineRenderer_1.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
             // 计算网格
-            LineRenderer_1.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
+            LineRenderer_1.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.loop);
         };
         /**
          * 计算网格
          *
-         * @param positionVectex 顶点列表
+         * @param positionVertex 顶点列表
          * @param rateAtLines 顶点所在线条位置
          * @param textureMode 纹理模式
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
          */
-        LineRenderer.calcMesh = function (positionVectex, textureMode, colorGradient, totalLength, mesh) {
+        LineRenderer.calcMesh = function (positionVertex, textureMode, colorGradient, totalLength, mesh, numCapVertices, loop) {
+            if (numCapVertices === void 0) { numCapVertices = 0; }
+            if (loop === void 0) { loop = false; }
+            if (!loop && numCapVertices > 0) {
+                var ishead = true;
+                var step = Math.PI / (numCapVertices + 1);
+                // 处理头尾
+                var vertex = positionVertex[0];
+                if (!ishead)
+                    vertex = positionVertex[positionVertex.length - 1];
+                var rateAtLine = vertex.rateAtLine;
+                var normal = vertex.normal;
+                var tangent = vertex.tangent;
+                if (ishead)
+                    tangent = tangent.negateTo();
+                var offset0 = vertex.vertexs[0];
+                var offset1 = vertex.vertexs[1];
+                var center = offset0.addTo(offset1).scaleNumber(0.5);
+                var width = offset0.distance(offset1);
+                for (var i = 0; i <= numCapVertices + 1; i++) {
+                    var angle = step * i;
+                    var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
+                    // 添加
+                    positionVertex.unshift({
+                        rateAtLine: rateAtLine,
+                        vertexs: [center, addPoint],
+                        tangent: tangent,
+                        normal: normal,
+                    });
+                }
+                //
+            }
             //
             var a_positions = [];
             var a_uvs = [];
@@ -378,9 +409,9 @@ var feng3d;
             var indices = [];
             //
             // 摄像机在该对象空间内的坐标
-            for (var i = 0, n = positionVectex.length; i < n; i++) {
+            for (var i = 0, n = positionVertex.length; i < n; i++) {
                 //
-                var vertex = positionVectex[i];
+                var vertex = positionVertex[i];
                 //
                 var offset0 = vertex.vertexs[0];
                 var offset1 = vertex.vertexs[1];
@@ -406,8 +437,8 @@ var feng3d;
                 }
                 // 计算索引
                 if (i > 0) {
-                    indices.push((i - 1) * 2, i * 2, i * 2 + 1);
-                    indices.push((i - 1) * 2, i * 2 + 1, (i - 1) * 2 + 1);
+                    indices.push((i - 1) * 2, i * 2, (i - 1) * 2 + 1);
+                    indices.push((i - 1) * 2 + 1, i * 2, i * 2 + 1);
                 }
             }
             mesh.positions = a_positions;
@@ -499,7 +530,12 @@ var feng3d;
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
                 //
-                positionVectex[i] = { vertexs: [offset0, offset1], rateAtLine: rateAtLine };
+                positionVectex[i] = {
+                    vertexs: [offset0, offset1],
+                    rateAtLine: rateAtLine,
+                    tangent: tangent,
+                    normal: normal,
+                };
             }
             return positionVectex;
         };
