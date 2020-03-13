@@ -352,7 +352,7 @@ var feng3d;
             var alignment = this.alignment;
             var colorGradient = this.colorGradient;
             // 计算摄像机本地坐标
-            var cameraPosition = this.transform.worldToLocalPoint(camera.transform.worldPosition);
+            var cameraPosition = this.transform.worldToLocalMatrix.transformVector(camera.transform.worldPosition);
             // 计算线条总长度
             var totalLength = LineRenderer_1.calcTotalLength(positions, loop);
             // 计算结点所在线段位置
@@ -607,13 +607,6 @@ var feng3d;
                 var tangent0 = currentPosition.subTo(prePosition).normalize();
                 var tangent1 = nextPosition.subTo(currentPosition).normalize();
                 tangent.copy(tangent0).add(tangent1).normalize();
-                // 处理切线为0的情况
-                if (tangent.lengthSquared == 0) {
-                    if (tangent0.lengthSquared != 0)
-                        tangent.copy(tangent0);
-                    else
-                        tangent.set(1, 0, 0);
-                }
                 // 法线，面朝向
                 var normal = new feng3d.Vector3(0, 0, -1);
                 if (alignment == feng3d.LineAlignment.View) {
