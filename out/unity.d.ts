@@ -91,7 +91,13 @@ declare namespace feng3d {
          * 将直线的起点和终点连接在一起，形成一个连续的回路。
          */
         loop: boolean;
+        /**
+         * 是否使用曲线。
+         */
         useCurve: boolean;
+        /**
+         * 曲线采样频率。
+         */
         curveSamples: number;
         /**
          * 顶点列表。
@@ -214,6 +220,41 @@ declare namespace feng3d {
          */
         BakeMesh(mesh: Geometry, camera: Camera, useTransform: boolean): void;
         /**
+         * Get the position of a vertex in the line.
+         *
+         * 获取直线在顶点的位置。
+         *
+         * @param index	The index of the position to retrieve.
+         */
+        GetPosition(index: number): Vector3;
+        /**
+         * Get the positions of all vertices in the line.
+         *
+         * 获取行中所有顶点的位置。
+         *
+         * @param positions	The array of positions to retrieve. The array passed should be of at least positionCount in size.
+         *
+         * @returns How many positions were actually stored in the output array.
+         */
+        GetPositions(positions?: Vector3[]): Vector3[];
+        /**
+         * Set the position of a vertex in the line.
+         *
+         * 设置顶点在直线中的位置。
+         *
+         * @param index	Which position to set.
+         * @param position	The new position.
+         */
+        setPosition(index: number, position: Vector3): void;
+        /**
+         * Set the positions of all vertices in the line.
+         *
+         * 设置线中所有顶点的位置。
+         *
+         * @param positions	The array of positions to set.
+         */
+        SetPositions(positions: Vector3[]): void;
+        /**
          * 计算网格
          *
          * @param positionVertex 顶点列表
@@ -275,41 +316,6 @@ declare namespace feng3d {
          * @param numSamples 采样次数
          */
         static calcPositionsToCurve(positions: Vector3[], loop: boolean, rateAtLines: number[], numSamples?: number): void;
-        /**
-         * Get the position of a vertex in the line.
-         *
-         * 获取直线在顶点的位置。
-         *
-         * @param index	The index of the position to retrieve.
-         */
-        GetPosition(index: number): Vector3;
-        /**
-         * Get the positions of all vertices in the line.
-         *
-         * 获取行中所有顶点的位置。
-         *
-         * @param positions	The array of positions to retrieve. The array passed should be of at least positionCount in size.
-         *
-         * @returns How many positions were actually stored in the output array.
-         */
-        GetPositions(positions?: Vector3[]): Vector3[];
-        /**
-         * Set the position of a vertex in the line.
-         *
-         * 设置顶点在直线中的位置。
-         *
-         * @param index	Which position to set.
-         * @param position	The new position.
-         */
-        setPosition(index: number, position: Vector3): void;
-        /**
-         * Set the positions of all vertices in the line.
-         *
-         * 设置线中所有顶点的位置。
-         *
-         * @param positions	The array of positions to set.
-         */
-        SetPositions(positions: Vector3[]): void;
     }
     /**
      * 顶点信息

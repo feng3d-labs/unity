@@ -22,10 +22,16 @@ namespace feng3d
         @serialize
         loop = false;
 
+        /**
+         * 是否使用曲线。
+         */
         @oav({ tooltip: "是否使用曲线。" })
         @serialize
         useCurve = false;
 
+        /**
+         * 曲线采样频率。
+         */
         @oav({ tooltip: "曲线采样频率。" })
         @serialize
         curveSamples = 10;
@@ -300,6 +306,69 @@ namespace feng3d
             // 计算网格
             LineRenderer.calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh);
         }
+
+        /**
+         * Get the position of a vertex in the line.
+         * 
+         * 获取直线在顶点的位置。
+         * 
+         * @param index	The index of the position to retrieve.
+         */
+        GetPosition(index: number)
+        {
+            return this.positions[index];
+        }
+
+        /**
+         * Get the positions of all vertices in the line.
+         * 
+         * 获取行中所有顶点的位置。
+         * 
+         * @param positions	The array of positions to retrieve. The array passed should be of at least positionCount in size.
+         * 
+         * @returns How many positions were actually stored in the output array.
+         */
+        GetPositions(positions: Vector3[] = [])
+        {
+            positions.length = this.positions.length;
+            for (let i = 0; i < this.positions.length; i++)
+            {
+                positions[i] = positions[i] || new Vector3();
+                positions[i].copy(this.positions[i]);
+            }
+            return positions;
+        }
+
+        /**
+         * Set the position of a vertex in the line.
+         * 
+         * 设置顶点在直线中的位置。
+         * 
+         * @param index	Which position to set.
+         * @param position	The new position.
+         */
+        setPosition(index: number, position: Vector3)
+        {
+            this.positions[index].copy(position);
+        }
+
+        /**
+         * Set the positions of all vertices in the line.
+         * 
+         * 设置线中所有顶点的位置。
+         * 
+         * @param positions	The array of positions to set.
+         */
+        SetPositions(positions: Vector3[])
+        {
+            this.positions.length = positions.length;
+            for (let i = 0; i < positions.length; i++)
+            {
+                this.positions[i] = this.positions[i] || new Vector3();
+                this.positions[i].copy(positions[i]);
+            }
+        }
+
 
         /**
          * 计算网格
@@ -738,68 +807,6 @@ namespace feng3d
             if (loop && length > 0)
             {
                 positions.pop();
-            }
-        }
-
-        /**
-         * Get the position of a vertex in the line.
-         * 
-         * 获取直线在顶点的位置。
-         * 
-         * @param index	The index of the position to retrieve.
-         */
-        GetPosition(index: number)
-        {
-            return this.positions[index];
-        }
-
-        /**
-         * Get the positions of all vertices in the line.
-         * 
-         * 获取行中所有顶点的位置。
-         * 
-         * @param positions	The array of positions to retrieve. The array passed should be of at least positionCount in size.
-         * 
-         * @returns How many positions were actually stored in the output array.
-         */
-        GetPositions(positions: Vector3[] = [])
-        {
-            positions.length = this.positions.length;
-            for (let i = 0; i < this.positions.length; i++)
-            {
-                positions[i] = positions[i] || new Vector3();
-                positions[i].copy(this.positions[i]);
-            }
-            return positions;
-        }
-
-        /**
-         * Set the position of a vertex in the line.
-         * 
-         * 设置顶点在直线中的位置。
-         * 
-         * @param index	Which position to set.
-         * @param position	The new position.
-         */
-        setPosition(index: number, position: Vector3)
-        {
-            this.positions[index].copy(position);
-        }
-
-        /**
-         * Set the positions of all vertices in the line.
-         * 
-         * 设置线中所有顶点的位置。
-         * 
-         * @param positions	The array of positions to set.
-         */
-        SetPositions(positions: Vector3[])
-        {
-            this.positions.length = positions.length;
-            for (let i = 0; i < positions.length; i++)
-            {
-                this.positions[i] = this.positions[i] || new Vector3();
-                this.positions[i].copy(positions[i]);
             }
         }
     }
