@@ -434,7 +434,7 @@ var feng3d;
             mesh.tangents = feng3d.geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
         };
         /**
-         * 计算线条帽子顶点
+         * 计算线条拐点接缝
          *
          * @param numCornerVertices 接缝顶点数量
          * @param positionVertex 结点信息列表
@@ -489,10 +489,25 @@ var feng3d;
                     rateAtLine: curVertex.rateAtLine
                 };
                 positionVertex0.push(startVertex);
-                positionVertex0.push(endVertex);
+                // 计算中间补充夹角
+                var outAngle = Math.acos(preTanget.dot(nexTanget));
+                var angleStep = outAngle / (numCornerVertices);
+                var startLineDir = startPosition.subTo(insidePosition).normalize();
+                for (var j = 1; j < numCornerVertices; j++) {
+                    var curAngle = angleStep * j;
+                    var curOutSidePosition = insidePosition.addTo(startLineDir.scaleNumberTo(Math.cos(curAngle) * width).add(preTanget.scaleNumberTo(Math.sin(curAngle) * width)));
+                    var addNewVertex = {
+                        position: insidePosition.addTo(curOutSidePosition).scaleNumber(0.5),
+                        vertexs: [insidePosition, curOutSidePosition],
+                        width: width,
+                        tangent: preTanget.lerpNumberTo(nexTanget, 1 - (j / numCornerVertices)),
+                        normal: curVertex.normal,
+                        rateAtLine: curVertex.rateAtLine
+                    };
+                    positionVertex0.push(addNewVertex);
+                }
                 //
-                curVertex.vertexs[0];
-                curPosition.subTo(prePosition);
+                positionVertex0.push(endVertex);
             }
             //
             positionVertex0.push(positionVertex[numNode - 1]);

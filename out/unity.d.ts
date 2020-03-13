@@ -227,7 +227,7 @@ declare namespace feng3d {
          */
         static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, numCornerVertices?: number, loop?: boolean): void;
         /**
-         * 计算线条帽子顶点
+         * 计算线条拐点接缝
          *
          * @param numCornerVertices 接缝顶点数量
          * @param positionVertex 结点信息列表
