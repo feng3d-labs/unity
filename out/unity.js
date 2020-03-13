@@ -340,6 +340,10 @@ var feng3d;
          */
         LineRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
             var positions = this.positions.concat();
+            // 移除重复点
+            positions = positions.filter(function (p, i) { if (i == 0)
+                return true; if (p.subTo(positions[i - 1]).lengthSquared < 0.0001)
+                return false; return true; });
             if (positions.length < 2)
                 return;
             var textureMode = this.textureMode;
