@@ -221,8 +221,25 @@ declare namespace feng3d {
          * @param textureMode 纹理模式
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
+         * @param numCornerVertices
+         * @param numCornerVertices
+         * @param loop
          */
-        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, loop?: boolean): void;
+        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, numCornerVertices?: number, loop?: boolean): void;
+        /**
+         * 计算线条帽子顶点
+         *
+         * @param numCornerVertices 接缝顶点数量
+         * @param positionVertex 结点信息列表
+         */
+        private static calcCornerVertices;
+        /**
+         * 计算线条帽子顶点
+         *
+         * @param numCapVertices 帽子顶点数量
+         * @param positionVertex 结点信息列表
+         * @param ishead 是否为线条头部
+         */
         private static calcCapVertices;
         /**
          * 计算结点的三角形顶点列表
@@ -300,6 +317,8 @@ declare namespace feng3d {
      * 顶点信息
      */
     type VertexInfo = {
+        width: number;
+        position: Vector3;
         rateAtLine: number;
         vertexs: Vector3[];
         tangent: Vector3;

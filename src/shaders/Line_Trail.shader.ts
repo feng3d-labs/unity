@@ -26,7 +26,7 @@ namespace feng3d
             sfactor: feng3d.BlendFactor.ONE,
             dfactor: feng3d.BlendFactor.ONE_MINUS_SRC_ALPHA,
             colorMask: feng3d.ColorMask.RGBA,
-            cullFace: feng3d.CullFace.BACK,
+            cullFace: feng3d.CullFace.NONE,
             depthMask: true,
         },
     }

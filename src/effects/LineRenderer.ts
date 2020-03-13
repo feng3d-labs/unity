@@ -284,7 +284,7 @@ namespace feng3d
             var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
 
             // 计算网格
-            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.loop);
+            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.numCornerVertices, this.loop);
         }
 
         /**
@@ -295,14 +295,23 @@ namespace feng3d
          * @param textureMode 纹理模式
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
+         * @param numCornerVertices
+         * @param numCornerVertices
+         * @param loop
          */
-        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices = 0, loop = false)
+        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices = 0, numCornerVertices = 0, loop = false)
         {
+            // 计算接缝
+            if (numCornerVertices > 0 && positionVertex.length > 2)
+            {
+                LineRenderer.calcCornerVertices(numCornerVertices, positionVertex);
+            }
+
+            // 计算两端帽子
             if (!loop && numCapVertices > 0)
             {
                 LineRenderer.calcCapVertices(numCapVertices, positionVertex, true);
                 LineRenderer.calcCapVertices(numCapVertices, positionVertex, false);
-                //
             }
 
             //
@@ -359,6 +368,81 @@ namespace feng3d
             mesh.tangents = geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
         }
 
+        /**
+         * 计算线条帽子顶点
+         * 
+         * @param numCornerVertices 接缝顶点数量
+         * @param positionVertex 结点信息列表
+         */
+        private static calcCornerVertices(numCornerVertices: number, positionVertex: VertexInfo[])
+        {
+            var numNode = positionVertex.length;
+            if (numNode < 3 || numCornerVertices == 0) return;
+
+            var positionVertex0 = positionVertex;
+            positionVertex = positionVertex.concat();
+            positionVertex0.length = 0;
+            positionVertex0.push(positionVertex[0]);
+
+            for (let i = 0; i < numNode - 2; i++)
+            {
+                var preVertex = positionVertex[i];
+                var curVertex = positionVertex[i + 1];
+                var nexVertex = positionVertex[i + 2];
+                //
+                var width = curVertex.width;
+                //
+                var prePosition = preVertex.position;
+                var curPosition = curVertex.position;
+                var nexPosition = nexVertex.position;
+                // 计算前后切线
+                var preTanget = curPosition.subTo(prePosition).normalize();
+                var nexTanget = nexPosition.subTo(curPosition).normalize();
+                // 计算内线方向
+                var insideDir = preTanget.negateTo().add(nexTanget).normalize();
+                // 半夹角cos
+                var halfcos = insideDir.dot(nexTanget);
+                // 半夹角sin
+                var halfsin = Math.sqrt(1 - halfcos * halfcos);
+                // 计算内线点离顶点距离
+                var insideDistance = 0.5 * width / halfsin;
+                // 计算内线点
+                var insidePosition = curPosition.addTo(insideDir.scaleNumberTo(insideDistance));
+                // 计算补充弧线的两端坐标
+                var startPosition = preTanget.scaleNumberTo(halfcos).add(insideDir).negate().normalize().scaleNumber(width).add(insidePosition);
+                var endPosition = nexTanget.scaleNumberTo(halfcos).sub(insideDir).normalize().scaleNumber(width).add(insidePosition);
+                // 计算起点
+                var startVertex = curVertex;
+                startVertex.vertexs[0] = insidePosition;
+                startVertex.vertexs[1] = startPosition;
+                startVertex.position = startVertex.vertexs[0].addTo(startVertex.vertexs[1]).scaleNumber(0.5);
+                startVertex.tangent = preTanget;
+                // 计算终点
+                var endVertex: VertexInfo = {
+                    position: insidePosition.addTo(endPosition).scaleNumber(0.5),
+                    vertexs: [insidePosition, endPosition],
+                    width: width,
+                    tangent: nexTanget,
+                    normal: curVertex.normal,
+                    rateAtLine: curVertex.rateAtLine
+                };
+                positionVertex0.push(startVertex);
+                positionVertex0.push(endVertex);
+                //
+                curVertex.vertexs[0];
+                curPosition.subTo(prePosition)
+            }
+            //
+            positionVertex0.push(positionVertex[numNode - 1]);
+        }
+
+        /**
+         * 计算线条帽子顶点
+         * 
+         * @param numCapVertices 帽子顶点数量
+         * @param positionVertex 结点信息列表
+         * @param ishead 是否为线条头部
+         */
         private static calcCapVertices(numCapVertices: number, positionVertex: VertexInfo[], ishead: boolean)
         {
             var step = Math.PI / (numCapVertices + 1);
@@ -379,6 +463,8 @@ namespace feng3d
                 var angle = step * i;
                 var addPoint = center.addTo(offset0.subTo(offset1).scaleNumber(0.5 * Math.cos(angle))).add(tangent.scaleNumberTo(Math.sin(angle) * width / 2));
                 var newVertex = {
+                    width: vertex.width / 2,
+                    position: addPoint.addTo(center).scaleNumber(0.5),
                     rateAtLine: rateAtLine,
                     vertexs: [addPoint, center],
                     tangent: tangent,
@@ -481,6 +567,8 @@ namespace feng3d
                 var offset1 = currentPosition.clone().sub(offset);
                 //
                 positionVectex[i] = {
+                    width: currentLineWidth,
+                    position: currentPosition.clone(),
                     vertexs: [offset0, offset1],
                     rateAtLine: rateAtLine,
                     tangent: tangent,
@@ -702,6 +790,8 @@ namespace feng3d
      * 顶点信息
      */
     type VertexInfo = {
+        width: number;
+        position: Vector3;
         rateAtLine: number;
         vertexs: Vector3[];
         tangent: Vector3;
