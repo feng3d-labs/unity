@@ -357,9 +357,16 @@ var feng3d;
                 LineRenderer_1.calcPositionsToCurve(positions, loop, rateAtLines, loop ? (this.curveSamples * this.positionCount) : (this.positionCount + (this.curveSamples - 1) * (this.positionCount - 1)));
             }
             // 计算结点的顶点
-            var positionVectex = LineRenderer_1.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            var positionVertex = LineRenderer_1.calcPositionVertex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            // 计算线条拐点接缝
+            LineRenderer_1.calcCornerVertices(this.numCornerVertices, positionVertex);
+            // 计算两端帽子
+            if (!loop) {
+                LineRenderer_1.calcCapVertices(this.numCapVertices, positionVertex, true);
+                LineRenderer_1.calcCapVertices(this.numCapVertices, positionVertex, false);
+            }
             // 计算网格
-            LineRenderer_1.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.numCornerVertices, this.loop);
+            LineRenderer_1.calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh);
         };
         /**
          * 计算网格
@@ -373,19 +380,7 @@ var feng3d;
          * @param numCornerVertices 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
          * @param loop 是否为换线
          */
-        LineRenderer.calcMesh = function (positionVertex, textureMode, colorGradient, totalLength, mesh, numCapVertices, numCornerVertices, loop) {
-            if (numCapVertices === void 0) { numCapVertices = 0; }
-            if (numCornerVertices === void 0) { numCornerVertices = 0; }
-            if (loop === void 0) { loop = false; }
-            // 计算接缝
-            if (numCornerVertices > 0 && positionVertex.length > 2) {
-                LineRenderer_1.calcCornerVertices(numCornerVertices, positionVertex);
-            }
-            // 计算两端帽子
-            if (!loop && numCapVertices > 0) {
-                LineRenderer_1.calcCapVertices(numCapVertices, positionVertex, true);
-                LineRenderer_1.calcCapVertices(numCapVertices, positionVertex, false);
-            }
+        LineRenderer.calcMesh = function (positionVertex, textureMode, colorGradient, totalLength, mesh) {
             //
             var a_positions = [];
             var a_uvs = [];
@@ -530,6 +525,8 @@ var feng3d;
          * @param ishead 是否为线条头部
          */
         LineRenderer.calcCapVertices = function (numCapVertices, positionVertex, ishead) {
+            if (numCapVertices < 1)
+                return;
             var step = Math.PI / (numCapVertices + 1);
             var vertex = positionVertex[0];
             if (!ishead)
@@ -571,11 +568,11 @@ var feng3d;
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        LineRenderer.calcPositionVectex = function (positions, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
+        LineRenderer.calcPositionVertex = function (positions, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
             // 
-            var positionVectex = [];
+            var positionVertex = [];
             if (positions.length == 0) {
-                return positionVectex;
+                return positionVertex;
             }
             // 处理两端循环情况
             if (loop) {
@@ -642,7 +639,7 @@ var feng3d;
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
                 //
-                positionVectex[i] = {
+                positionVertex[i] = {
                     width: currentLineWidth,
                     position: currentPosition.clone(),
                     vertexs: [offset0, offset1],
@@ -651,7 +648,7 @@ var feng3d;
                     normal: normal,
                 };
             }
-            return positionVectex;
+            return positionVertex;
         };
         /**
          * 计算线条总长度
@@ -1149,15 +1146,22 @@ var feng3d;
             // 计算结点所在线段位置
             var rateAtLines = feng3d.LineRenderer.calcRateAtLines(positions, loop, textureMode);
             // 计算结点的顶点
-            var positionVectex = feng3d.LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            var positionVertex = feng3d.LineRenderer.calcPositionVertex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            // 计算线条拐点接缝
+            feng3d.LineRenderer.calcCornerVertices(this.numCornerVertices, positionVertex);
+            // 计算两端帽子
+            if (!loop) {
+                feng3d.LineRenderer.calcCapVertices(this.numCapVertices, positionVertex, true);
+                feng3d.LineRenderer.calcCapVertices(this.numCapVertices, positionVertex, false);
+            }
             // 世界坐标转换为局部坐标
-            positionVectex.forEach(function (v) {
+            positionVertex.forEach(function (v) {
                 v.vertexs.forEach(function (ver) {
                     _this.transform.worldToLocalMatrix.transformVector(ver, ver);
                 });
             });
             // 计算网格
-            feng3d.LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.numCornerVertices);
+            feng3d.LineRenderer.calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh);
         };
         /**
          * Adds a position to the trail.

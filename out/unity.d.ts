@@ -225,14 +225,14 @@ declare namespace feng3d {
          * @param numCornerVertices 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
          * @param loop 是否为换线
          */
-        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, numCornerVertices?: number, loop?: boolean): void;
+        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry): void;
         /**
          * 计算线条拐点接缝
          *
          * @param numCornerVertices 接缝顶点数量
          * @param positionVertex 结点信息列表
          */
-        private static calcCornerVertices;
+        static calcCornerVertices(numCornerVertices: number, positionVertex: VertexInfo[]): void;
         /**
          * 计算线条帽子顶点
          *
@@ -240,7 +240,7 @@ declare namespace feng3d {
          * @param positionVertex 结点信息列表
          * @param ishead 是否为线条头部
          */
-        private static calcCapVertices;
+        static calcCapVertices(numCapVertices: number, positionVertex: VertexInfo[], ishead: boolean): void;
         /**
          * 计算结点的三角形顶点列表
          *
@@ -251,7 +251,7 @@ declare namespace feng3d {
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): VertexInfo[];
+        static calcPositionVertex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3): VertexInfo[];
         /**
          * 计算线条总长度
          *

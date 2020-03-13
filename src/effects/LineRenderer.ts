@@ -281,10 +281,20 @@ namespace feng3d
             }
 
             // 计算结点的顶点
-            var positionVectex = LineRenderer.calcPositionVectex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+            var positionVertex = LineRenderer.calcPositionVertex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition);
+
+            // 计算线条拐点接缝
+            LineRenderer.calcCornerVertices(this.numCornerVertices, positionVertex);
+
+            // 计算两端帽子
+            if (!loop)
+            {
+                LineRenderer.calcCapVertices(this.numCapVertices, positionVertex, true);
+                LineRenderer.calcCapVertices(this.numCapVertices, positionVertex, false);
+            }
 
             // 计算网格
-            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.numCornerVertices, this.loop);
+            LineRenderer.calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh);
         }
 
         /**
@@ -299,21 +309,8 @@ namespace feng3d
          * @param numCornerVertices 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
          * @param loop 是否为换线
          */
-        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices = 0, numCornerVertices = 0, loop = false)
+        static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry)
         {
-            // 计算接缝
-            if (numCornerVertices > 0 && positionVertex.length > 2)
-            {
-                LineRenderer.calcCornerVertices(numCornerVertices, positionVertex);
-            }
-
-            // 计算两端帽子
-            if (!loop && numCapVertices > 0)
-            {
-                LineRenderer.calcCapVertices(numCapVertices, positionVertex, true);
-                LineRenderer.calcCapVertices(numCapVertices, positionVertex, false);
-            }
-
             //
             var a_positions: number[] = [];
             var a_uvs: number[] = [];
@@ -374,7 +371,7 @@ namespace feng3d
          * @param numCornerVertices 接缝顶点数量
          * @param positionVertex 结点信息列表
          */
-        private static calcCornerVertices(numCornerVertices: number, positionVertex: VertexInfo[])
+        static calcCornerVertices(numCornerVertices: number, positionVertex: VertexInfo[])
         {
             var numNode = positionVertex.length;
             if (numNode < 3 || numCornerVertices == 0) return;
@@ -472,8 +469,10 @@ namespace feng3d
          * @param positionVertex 结点信息列表
          * @param ishead 是否为线条头部
          */
-        private static calcCapVertices(numCapVertices: number, positionVertex: VertexInfo[], ishead: boolean)
+        static calcCapVertices(numCapVertices: number, positionVertex: VertexInfo[], ishead: boolean)
         {
+            if (numCapVertices < 1) return;
+
             var step = Math.PI / (numCapVertices + 1);
             var vertex = positionVertex[0];
             if (!ishead)
@@ -518,13 +517,13 @@ namespace feng3d
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        static calcPositionVectex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
+        static calcPositionVertex(positions: Vector3[], loop: boolean, rateAtLines: number[], lineWidth: MinMaxCurve, alignment: LineAlignment, cameraPosition: Vector3)
         {
             // 
-            var positionVectex: VertexInfo[] = [];
+            var positionVertex: VertexInfo[] = [];
             if (positions.length == 0)
             {
-                return positionVectex;
+                return positionVertex;
             }
 
             // 处理两端循环情况
@@ -595,7 +594,7 @@ namespace feng3d
                 var offset0 = currentPosition.clone().add(offset);
                 var offset1 = currentPosition.clone().sub(offset);
                 //
-                positionVectex[i] = {
+                positionVertex[i] = {
                     width: currentLineWidth,
                     position: currentPosition.clone(),
                     vertexs: [offset0, offset1],
@@ -604,7 +603,7 @@ namespace feng3d
                     normal: normal,
                 };
             }
-            return positionVectex;
+            return positionVertex;
         }
 
         /**
