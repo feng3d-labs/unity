@@ -473,10 +473,14 @@ var feng3d;
                 // 计算补充弧线的两端坐标
                 var startPosition = preTanget.scaleNumberTo(halfcos).add(insideDir).negate().normalize().scaleNumber(width).add(insidePosition);
                 var endPosition = nexTanget.scaleNumberTo(halfcos).sub(insideDir).normalize().scaleNumber(width).add(insidePosition);
+                // 计算内线点是否为第一个点
+                var insideIsFirst = insidePosition.subTo(startPosition).cross(preTanget).dot(curVertex.normal) > 0;
                 // 计算起点
                 var startVertex = curVertex;
-                startVertex.vertexs[0] = insidePosition;
-                startVertex.vertexs[1] = startPosition;
+                startVertex.vertexs = [insidePosition, startPosition];
+                if (!insideIsFirst) {
+                    startVertex.vertexs = [startPosition, insidePosition];
+                }
                 startVertex.position = startVertex.vertexs[0].addTo(startVertex.vertexs[1]).scaleNumber(0.5);
                 startVertex.tangent = preTanget;
                 // 计算终点
@@ -488,6 +492,9 @@ var feng3d;
                     normal: curVertex.normal,
                     rateAtLine: curVertex.rateAtLine
                 };
+                if (!insideIsFirst) {
+                    endVertex.vertexs = [endPosition, insidePosition];
+                }
                 positionVertex0.push(startVertex);
                 // 计算中间补充夹角
                 var outAngle = Math.acos(preTanget.dot(nexTanget));
@@ -504,6 +511,9 @@ var feng3d;
                         normal: curVertex.normal,
                         rateAtLine: curVertex.rateAtLine
                     };
+                    if (!insideIsFirst) {
+                        addNewVertex.vertexs = [curOutSidePosition, insidePosition];
+                    }
                     positionVertex0.push(addNewVertex);
                 }
                 //
