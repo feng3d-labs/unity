@@ -221,9 +221,9 @@ declare namespace feng3d {
          * @param textureMode 纹理模式
          * @param totalLength 线条总长度
          * @param mesh 保存网格数据的对象
-         * @param numCornerVertices
-         * @param numCornerVertices
-         * @param loop
+         * @param numCornerVertices 将此值设置为大于0的值，以在行的两端获得圆角。
+         * @param numCornerVertices 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
+         * @param loop 是否为换线
          */
         static calcMesh(positionVertex: VertexInfo[], textureMode: LineTextureMode, colorGradient: Gradient, totalLength: number, mesh: Geometry, numCapVertices?: number, numCornerVertices?: number, loop?: boolean): void;
         /**
@@ -266,6 +266,14 @@ declare namespace feng3d {
          * @param loop 是否循环
          */
         static calcRateAtLines(positions: Vector3[], loop: boolean, textureMode: LineTextureMode): number[];
+        /**
+         * 拟合线段为曲线
+         *
+         * @param positions 点列表
+         * @param loop 是否为环线
+         * @param rateAtLines 点在线条中的位置
+         * @param numSamples 采样次数
+         */
         static calcPositionsToCurve(positions: Vector3[], loop: boolean, rateAtLines: number[], numSamples?: number): void;
         /**
          * Get the position of a vertex in the line.
@@ -302,16 +310,6 @@ declare namespace feng3d {
          * @param positions	The array of positions to set.
          */
         SetPositions(positions: Vector3[]): void;
-        /**
-         * Generates a simplified version of the original line by removing points that fall within the specified tolerance.
-         *
-         * 通过删除落在指定公差范围内的点，生成原始线的简化版本。
-         *
-         * @param tolerance	This value is used to evaluate which points should be removed from the line. A higher value results in a simpler line (less points). A positive value close to zero results in a line with little to no reduction. A value of zero or less has no effect.
-         *
-         * @todo
-         */
-        Simplify(tolerance: number): void;
     }
     /**
      * 顶点信息

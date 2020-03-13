@@ -321,7 +321,7 @@ namespace feng3d
             });
 
             // 计算网格
-            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh);
+            LineRenderer.calcMesh(positionVectex, textureMode, colorGradient, totalLength, mesh, this.numCapVertices, this.numCornerVertices);
         }
 
         /**
