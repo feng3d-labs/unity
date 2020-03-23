@@ -1,6 +1,9 @@
 namespace feng3d
 {
     export var TransparentParticlesStandard_fragment = `
+#define EXTENDED_PARTICLES
+#define NOISE_TEXTURE_EMISSION
+    
 precision mediump float;
 
 uniform sampler2D _MainTex;
@@ -40,8 +43,6 @@ uniform vec4 u_color;
         uniform float _EmissivePower;
     #endif
 #endif
-
-uniform vec2 _Panning;
 
 #ifdef BLENDMODE_ADDITIVEALPHABLEND
     uniform float _ABOffset;
@@ -121,7 +122,7 @@ void main()
                 #ifdef COLOR_TINT
                     col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation;
                 #else
-                    col.xyz = lerp(_BasicColor.xyz * vcolor.xyz, _SaturatedColor, lerpValue) * _EmissionSaturation;
+                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * _EmissionSaturation;
                 #endif
             #endif
             col.a *= _GlobalAlpha;
@@ -132,7 +133,7 @@ void main()
                 #ifdef COLOR_TINT
                     col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation * col.a;
                 #else
-                    col.xyz = lerp(_BasicColor.xyz * vcolor.xyz, _SaturatedColor, lerpValue) * col.a * _EmissionSaturation;
+                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * col.a * _EmissionSaturation;
                 #endif
             #endif
             col *= _GlobalAlpha;
@@ -159,7 +160,7 @@ void main()
                 #ifdef BLENDMODE_ALPHABLEND
                     col *= 2.0;
                 #else
-                    #elifdef BLENDMODE_ADDITIVEDOUBLE
+                    #ifdef BLENDMODE_ADDITIVEDOUBLE
                         col *= 4.0;
                     #endif
                 #endif

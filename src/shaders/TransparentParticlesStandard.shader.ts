@@ -8,116 +8,124 @@ namespace feng3d
     {
         __class__: "feng3d.TransparentParticlesStandardUniforms";
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
+        _Time = new Vector2(0, 0);
+
+        @serialize
+        @oav()
         _BasicColor = new Color4(0.5, 0.5, 0.5, 0.5);
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _SaturatedColor = new Color4(0.5, 0.5, 0.5, 0.5);
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _MainTex = feng3d.Texture2D.white;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
+        _MainTex_ST = new Vector4(1, 1, 0, 0);
+
+        @serialize
+        @oav()
         _ColorRamp = feng3d.Texture2D.white;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _NoiseTex = feng3d.Texture2D.white;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _EmissionSaturation = 1.0;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _OpacitySaturation = 1.0;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _ColorMultiplier = 1.0;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _ABOffset = 0.0;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         COLOR_RAMP = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         COLOR_TINT = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         APPLY_RGB_COLOR_VERTEX = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         DISSOLVE_ENABLED = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _DissolveStep = new Vector4(0.0, 1.0, 0.0, 0.0);
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         AUTOMATICPANNING = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _Panning = new Vector4(0.0, 0.0, 0.0, 0.0);
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _TintColor = new Color4(0.5, 0.5, 0.5, 0.5);
-        
-        @feng3d.serialize
-        @feng3d.oav()
+
+        @serialize
+        @oav()
         _GlobalAlpha = 1.0;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         EMISSIVEPOWER = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         _EmissivePower = 1;
-        
-        @feng3d.serialize
-        @feng3d.oav()
+
+        @serialize
+        @oav()
         EXTENDED_PARTICLES = false;
-        
-        @feng3d.serialize
-        @feng3d.oav()
+
+        @serialize
+        @oav()
         NOISE_TEXTURE = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
-        _NoisePanning = new Color4(0.5, 0.5, 0.5, 0.5);
+        @serialize
+        @oav()
+        _NoisePanning = new Vector4(0.5, 0.5, 0.5, 0.5);
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         NOISE_TEXTURE_EMISSION = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         NOISE_TEXTURE_ALPHA = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         NOISE_TEXTURE_DISSOLVE = false;
 
-        @feng3d.serialize
-        @feng3d.oav()
+        @serialize
+        @oav()
         NOISEUV = false;
-        
-        @feng3d.serialize
-        @feng3d.oav()
+
+        @serialize
+        @oav()
         FLOWMAP = false;
     }
 

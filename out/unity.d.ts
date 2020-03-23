@@ -550,9 +550,11 @@ declare namespace feng3d {
      */
     class TransparentParticlesStandardUniforms {
         __class__: "feng3d.TransparentParticlesStandardUniforms";
+        _Time: Vector2;
         _BasicColor: Color4;
         _SaturatedColor: Color4;
         _MainTex: Texture2D;
+        _MainTex_ST: Vector4;
         _ColorRamp: Texture2D;
         _NoiseTex: Texture2D;
         _EmissionSaturation: number;
@@ -572,7 +574,7 @@ declare namespace feng3d {
         _EmissivePower: number;
         EXTENDED_PARTICLES: boolean;
         NOISE_TEXTURE: boolean;
-        _NoisePanning: Color4;
+        _NoisePanning: Vector4;
         NOISE_TEXTURE_EMISSION: boolean;
         NOISE_TEXTURE_ALPHA: boolean;
         NOISE_TEXTURE_DISSOLVE: boolean;

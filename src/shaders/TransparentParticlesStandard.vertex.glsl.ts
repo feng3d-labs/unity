@@ -2,6 +2,9 @@ namespace feng3d
 {
     export var TransparentParticlesStandard_vertex = `
 
+#define EXTENDED_PARTICLES
+#define NOISE_TEXTURE_EMISSION
+
 attribute vec3 a_position;
 attribute vec2 a_uv;
 attribute vec4 a_color;
@@ -35,18 +38,22 @@ void main()
     vec3 position = a_position;
     gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);
     v_uv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_Panning.xy * _Time.yy);
-    v_color = a_color;
-
-    #ifdef NOISE_TEXTURE
-        #if NOISEUV
-            v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);
-        #else
-            v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);
-        #endif
-    #endif
+    // v_color = a_color;
+    v_color = vec4(1.0,1.0,1.0,1.0);
 
     #ifdef EXTENDED_PARTICLES
-	    v_particledata = a_uv.zw;
+        #ifdef NOISE_TEXTURE
+            #if NOISEUV
+                v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);
+            #else
+                v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);
+            #endif
+        #endif
+
+        #ifdef EXTENDED_PARTICLES
+            // v_particledata = a_uv.zw;
+            v_particledata = a_uv;
+        #endif
     #endif
 }
     `;
