@@ -10,10 +10,6 @@ namespace feng3d
 
         @serialize
         @oav()
-        _Time = new Vector2(0, 0);
-
-        @serialize
-        @oav()
         _BasicColor = new Color4(0.5, 0.5, 0.5, 0.5);
 
         @serialize

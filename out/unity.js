@@ -1325,7 +1325,6 @@ var feng3d;
      */
     var TransparentParticlesStandardUniforms = /** @class */ (function () {
         function TransparentParticlesStandardUniforms() {
-            this._Time = new feng3d.Vector2(0, 0);
             this._BasicColor = new feng3d.Color4(0.5, 0.5, 0.5, 0.5);
             this._SaturatedColor = new feng3d.Color4(0.5, 0.5, 0.5, 0.5);
             this._MainTex = feng3d.Texture2D.white;
@@ -1356,10 +1355,6 @@ var feng3d;
             this.NOISEUV = false;
             this.FLOWMAP = false;
         }
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_Time", void 0);
         __decorate([
             feng3d.serialize,
             feng3d.oav()
