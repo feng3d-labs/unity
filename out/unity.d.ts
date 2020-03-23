@@ -538,4 +538,54 @@ declare namespace feng3d {
         "TrailRenderer": GameObject;
     }
 }
+declare namespace feng3d {
+    var TransparentParticlesStandard_vertex: string;
+}
+declare namespace feng3d {
+    var TransparentParticlesStandard_fragment: string;
+}
+declare namespace feng3d {
+    /**
+     * 线条拖尾
+     */
+    class TransparentParticlesStandardUniforms {
+        __class__: "feng3d.TransparentParticlesStandardUniforms";
+        _BasicColor: Color4;
+        _SaturatedColor: Color4;
+        _MainTex: Texture2D;
+        _ColorRamp: Texture2D;
+        _NoiseTex: Texture2D;
+        _EmissionSaturation: number;
+        _OpacitySaturation: number;
+        _ColorMultiplier: number;
+        _ABOffset: number;
+        COLOR_RAMP: boolean;
+        COLOR_TINT: boolean;
+        APPLY_RGB_COLOR_VERTEX: boolean;
+        DISSOLVE_ENABLED: boolean;
+        _DissolveStep: Vector4;
+        AUTOMATICPANNING: boolean;
+        _Panning: Vector4;
+        _TintColor: Color4;
+        _GlobalAlpha: number;
+        EMISSIVEPOWER: boolean;
+        _EmissivePower: number;
+        EXTENDED_PARTICLES: boolean;
+        NOISE_TEXTURE: boolean;
+        _NoisePanning: Color4;
+        NOISE_TEXTURE_EMISSION: boolean;
+        NOISE_TEXTURE_ALPHA: boolean;
+        NOISE_TEXTURE_DISSOLVE: boolean;
+        NOISEUV: boolean;
+        FLOWMAP: boolean;
+    }
+}
+declare namespace feng3d {
+    interface UniformsTypes {
+        "TransparentParticlesStandard": TransparentParticlesStandardUniforms;
+    }
+    interface DefaultMaterial {
+        "TransparentParticlesStandard-Material": Material;
+    }
+}
 //# sourceMappingURL=unity.d.ts.map

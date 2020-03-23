@@ -28,5 +28,8 @@
         "src/effects/enums/LineTextureMode.ts",
         "src/effects/LineRenderer.ts",
         "src/effects/TrailRenderer.ts",
+        "src/shaders/TransparentParticlesStandard.vertex.glsl.ts",
+		"src/shaders/TransparentParticlesStandard.fragment.glsl.ts",
+		"src/shaders/TransparentParticlesStandard.shader.ts",
     ]
 }
