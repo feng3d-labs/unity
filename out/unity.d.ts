@@ -556,29 +556,17 @@ declare namespace feng3d {
         _MainTex_ST: Vector4;
         _ColorRamp: Texture2D;
         _NoiseTex: Texture2D;
+        _NoiseTex_ST: Vector4;
         _EmissionSaturation: number;
         _OpacitySaturation: number;
         _ColorMultiplier: number;
         _ABOffset: number;
-        COLOR_RAMP: boolean;
-        COLOR_TINT: boolean;
-        APPLY_RGB_COLOR_VERTEX: boolean;
-        DISSOLVE_ENABLED: boolean;
         _DissolveStep: Vector4;
-        AUTOMATICPANNING: boolean;
         _Panning: Vector4;
         _TintColor: Color4;
         _GlobalAlpha: number;
-        EMISSIVEPOWER: boolean;
         _EmissivePower: number;
-        EXTENDED_PARTICLES: boolean;
-        NOISE_TEXTURE: boolean;
         _NoisePanning: Vector4;
-        NOISE_TEXTURE_EMISSION: boolean;
-        NOISE_TEXTURE_ALPHA: boolean;
-        NOISE_TEXTURE_DISSOLVE: boolean;
-        NOISEUV: boolean;
-        FLOWMAP: boolean;
     }
 }
 declare namespace feng3d {
@@ -587,6 +575,24 @@ declare namespace feng3d {
     }
     interface DefaultMaterial {
         "TransparentParticlesStandard-Material": Material;
+    }
+}
+declare namespace feng3d {
+    class TransparentParticlesStandard extends Component {
+        COLOR_RAMP: boolean;
+        COLOR_TINT: boolean;
+        APPLY_RGB_COLOR_VERTEX: boolean;
+        DISSOLVE_ENABLED: boolean;
+        AUTOMATICPANNING: boolean;
+        EMISSIVEPOWER: boolean;
+        EXTENDED_PARTICLES: boolean;
+        NOISE_TEXTURE: boolean;
+        NOISE_TEXTURE_EMISSION: boolean;
+        NOISE_TEXTURE_ALPHA: boolean;
+        NOISE_TEXTURE_DISSOLVE: boolean;
+        NOISEUV: boolean;
+        FLOWMAP: boolean;
+        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
     }
 }
 //# sourceMappingURL=unity.d.ts.map

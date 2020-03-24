@@ -1,10 +1,6 @@
 namespace feng3d
 {
     export var TransparentParticlesStandard_fragment = `
-#define EXTENDED_PARTICLES
-#define NOISE_TEXTURE_EMISSION
-#define NOISE_TEXTURE
-    
 precision mediump float;
 
 uniform sampler2D _MainTex;

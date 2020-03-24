@@ -2,10 +2,6 @@ namespace feng3d
 {
     export var TransparentParticlesStandard_vertex = `
 
-#define EXTENDED_PARTICLES
-#define NOISE_TEXTURE_EMISSION
-#define NOISE_TEXTURE
-
 precision mediump float;
 
 attribute vec3 a_position;

@@ -11,7 +11,8 @@
       "../src/effects/TrailRenderer.ts",
       "../src/shaders/TransparentParticlesStandard.vertex.glsl.ts",
       "../src/shaders/TransparentParticlesStandard.fragment.glsl.ts",
-      "../src/shaders/TransparentParticlesStandard.shader.ts"
+      "../src/shaders/TransparentParticlesStandard.shader.ts",
+      "../src/effects/TransparentParticlesStandard.ts"
     ],
     "js": {
       "sections": [
@@ -29,7 +30,7 @@
         },
         {
           "pos": 1177,
-          "end": 71341,
+          "end": 73167,
           "kind": "text"
         }
       ],
@@ -44,7 +45,7 @@
       "sections": [
         {
           "pos": 0,
-          "end": 19278,
+          "end": 19503,
           "kind": "text"
         }
       ]
