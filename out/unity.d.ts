@@ -567,18 +567,6 @@ declare namespace feng3d {
         _GlobalAlpha: number;
         _EmissivePower: number;
         _NoisePanning: Vector4;
-    }
-}
-declare namespace feng3d {
-    interface UniformsTypes {
-        "TransparentParticlesStandard": TransparentParticlesStandardUniforms;
-    }
-    interface DefaultMaterial {
-        "TransparentParticlesStandard-Material": Material;
-    }
-}
-declare namespace feng3d {
-    class TransparentParticlesStandard extends Component {
         COLOR_RAMP: boolean;
         COLOR_TINT: boolean;
         APPLY_RGB_COLOR_VERTEX: boolean;
@@ -592,6 +580,22 @@ declare namespace feng3d {
         NOISE_TEXTURE_DISSOLVE: boolean;
         NOISEUV: boolean;
         FLOWMAP: boolean;
+        BLENDMODE_ADDITIVEALPHABLEND: boolean;
+        BLENDMODE_ALPHABLEND: boolean;
+        BLENDMODE_ADDITIVEDOUBLE: boolean;
+        BLENDMODE_SOFTADDITIVE: boolean;
+    }
+}
+declare namespace feng3d {
+    interface UniformsTypes {
+        "TransparentParticlesStandard": TransparentParticlesStandardUniforms;
+    }
+    interface DefaultMaterial {
+        "TransparentParticlesStandard-Material": Material;
+    }
+}
+declare namespace feng3d {
+    class TransparentParticlesStandard extends Component {
         beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
     }
 }

@@ -76,6 +76,73 @@ namespace feng3d
         @oav()
         _NoisePanning = new Vector4(0.5, 0.5, 0.5, 0.5);
 
+        @serialize
+        @oav()
+        COLOR_RAMP = false;
+
+        @serialize
+        @oav()
+        COLOR_TINT = false;
+
+        @serialize
+        @oav()
+        APPLY_RGB_COLOR_VERTEX = false;
+
+        @serialize
+        @oav()
+        DISSOLVE_ENABLED = false;
+
+        @serialize
+        @oav()
+        AUTOMATICPANNING = false;
+
+        @serialize
+        @oav()
+        EMISSIVEPOWER = false;
+
+        @serialize
+        @oav()
+        EXTENDED_PARTICLES = false;
+
+        @serialize
+        @oav()
+        NOISE_TEXTURE = false;
+
+        @serialize
+        @oav()
+        NOISE_TEXTURE_EMISSION = false;
+
+        @serialize
+        @oav()
+        NOISE_TEXTURE_ALPHA = false;
+
+        @serialize
+        @oav()
+        NOISE_TEXTURE_DISSOLVE = false;
+
+        @serialize
+        @oav()
+        NOISEUV = false;
+
+        @serialize
+        @oav()
+        FLOWMAP = false;
+
+        @serialize
+        @oav()
+        BLENDMODE_ADDITIVEALPHABLEND  = false;
+
+        @serialize
+        @oav()
+        BLENDMODE_ALPHABLEND  = false;
+        
+        @serialize
+        @oav()
+        BLENDMODE_ADDITIVEDOUBLE  = false;
+
+        @serialize
+        @oav()
+        BLENDMODE_SOFTADDITIVE  = false;
     }
 
     feng3d.shaderConfig.shaders["TransparentParticlesStandard"] =

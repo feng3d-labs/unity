@@ -1312,11 +1312,11 @@ var feng3d;
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    feng3d.TransparentParticlesStandard_vertex = "\n\nprecision mediump float;\n\nattribute vec3 a_position;\nattribute vec2 a_uv;\nattribute vec4 a_color;\n\nuniform vec4 _MainTex_ST;\n\nuniform vec2 _Panning;\nuniform vec2 _Time;\n\n#ifdef NOISE_TEXTURE\n    uniform vec4 _NoiseTex_ST;\n    uniform vec4 _NoisePanning;\n#endif\n\nuniform mat4 u_modelMatrix;\nuniform mat4 u_viewProjection;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\n#ifdef EXTENDED_PARTICLES\n    varying vec2 v_particledata;\n#endif\n\n#ifdef NOISE_TEXTURE\n    varying vec2 v_noiseuv;\n#endif\n\nvoid main() \n{\n    vec3 position = a_position;\n    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);\n    v_uv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_Panning.xy * _Time.yy);\n    // v_color = a_color;\n    v_color = vec4(1.0,1.0,1.0,1.0);\n\n    #ifdef EXTENDED_PARTICLES\n        #ifdef NOISE_TEXTURE\n            #ifdef NOISEUV\n                v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);\n            #else\n                v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);\n            #endif\n        #endif\n\n        #ifdef EXTENDED_PARTICLES\n            // v_particledata = a_uv.zw;\n            v_particledata = a_uv;\n        #endif\n    #endif\n}\n    ";
+    feng3d.TransparentParticlesStandard_vertex = "\n\nprecision mediump float;\n\nattribute vec3 a_position;\nattribute vec2 a_uv;\nattribute vec4 a_color;\n\nuniform vec4 _MainTex_ST;\n\nuniform vec2 _Panning;\nuniform vec2 _Time;\n\nuniform vec4 _NoiseTex_ST;\nuniform vec4 _NoisePanning;\n\nuniform mat4 u_modelMatrix;\nuniform mat4 u_viewProjection;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nuniform float EXTENDED_PARTICLES;\nvarying vec2 v_particledata;\n\nuniform float NOISE_TEXTURE;\nuniform float NOISEUV;\nvarying vec2 v_noiseuv;\n\nvoid main() \n{\n    vec3 position = a_position;\n    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);\n    v_uv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_Panning.xy * _Time.yy);\n    // v_color = a_color;\n    v_color = vec4(1.0,1.0,1.0,1.0);\n\n    if(EXTENDED_PARTICLES > 0.5)\n    {\n        if( NOISE_TEXTURE > 0.5)\n        {\n            if( NOISEUV > 0.5)\n            {\n                v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);\n            }\n            else\n            {\n                v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);\n            }\n        }\n    }\n    else\n    {\n        // v_particledata = a_uv.zw;\n        v_particledata = a_uv;\n    }\n}\n    ";
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    feng3d.TransparentParticlesStandard_fragment = "\nprecision mediump float;\n\nuniform sampler2D _MainTex;\n\nuniform vec4 u_color;\n\n#ifdef EXTENDED_PARTICLES\n    uniform float _EmissionSaturation;\n    uniform float _OpacitySaturation;\n    uniform float _ColorMultiplier;\n\n    #ifdef COLOR_RAMP\n        uniform sampler2D _ColorRamp;\n        uniform vec4 _ColorRamp_ST;\n    #else\n        #if defined(COLOR_TINT)\n            uniform vec4 _BasicColor;\n        #else\n            uniform vec4 _BasicColor;\n            uniform vec4 _SaturatedColor;\n        #endif\n    #endif\n\n    #ifdef DISSOLVE_ENABLED\n        uniform vec4 _DissolveStep;\n    #endif\n\n    #ifdef NOISE_TEXTURE\n        uniform sampler2D _NoiseTex;\n    #endif\n#else\n    uniform vec4 _TintColor;\n\n    #ifdef EMISSIVEPOWER\n        uniform float _EmissivePower;\n    #endif\n#endif\n\n#ifdef BLENDMODE_ADDITIVEALPHABLEND\n    uniform float _ABOffset;\n#endif\n\nuniform float _GlobalAlpha;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\n#ifdef EXTENDED_PARTICLES\n    varying vec2 v_particledata;\n#endif\n\n#ifdef NOISE_TEXTURE\n    varying vec2 v_noiseuv;\n#endif\n\nvoid main() \n{\n    vec4 tex = texture2D(_MainTex, v_uv);\n\n    vec4 col = vec4(1.0, 1.0, 1.0, 1.0);\n\n\n    #ifdef EXTENDED_PARTICLES\n\n        #ifdef APPLY_RGB_COLOR_VERTEX\n            vec4 vcolor = v_color;\n        #else\n            vec4 vcolor = vec4(1.0, 1.0, 1.0, v_color.w);\n        #endif\n    \n        #ifdef NOISE_TEXTURE\n        \n            vec3 noise = texture2D(_NoiseTex, v_noiseuv).xyz;\n        \n            #ifdef NOISE_TEXTURE_EMISSION\n                float nEmission = noise.x;\n            #else\n                float nEmission = 1.0;\n            #endif\n            \n            #ifdef NOISE_TEXTURE_ALPHA\n                float nAlpha = noise.y;\n            #else\n                float nAlpha = 1.0;\n            #endif\n            \n            #ifdef NOISE_TEXTURE_DISSOLVE\n                float nDissolve = noise.z;\n            #else\n                float nDissolve = 1.0;\n            #endif\n        \n        #else\n            float nEmission = 1.0;\n            float nAlpha = 1.0;\n            float nDissolve = 1.0;\n        #endif\n    \n        #ifdef DISSOLVE_ENABLED\n            float ramp = -1.0 + (v_particledata.x * 2.0);\n            col.a = clamp(tex.g * smoothstep(_DissolveStep.x, _DissolveStep.y, (tex.b + ramp) * nDissolve) * _OpacitySaturation * vcolor.w * nAlpha, 0.0, 1.0);\n        #else\n            col.a = clamp(tex.g * _OpacitySaturation * vcolor.w, 0.0, 1.0) * nAlpha;\n        #endif\n    \n        #if !defined(COLOR_TINT)\n            float lerpValue = clamp(tex.r * v_particledata.y * _ColorMultiplier * nEmission, 0.0, 1.0);\n        #endif\n    \n        #ifdef BLENDMODE_ALPHABLEND\n            #ifdef COLOR_RAMP\n                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * _EmissionSaturation;\n            #else\n                #ifdef COLOR_TINT\n                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation;\n                #else\n                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * _EmissionSaturation;\n                #endif\n            #endif\n            col.a *= _GlobalAlpha;\n        #else\n            #ifdef COLOR_RAMP\n                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * col.a * _EmissionSaturation;\n            #else\n                #ifdef COLOR_TINT\n                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation * col.a;\n                #else\n                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * col.a * _EmissionSaturation;\n                #endif\n            #endif\n            col *= _GlobalAlpha;\n        #endif\n    \n    #else\n    \n        #ifdef BLENDMODE_ADDITIVEALPHABLEND\n            tex *= _TintColor;\n            float luminance = clamp(dot(tex, vec4(0.2126, 0.7152, 0.0722, 0.0)) * tex.a * _ABOffset, 0.0, 1.0);\n            fixed4 one = fixed4(1, 1, 1, 1);\n            col = lerp(2.0 * (v_color * tex), one - 2.0 * (one - v_color) * (one - tex), luminance);\n        #else\n            col = v_color * tex;\n            col *= _TintColor;\n        \n            #ifdef EMISSIVEPOWER\n                col *= _EmissivePower;\n            #endif\n            \n            #ifdef BLENDMODE_SOFTADDITIVE\n                col.rgb *= col.a;\n            #else\n                #ifdef BLENDMODE_ALPHABLEND\n                    col *= 2.0;\n                #else\n                    #ifdef BLENDMODE_ADDITIVEDOUBLE\n                        col *= 4.0;\n                    #endif\n                #endif\n            #endif\n        \n        #endif\n    \n        col *= _GlobalAlpha;\n\n    #endif\n\n    gl_FragColor = col;\n}\n    ";
+    feng3d.TransparentParticlesStandard_fragment = "\nprecision mediump float;\n\nuniform sampler2D _MainTex;\n\nuniform vec4 u_color;\n\nuniform float EXTENDED_PARTICLES;\nuniform float _EmissionSaturation;\nuniform float _OpacitySaturation;\nuniform float _ColorMultiplier;\n\nuniform float COLOR_RAMP;\nuniform sampler2D _ColorRamp;\nuniform vec4 _ColorRamp_ST;\nuniform float COLOR_TINT;\nuniform vec4 _BasicColor;\nuniform vec4 _SaturatedColor;\n\nuniform float DISSOLVE_ENABLED;\nuniform vec4 _DissolveStep;\n\nuniform float NOISE_TEXTURE;\nuniform sampler2D _NoiseTex;\nuniform vec4 _TintColor;\n\nuniform float EMISSIVEPOWER;\nuniform float _EmissivePower;\n\nuniform float BLENDMODE_ADDITIVEALPHABLEND;\nuniform float _ABOffset;\n\nuniform float _GlobalAlpha;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nvarying vec2 v_particledata;\nvarying vec2 v_noiseuv;\n\nuniform float APPLY_RGB_COLOR_VERTEX;\nuniform float NOISE_TEXTURE_EMISSION;\nuniform float NOISE_TEXTURE_ALPHA;\nuniform float NOISE_TEXTURE_DISSOLVE;\nuniform float BLENDMODE_ALPHABLEND;\nuniform float BLENDMODE_ADDITIVEDOUBLE;\nuniform float BLENDMODE_SOFTADDITIVE;\n\nvoid main() \n{\n    vec4 tex = texture2D(_MainTex, v_uv);\n\n    vec4 col = vec4(1.0, 1.0, 1.0, 1.0);\n\n    vec4 vcolor = vec4(1.0, 1.0, 1.0, v_color.w);\n\n    if( EXTENDED_PARTICLES > 0.5 )\n    {\n        if( APPLY_RGB_COLOR_VERTEX > 0.5)\n        {\n            vcolor = v_color;\n        }\n\n        float nEmission = 1.0;\n        float nAlpha = 1.0;\n        float nDissolve = 1.0;\n        \n        if( NOISE_TEXTURE > 0.5)\n        {\n            vec3 noise = texture2D(_NoiseTex, v_noiseuv).xyz;\n        \n            if( NOISE_TEXTURE_EMISSION > 0.5)\n            {\n                nEmission = noise.x;\n            }\n            else\n            {\n                nEmission = 1.0;\n            }\n            \n            if( NOISE_TEXTURE_ALPHA > 0.5)\n            {\n                nAlpha = noise.y;\n            }\n            else\n            {\n                nAlpha = 1.0;\n            }\n            \n            if( NOISE_TEXTURE_DISSOLVE > 0.5)\n            {\n                nDissolve = noise.z;\n            }\n            else\n            {\n                nDissolve = 1.0;\n            }\n        }\n    \n        if( DISSOLVE_ENABLED > 0.5)\n        {\n            float ramp = -1.0 + (v_particledata.x * 2.0);\n            col.a = clamp(tex.g * smoothstep(_DissolveStep.x, _DissolveStep.y, (tex.b + ramp) * nDissolve) * _OpacitySaturation * vcolor.w * nAlpha, 0.0, 1.0);\n        }\n        else\n        {\n            col.a = clamp(tex.g * _OpacitySaturation * vcolor.w, 0.0, 1.0) * nAlpha;\n        }\n    \n        float lerpValue = 0.0;\n        if(COLOR_TINT < 0.5)\n        {\n            lerpValue = clamp(tex.r * v_particledata.y * _ColorMultiplier * nEmission, 0.0, 1.0);\n        }\n    \n        if( BLENDMODE_ALPHABLEND > 0.5)\n        {\n            if( COLOR_RAMP > 0.5)\n            {\n                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * _EmissionSaturation;\n            }\n            else\n            {\n                if( COLOR_TINT > 0.5)\n                {\n                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation;\n                }\n                else\n                {\n                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * _EmissionSaturation;\n                }\n            }\n            col.a *= _GlobalAlpha;\n        }\n        else\n        {\n            if( COLOR_RAMP > 0.5)\n            {\n                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * col.a * _EmissionSaturation;\n            }\n            else\n            {\n                if( COLOR_TINT > 0.5 )\n                {\n                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation * col.a;\n                }\n                else\n                {\n                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * col.a * _EmissionSaturation;\n                }\n            }\n            col *= _GlobalAlpha;\n        }\n    }\n    else\n    {\n        if( BLENDMODE_ADDITIVEALPHABLEND > 0.5)\n        {\n            tex *= _TintColor;\n            float luminance = clamp(dot(tex, vec4(0.2126, 0.7152, 0.0722, 0.0)) * tex.a * _ABOffset, 0.0, 1.0);\n            vec4 one = vec4(1, 1, 1, 1);\n            col = mix(2.0 * (v_color * tex), one - 2.0 * (one - v_color) * (one - tex), luminance);\n        }\n        else\n        {\n            col = v_color * tex;\n            col *= _TintColor;\n        \n            if( EMISSIVEPOWER > 0.5)\n            {\n                col *= _EmissivePower;\n            }\n            \n            if( BLENDMODE_SOFTADDITIVE > 0.5 )\n            {\n                col.rgb *= col.a;\n            }\n            else\n            {\n                if( BLENDMODE_ALPHABLEND > 0.5 )\n                {\n                    col *= 2.0;\n                }\n                else\n                {\n                    if( BLENDMODE_ADDITIVEDOUBLE > 0.5 )\n                    {\n                        col *= 4.0;\n                    }\n                }\n            }\n        }\n    \n        col *= _GlobalAlpha;\n\n    }\n\n    gl_FragColor = col;\n}\n    ";
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
@@ -1342,6 +1342,23 @@ var feng3d;
             this._GlobalAlpha = 1.0;
             this._EmissivePower = 1;
             this._NoisePanning = new feng3d.Vector4(0.5, 0.5, 0.5, 0.5);
+            this.COLOR_RAMP = false;
+            this.COLOR_TINT = false;
+            this.APPLY_RGB_COLOR_VERTEX = false;
+            this.DISSOLVE_ENABLED = false;
+            this.AUTOMATICPANNING = false;
+            this.EMISSIVEPOWER = false;
+            this.EXTENDED_PARTICLES = false;
+            this.NOISE_TEXTURE = false;
+            this.NOISE_TEXTURE_EMISSION = false;
+            this.NOISE_TEXTURE_ALPHA = false;
+            this.NOISE_TEXTURE_DISSOLVE = false;
+            this.NOISEUV = false;
+            this.FLOWMAP = false;
+            this.BLENDMODE_ADDITIVEALPHABLEND = false;
+            this.BLENDMODE_ALPHABLEND = false;
+            this.BLENDMODE_ADDITIVEDOUBLE = false;
+            this.BLENDMODE_SOFTADDITIVE = false;
         }
         __decorate([
             feng3d.serialize,
@@ -1411,6 +1428,74 @@ var feng3d;
             feng3d.serialize,
             feng3d.oav()
         ], TransparentParticlesStandardUniforms.prototype, "_NoisePanning", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "COLOR_RAMP", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "COLOR_TINT", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "APPLY_RGB_COLOR_VERTEX", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "DISSOLVE_ENABLED", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "AUTOMATICPANNING", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "EMISSIVEPOWER", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "EXTENDED_PARTICLES", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_EMISSION", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_ALPHA", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_DISSOLVE", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "NOISEUV", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "FLOWMAP", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ADDITIVEALPHABLEND", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ALPHABLEND", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ADDITIVEDOUBLE", void 0);
+        __decorate([
+            feng3d.serialize,
+            feng3d.oav()
+        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_SOFTADDITIVE", void 0);
         return TransparentParticlesStandardUniforms;
     }());
     feng3d.TransparentParticlesStandardUniforms = TransparentParticlesStandardUniforms;
@@ -1435,89 +1520,65 @@ var feng3d;
     var TransparentParticlesStandard = /** @class */ (function (_super) {
         __extends(TransparentParticlesStandard, _super);
         function TransparentParticlesStandard() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.COLOR_RAMP = false;
-            _this.COLOR_TINT = false;
-            _this.APPLY_RGB_COLOR_VERTEX = false;
-            _this.DISSOLVE_ENABLED = false;
-            _this.AUTOMATICPANNING = false;
-            _this.EMISSIVEPOWER = false;
-            _this.EXTENDED_PARTICLES = false;
-            _this.NOISE_TEXTURE = false;
-            _this.NOISE_TEXTURE_EMISSION = false;
-            _this.NOISE_TEXTURE_ALPHA = false;
-            _this.NOISE_TEXTURE_DISSOLVE = false;
-            _this.NOISEUV = false;
-            _this.FLOWMAP = false;
-            return _this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
+        // @serialize
+        // @oav()
+        // COLOR_RAMP = false;
+        // @serialize
+        // @oav()
+        // COLOR_TINT = false;
+        // @serialize
+        // @oav()
+        // APPLY_RGB_COLOR_VERTEX = false;
+        // @serialize
+        // @oav()
+        // DISSOLVE_ENABLED = false;
+        // @serialize
+        // @oav()
+        // AUTOMATICPANNING = false;
+        // @serialize
+        // @oav()
+        // EMISSIVEPOWER = false;
+        // @serialize
+        // @oav()
+        // EXTENDED_PARTICLES = false;
+        // @serialize
+        // @oav()
+        // NOISE_TEXTURE = false;
+        // @serialize
+        // @oav()
+        // NOISE_TEXTURE_EMISSION = false;
+        // @serialize
+        // @oav()
+        // NOISE_TEXTURE_ALPHA = false;
+        // @serialize
+        // @oav()
+        // NOISE_TEXTURE_DISSOLVE = false;
+        // @serialize
+        // @oav()
+        // NOISEUV = false;
+        // @serialize
+        // @oav()
+        // FLOWMAP = false;
+        // @serialize
+        // @oav()
+        // BLENDMODE_ADDITIVEALPHABLEND = false;
         TransparentParticlesStandard.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
-            renderAtomic.shaderMacro["COLOR_RAMP"] = this.COLOR_RAMP;
-            renderAtomic.shaderMacro["COLOR_TINT"] = this.COLOR_TINT;
-            renderAtomic.shaderMacro["APPLY_RGB_COLOR_VERTEX"] = this.APPLY_RGB_COLOR_VERTEX;
-            renderAtomic.shaderMacro["DISSOLVE_ENABLED"] = this.DISSOLVE_ENABLED;
-            renderAtomic.shaderMacro["AUTOMATICPANNING"] = this.AUTOMATICPANNING;
-            renderAtomic.shaderMacro["EMISSIVEPOWER"] = this.EMISSIVEPOWER;
-            renderAtomic.shaderMacro["EXTENDED_PARTICLES"] = this.EXTENDED_PARTICLES;
-            renderAtomic.shaderMacro["NOISE_TEXTURE"] = this.NOISE_TEXTURE;
-            renderAtomic.shaderMacro["NOISE_TEXTURE_EMISSION"] = this.NOISE_TEXTURE_EMISSION;
-            renderAtomic.shaderMacro["NOISE_TEXTURE_ALPHA"] = this.NOISE_TEXTURE_ALPHA;
-            renderAtomic.shaderMacro["NOISE_TEXTURE_DISSOLVE"] = this.NOISE_TEXTURE_DISSOLVE;
-            renderAtomic.shaderMacro["NOISEUV"] = this.NOISEUV;
-            renderAtomic.shaderMacro["FLOWMAP"] = this.FLOWMAP;
+            // renderAtomic.shaderMacro["COLOR_RAMP"] = this.COLOR_RAMP;
+            // renderAtomic.shaderMacro["COLOR_TINT"] = this.COLOR_TINT;
+            // renderAtomic.shaderMacro["APPLY_RGB_COLOR_VERTEX"] = this.APPLY_RGB_COLOR_VERTEX;
+            // renderAtomic.shaderMacro["DISSOLVE_ENABLED"] = this.DISSOLVE_ENABLED;
+            // renderAtomic.shaderMacro["AUTOMATICPANNING"] = this.AUTOMATICPANNING;
+            // renderAtomic.shaderMacro["EMISSIVEPOWER"] = this.EMISSIVEPOWER;
+            // renderAtomic.shaderMacro["EXTENDED_PARTICLES"] = this.EXTENDED_PARTICLES;
+            // renderAtomic.shaderMacro["NOISE_TEXTURE"] = this.NOISE_TEXTURE;
+            // renderAtomic.shaderMacro["NOISE_TEXTURE_EMISSION"] = this.NOISE_TEXTURE_EMISSION;
+            // renderAtomic.shaderMacro["NOISE_TEXTURE_ALPHA"] = this.NOISE_TEXTURE_ALPHA;
+            // renderAtomic.shaderMacro["NOISE_TEXTURE_DISSOLVE"] = this.NOISE_TEXTURE_DISSOLVE;
+            // renderAtomic.shaderMacro["NOISEUV"] = this.NOISEUV;
+            // renderAtomic.shaderMacro["FLOWMAP"] = this.FLOWMAP;
         };
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "COLOR_RAMP", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "COLOR_TINT", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "APPLY_RGB_COLOR_VERTEX", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "DISSOLVE_ENABLED", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "AUTOMATICPANNING", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "EMISSIVEPOWER", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "EXTENDED_PARTICLES", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "NOISE_TEXTURE", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "NOISE_TEXTURE_EMISSION", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "NOISE_TEXTURE_ALPHA", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "NOISE_TEXTURE_DISSOLVE", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "NOISEUV", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandard.prototype, "FLOWMAP", void 0);
         TransparentParticlesStandard = __decorate([
             feng3d.AddComponentMenu("Effects/TransparentParticlesStandard")
         ], TransparentParticlesStandard);
