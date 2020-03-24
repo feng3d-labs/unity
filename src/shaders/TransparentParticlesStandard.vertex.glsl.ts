@@ -4,6 +4,9 @@ namespace feng3d
 
 #define EXTENDED_PARTICLES
 #define NOISE_TEXTURE_EMISSION
+#define NOISE_TEXTURE
+
+precision mediump float;
 
 attribute vec3 a_position;
 attribute vec2 a_uv;
@@ -43,7 +46,7 @@ void main()
 
     #ifdef EXTENDED_PARTICLES
         #ifdef NOISE_TEXTURE
-            #if NOISEUV
+            #ifdef NOISEUV
                 v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);
             #else
                 v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);

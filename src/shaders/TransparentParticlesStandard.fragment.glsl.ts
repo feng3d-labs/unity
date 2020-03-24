@@ -3,6 +3,7 @@ namespace feng3d
     export var TransparentParticlesStandard_fragment = `
 #define EXTENDED_PARTICLES
 #define NOISE_TEXTURE_EMISSION
+#define NOISE_TEXTURE
     
 precision mediump float;
 
@@ -33,8 +34,6 @@ uniform vec4 u_color;
 
     #ifdef NOISE_TEXTURE
         uniform sampler2D _NoiseTex;
-        uniform vec4 _NoiseTex_ST;
-        uniform vec4 _NoisePanning;
     #endif
 #else
     uniform vec4 _TintColor;
@@ -78,7 +77,7 @@ void main()
     
         #ifdef NOISE_TEXTURE
         
-            float3 noise = tex2D(_NoiseTex, v_noiseuv);
+            vec3 noise = texture2D(_NoiseTex, v_noiseuv).xyz;
         
             #ifdef NOISE_TEXTURE_EMISSION
                 float nEmission = noise.x;
@@ -117,7 +116,7 @@ void main()
     
         #ifdef BLENDMODE_ALPHABLEND
             #ifdef COLOR_RAMP
-                col.xyz = tex2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)) * vcolor.xyz * _EmissionSaturation;
+                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * _EmissionSaturation;
             #else
                 #ifdef COLOR_TINT
                     col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation;
@@ -128,7 +127,7 @@ void main()
             col.a *= _GlobalAlpha;
         #else
             #ifdef COLOR_RAMP
-                col.xyz = tex2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)) * vcolor.xyz * col.a * _EmissionSaturation;
+                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * col.a * _EmissionSaturation;
             #else
                 #ifdef COLOR_TINT
                     col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation * col.a;
