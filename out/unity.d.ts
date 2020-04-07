@@ -1,4 +1,124 @@
 declare namespace feng3d {
+    /**
+     * Skinning bone weights of a vertex in the mesh.
+     *
+     * Each vertex is skinned with up to four bones. All weights should sum up to one. Weights and bone indices should be defined in the order of decreasing weight. If a vertex is affected by less than four bones, the remaining weights should be zeroes.
+     */
+    class BoneWeight {
+        /**
+         * Index of first bone.
+         */
+        boneIndex0: number;
+        /**
+         * Index of second bone.
+         */
+        boneIndex1: number;
+        /**
+         * Index of third bone.
+         */
+        boneIndex2: number;
+        /**
+         * Index of fourth bone.
+         */
+        boneIndex3: number;
+        /**
+         * Skinning weight for first bone.
+         */
+        weight0: number;
+        /**
+         * Skinning weight for second bone.
+         */
+        weight1: number;
+        /**
+         * Skinning weight for third bone.
+         */
+        weight2: number;
+        /**
+         * Skinning weight for fourth bone.
+         */
+        weight3: number;
+    }
+}
+declare namespace feng3d {
+    /**
+     * 网格数据
+     */
+    class Mesh {
+        /**
+         * Returns a copy of the vertex positions or assigns a new vertex positions array.
+         */
+        vertices: Vector3[];
+        /**
+         * The base texture coordinates of the Mesh.
+         */
+        uv: Vector2[];
+        /**
+         * The second texture coordinate set of the mesh, if present.
+         */
+        uv2: Vector2[];
+        /**
+         * The third texture coordinate set of the mesh, if present.
+         */
+        uv3: Vector2[];
+        /**
+         * The fourth texture coordinate set of the mesh, if present.
+         */
+        uv4: Vector2[];
+        /**
+         * The fifth texture coordinate set of the mesh, if present.
+         */
+        uv5: Vector2[];
+        /**
+         * The sixth texture coordinate set of the mesh, if present.
+         */
+        uv6: Vector2[];
+        /**
+         * The seventh texture coordinate set of the mesh, if present.
+         */
+        uv7: Vector2[];
+        /**
+         * The eighth texture coordinate set of the mesh, if present.
+         */
+        uv8: Vector2[];
+        /**
+         * Vertex colors of the Mesh.
+         */
+        colors: Color4[];
+        /**
+         * The normals of the Mesh.
+         */
+        normals: Vector3[];
+        /**
+         * The tangents of the Mesh.
+         */
+        tangents: Vector3[];
+        /**
+         * The bind poses. The bind pose at each index refers to the bone with the same index.
+         */
+        bindposes: Matrix4x4[];
+        /**
+         * The bone weights of each vertex.
+         */
+        boneWeights: BoneWeight[];
+        /**
+         * An array containing all triangles in the Mesh.
+         */
+        triangles: number[];
+        /**
+         * The bounding volume of the mesh.
+         */
+        bounds: Box3;
+        /**
+         * The number of sub-meshes inside the Mesh object.
+         */
+        subMeshCount: any;
+        /**
+         * Returns the number of vertices in the Mesh (Read Only).
+         */
+        get vertexCount(): number;
+    }
+}
+declare namespace feng3d {
     var Line_Trail_vertex: string;
 }
 declare namespace feng3d {
@@ -592,11 +712,6 @@ declare namespace feng3d {
     }
     interface DefaultMaterial {
         "TransparentParticlesStandard-Material": Material;
-    }
-}
-declare namespace feng3d {
-    class TransparentParticlesStandard extends Component {
-        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
     }
 }
 //# sourceMappingURL=unity.d.ts.map

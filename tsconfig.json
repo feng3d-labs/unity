@@ -20,6 +20,9 @@
     ],
     "files": [
         //
+        "src/core/BoneWeight.ts",
+        "src/core/Mesh.ts",
+        //
         "src/shaders/Line_Trail.vertex.glsl.ts",
         "src/shaders/Line_Trail.fragment.glsl.ts",
         "src/shaders/Line_Trail.shader.ts",

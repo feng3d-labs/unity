@@ -19,6 +19,44 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var feng3d;
 (function (feng3d) {
+    /**
+     * Skinning bone weights of a vertex in the mesh.
+     *
+     * Each vertex is skinned with up to four bones. All weights should sum up to one. Weights and bone indices should be defined in the order of decreasing weight. If a vertex is affected by less than four bones, the remaining weights should be zeroes.
+     */
+    var BoneWeight = /** @class */ (function () {
+        function BoneWeight() {
+        }
+        return BoneWeight;
+    }());
+    feng3d.BoneWeight = BoneWeight;
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    /**
+     * 网格数据
+     */
+    var Mesh = /** @class */ (function () {
+        function Mesh() {
+        }
+        Object.defineProperty(Mesh.prototype, "vertexCount", {
+            /**
+             * Returns the number of vertices in the Mesh (Read Only).
+             */
+            get: function () {
+                if (!this.vertices)
+                    return 0;
+                return this.vertices.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Mesh;
+    }());
+    feng3d.Mesh = Mesh;
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
     feng3d.Line_Trail_vertex = "\n\nattribute vec3 a_position;\nattribute vec2 a_uv;\nattribute vec4 a_color;\n\nuniform mat4 u_modelMatrix;\nuniform mat4 u_viewProjection;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nvoid main() \n{\n    vec3 position = a_position;\n    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);\n    v_uv = a_uv;\n    v_color = a_color;\n}\n    ";
 })(feng3d || (feng3d = {}));
 var feng3d;
@@ -1514,76 +1552,5 @@ var feng3d;
             },
         };
     feng3d.Material.setDefault("TransparentParticlesStandard-Material", { shaderName: "TransparentParticlesStandard" });
-})(feng3d || (feng3d = {}));
-var feng3d;
-(function (feng3d) {
-    var TransparentParticlesStandard = /** @class */ (function (_super) {
-        __extends(TransparentParticlesStandard, _super);
-        function TransparentParticlesStandard() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        // @serialize
-        // @oav()
-        // COLOR_RAMP = false;
-        // @serialize
-        // @oav()
-        // COLOR_TINT = false;
-        // @serialize
-        // @oav()
-        // APPLY_RGB_COLOR_VERTEX = false;
-        // @serialize
-        // @oav()
-        // DISSOLVE_ENABLED = false;
-        // @serialize
-        // @oav()
-        // AUTOMATICPANNING = false;
-        // @serialize
-        // @oav()
-        // EMISSIVEPOWER = false;
-        // @serialize
-        // @oav()
-        // EXTENDED_PARTICLES = false;
-        // @serialize
-        // @oav()
-        // NOISE_TEXTURE = false;
-        // @serialize
-        // @oav()
-        // NOISE_TEXTURE_EMISSION = false;
-        // @serialize
-        // @oav()
-        // NOISE_TEXTURE_ALPHA = false;
-        // @serialize
-        // @oav()
-        // NOISE_TEXTURE_DISSOLVE = false;
-        // @serialize
-        // @oav()
-        // NOISEUV = false;
-        // @serialize
-        // @oav()
-        // FLOWMAP = false;
-        // @serialize
-        // @oav()
-        // BLENDMODE_ADDITIVEALPHABLEND = false;
-        TransparentParticlesStandard.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
-            // renderAtomic.shaderMacro["COLOR_RAMP"] = this.COLOR_RAMP;
-            // renderAtomic.shaderMacro["COLOR_TINT"] = this.COLOR_TINT;
-            // renderAtomic.shaderMacro["APPLY_RGB_COLOR_VERTEX"] = this.APPLY_RGB_COLOR_VERTEX;
-            // renderAtomic.shaderMacro["DISSOLVE_ENABLED"] = this.DISSOLVE_ENABLED;
-            // renderAtomic.shaderMacro["AUTOMATICPANNING"] = this.AUTOMATICPANNING;
-            // renderAtomic.shaderMacro["EMISSIVEPOWER"] = this.EMISSIVEPOWER;
-            // renderAtomic.shaderMacro["EXTENDED_PARTICLES"] = this.EXTENDED_PARTICLES;
-            // renderAtomic.shaderMacro["NOISE_TEXTURE"] = this.NOISE_TEXTURE;
-            // renderAtomic.shaderMacro["NOISE_TEXTURE_EMISSION"] = this.NOISE_TEXTURE_EMISSION;
-            // renderAtomic.shaderMacro["NOISE_TEXTURE_ALPHA"] = this.NOISE_TEXTURE_ALPHA;
-            // renderAtomic.shaderMacro["NOISE_TEXTURE_DISSOLVE"] = this.NOISE_TEXTURE_DISSOLVE;
-            // renderAtomic.shaderMacro["NOISEUV"] = this.NOISEUV;
-            // renderAtomic.shaderMacro["FLOWMAP"] = this.FLOWMAP;
-        };
-        TransparentParticlesStandard = __decorate([
-            feng3d.AddComponentMenu("Effects/TransparentParticlesStandard")
-        ], TransparentParticlesStandard);
-        return TransparentParticlesStandard;
-    }(feng3d.Component));
-    feng3d.TransparentParticlesStandard = TransparentParticlesStandard;
 })(feng3d || (feng3d = {}));
 //# sourceMappingURL=unity.js.map
