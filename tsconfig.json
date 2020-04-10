@@ -20,6 +20,8 @@
     ],
     "files": [
         //
+        "src/enums/AvatarIKHint.ts",
+        "src/enums/AvatarIKGoal.ts",
         "src/enums/HumanBodyBones.ts",
         "src/enums/SendMessageOptions.ts",
         //

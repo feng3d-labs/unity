@@ -293,43 +293,79 @@ namespace feng3d.unity
 
         /**
          * Returns the value of the given boolean parameter.
+         * 
+         * @param name The parameter name.
          */
-        GetBool
+        GetBool(name: string)
+        {
+            return false;
+        }
 
         /**
          * Returns an array of all the AnimatorClipInfo in the current state of the given layer.
+         * 
+         * @param layerIndex The layer index.
          */
-        GetCurrentAnimatorClipInfo
+        GetCurrentAnimatorClipInfo(layerIndex: number): AnimatorClipInfo[]
+        {
+            return null;
+        }
 
         /**
          * Returns the number of AnimatorClipInfo in the current state.
          */
-        GetCurrentAnimatorClipInfoCount
+        GetCurrentAnimatorClipInfoCount(layerIndex: number)
+        {
+            return 0;
+        }
 
         /**
          * Returns an AnimatorStateInfo with the information on the current state.
          */
-        GetCurrentAnimatorStateInfo
+        GetCurrentAnimatorStateInfo(layerIndex: number): AnimatorStateInfo
+        {
+            return null;
+        }
 
         /**
          * Returns the value of the given float parameter.
          */
-        GetFloat
+        GetFloat(name: string)
+        {
+            return 0;
+        }
 
         /**
          * Gets the position of an IK hint.
+         * 
+         * @param hint The AvatarIKHint that is queried.
+         * 
+         * @returns Vector3 Return the current position of this IK hint in world space.
          */
-        GetIKHintPosition
+        GetIKHintPosition(hint: AvatarIKHint): Vector3
+        {
+            return null;
+        }
 
         /**
          * Gets the translative weight of an IK Hint (0 = at the original animation before IK, 1 = at the hint).
+         * 
+         * @param hint The AvatarIKHint that is queried.
          */
-        GetIKHintPositionWeight
+        GetIKHintPositionWeight(hint: AvatarIKHint)
+        {
+            return 0;
+        }
 
         /**
          * Gets the position of an IK goal.
+         * 
+         * @param goal The AvatarIKGoal that is queried.
          */
-        GetIKPosition
+        GetIKPosition(goal: AvatarIKGoal): Vector3
+        {
+            return null;
+        }
 
         /**
          * Gets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
