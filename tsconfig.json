@@ -20,15 +20,23 @@
     ],
     "files": [
         //
+        "src/base/Bounds.ts",
+        //
         "src/core/BoneWeight.ts",
         "src/core/Mesh.ts",
         //
         "src/core/Avatar.ts",
         "src/core/Animator.ts",
         //
+        "src/animation/enums/AnimatorRecorderMode.ts",
         "src/animation/enums/AnimatorCullingMode.ts",
         "src/animation/enums/AnimatorControllerParameterType.ts",
+        "src/animation/enums/AnimationBlendMode.ts",
         //
+        "src/animation/AnimationEvent.ts",
+        "src/animation/AnimationState.ts",
+        "src/animation/AnimationClip.ts",
+        "src/animation/RuntimeAnimatorController.ts",
         "src/animation/AnimatorControllerParameter.ts",
         //
         "src/playables/PlayableGraph.ts",

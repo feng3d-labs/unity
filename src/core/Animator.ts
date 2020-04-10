@@ -146,42 +146,42 @@ namespace feng3d.unity
         /**
          * Sets the playback position in the recording buffer.
          */
-        playbackTime
+        playbackTime: number;
 
         /**
          * Gets the mode of the Animator recorder.
          */
-        recorderMode
+        recorderMode: AnimatorRecorderMode;
 
         /**
          * Start time of the first frame of the buffer relative to the frame at which StartRecording was called.
          */
-        recorderStartTime
+        recorderStartTime: number;
 
         /**
          * End time of the recorded clip relative to when StartRecording was called.
          */
-        recorderStopTime
+        recorderStopTime: number;
 
         /**
          * Get right foot bottom height.
          */
-        rightFeetBottomHeight
+        rightFeetBottomHeight: number;
 
         /**
          * The root position, the position of the game object.
          */
-        rootPosition
+        rootPosition: Vector3;
 
         /**
          * The root rotation, the rotation of the game object.
          */
-        rootRotation
+        rootRotation: Quaternion;
 
         /**
          * The runtime representation of AnimatorController that controls the Animator.
          */
-        runtimeAnimatorController
+        runtimeAnimatorController: RuntimeAnimatorController;
 
         /**
          * The playback speed of the Animator. 1 is normal playback speed.
