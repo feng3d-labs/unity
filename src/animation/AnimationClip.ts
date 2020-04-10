@@ -78,22 +78,42 @@ namespace feng3d.unity
         /**
          * Clears all curves from the clip.
          */
-        ClearCurves
+        ClearCurves()
+        {
+
+        }
 
         /**
          * Realigns quaternion keys to ensure shortest interpolation paths.
          */
-        EnsureQuaternionContinuity
+        EnsureQuaternionContinuity()
+        {
+
+        }
 
         /**
          * Samples an animation at a given time for any animated properties.
+         * 
+         * @param go The animated game object.
+         * @param time The time to sample an animation.
          */
-        SampleAnimation
+        SampleAnimation(go: GameObject, time: number)
+        {
+
+        }
 
         /**
          * Assigns the curve to animate a specific property.
+         * 
+         * @param relativePath Path to the game object this curve applies to. The relativePath is formatted similar to a pathname, e.g. "root/spine/leftArm". If relativePath is empty it refers to the game object the animation clip is attached to.
+         * @param type The class type of the component that is animated.
+         * @param propertyName The name or path to the property being animated.
+         * @param curve The animation curve.
          */
-        SetCurve
+        SetCurve(relativePath: string, type: (new () => any), propertyName: string, curve: AnimationCurve)
+        {
+
+        }
 
     }
 }
