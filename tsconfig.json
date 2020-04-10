@@ -34,6 +34,7 @@
         "src/animation/enums/AnimationBlendMode.ts",
         //
         "src/animation/AnimationEvent.ts",
+        "src/animation/AnimatorStateInfo.ts",
         "src/animation/AnimatorClipInfo.ts",
         "src/animation/AnimationState.ts",
         "src/animation/AnimationClip.ts",

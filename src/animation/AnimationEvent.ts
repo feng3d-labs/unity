@@ -20,7 +20,7 @@ namespace feng3d.unity
         /**
          * The animator state info related to this event (Read Only).
          */
-        animatorStateInfo
+        animatorStateInfo: AnimatorStateInfo;
 
         /**
          * Float parameter that is stored in the event and will be sent to the function.
