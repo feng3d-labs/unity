@@ -31,6 +31,7 @@
         "src/core/Animator.ts",
         //
         "src/animation/enums/AnimatorRecorderMode.ts",
+        "src/animation/enums/AnimatorUpdateMode.ts",
         "src/animation/enums/AnimatorCullingMode.ts",
         "src/animation/enums/AnimatorControllerParameterType.ts",
         "src/animation/enums/AnimationBlendMode.ts",

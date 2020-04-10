@@ -186,27 +186,27 @@ namespace feng3d.unity
         /**
          * The playback speed of the Animator. 1 is normal playback speed.
          */
-        speed
+        speed: number;
 
         /**
          * Automatic stabilization of feet during transition and blending.
          */
-        stabilizeFeet
+        stabilizeFeet: boolean;
 
         /**
          * Returns the position of the target specified by SetTarget.
          */
-        targetPosition
+        targetPosition: Vector3;
 
         /**
          * Returns the rotation of the target specified by SetTarget.
          */
-        targetRotation
+        targetRotation: Quaternion;
 
         /**
          * Specifies the update mode of the Animator.
          */
-        updateMode
+        updateMode: AnimatorUpdateMode;
 
         /**
          * Gets the avatar velocity for the last evaluated frame.
