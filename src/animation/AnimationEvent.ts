@@ -25,47 +25,47 @@ namespace feng3d.unity
         /**
          * Float parameter that is stored in the event and will be sent to the function.
          */
-        floatParameter
+        floatParameter: number;
 
         /**
          * The name of the function that will be called.
          */
-        functionName
+        functionName: string;
 
         /**
          * Int parameter that is stored in the event and will be sent to the function.
          */
-        intParameter
+        intParameter: number;
 
         /**
          * Returns true if this Animation event has been fired by an Animator component.
          */
-        isFiredByAnimator
+        isFiredByAnimator: boolean;
 
         /**
          * Returns true if this Animation event has been fired by an Animation component.
          */
-        isFiredByLegacy
+        isFiredByLegacy: boolean;
 
         /**
          * Function call options.
          */
-        messageOptions
+        messageOptions: SendMessageOptions;
 
         /**
          * Object reference parameter that is stored in the event and will be sent to the function.
          */
-        objectReferenceParameter
+        objectReferenceParameter: Object;
 
         /**
          * String parameter that is stored in the event and will be sent to the function.
          */
-        stringParameter
+        stringParameter: string;
 
         /**
          * The time at which the event will be fired off.
          */
-        time
+        time: number;
 
     }
 }

@@ -20,6 +20,8 @@
     ],
     "files": [
         //
+        "src/enums/SendMessageOptions.ts",
+        //
         "src/base/Bounds.ts",
         //
         "src/core/BoneWeight.ts",
