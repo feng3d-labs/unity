@@ -1,4 +1,4 @@
-namespace feng3d
+namespace feng3d.unity
 {
     /**
      * Skinning bone weights of a vertex in the mesh.

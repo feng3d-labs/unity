@@ -23,6 +23,16 @@
         "src/core/BoneWeight.ts",
         "src/core/Mesh.ts",
         //
+        "src/core/Avatar.ts",
+        "src/core/Animator.ts",
+        //
+        "src/animation/enums/AnimatorCullingMode.ts",
+        "src/animation/enums/AnimatorControllerParameterType.ts",
+        //
+        "src/animation/AnimatorControllerParameter.ts",
+        //
+        "src/playables/PlayableGraph.ts",
+        //
         "src/shaders/Line_Trail.vertex.glsl.ts",
         "src/shaders/Line_Trail.fragment.glsl.ts",
         "src/shaders/Line_Trail.shader.ts",
@@ -33,7 +43,7 @@
         "src/effects/TrailRenderer.ts",
         //
         "src/shaders/TransparentParticlesStandard.vertex.glsl.ts",
-		"src/shaders/TransparentParticlesStandard.fragment.glsl.ts",
+        "src/shaders/TransparentParticlesStandard.fragment.glsl.ts",
         "src/shaders/TransparentParticlesStandard.shader.ts",
     ]
 }

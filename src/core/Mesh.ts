@@ -1,4 +1,4 @@
-namespace feng3d
+namespace feng3d.unity
 {
     /**
      * 网格数据
