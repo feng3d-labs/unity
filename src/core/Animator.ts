@@ -211,6 +211,329 @@ namespace feng3d.unity
         /**
          * Gets the avatar velocity for the last evaluated frame.
          */
-        velocity
+        velocity: Vector3;
+
+        /**
+         * Apply the default Root Motion.
+         * 
+         * @param stateName 	The name of the state.
+         * @param normalizedTransitionDuration The duration of the transition (normalized).
+         * @param layer The layer where the crossfade occurs.
+         * @param normalizedTimeOffset The time of the state (normalized).
+         * @param normalizedTransitionTime The time of the transition (normalized).
+         */
+        ApplyBuiltinRootMotion(stateName: string, normalizedTransitionDuration: number, layer = -1, normalizedTimeOffset = Number.MIN_SAFE_INTEGER, normalizedTransitionTime = 0.0)
+        {
+
+        }
+
+        /**
+         * Creates a crossfade from the current state to any other state using normalized times.
+         * 
+         * @param stateName The name of the state.
+         * @param normalizedTransitionDuration The duration of the transition (in seconds).
+         * @param layer The layer where the crossfade occurs.
+         * @param normalizedTimeOffset The time of the state (in seconds).
+         * @param normalizedTransitionTime The time of the transition (normalized).
+         */
+        CrossFade(stateName: string, normalizedTransitionDuration: number, layer = -1, normalizedTimeOffset = Number.MIN_SAFE_INTEGER, normalizedTransitionTime = 0.0)
+        {
+
+        }
+
+        /**
+         * Creates a crossfade from the current state to any other state using times in seconds.
+         * 
+         * @param stateName The name of the state.
+         * @param fixedTransitionDuration The duration of the transition (in seconds).
+         * @param layer The layer where the crossfade occurs.
+         * @param fixedTimeOffset The time of the state (in seconds).
+         * @param normalizedTransitionTime The time of the transition (normalized).
+         */
+        CrossFadeInFixedTime(stateName: String, fixedTransitionDuration: number, layer = -1, fixedTimeOffset = 0.0, normalizedTransitionTime = 0.0)
+        {
+
+        }
+
+        /**
+         * Returns an AnimatorTransitionInfo with the informations on the current transition.
+         * 
+         * @param layerIndex The layer's index.
+         */
+        GetAnimatorTransitionInfo(layerIndex: number)
+        {
+
+        }
+
+        /**
+         * Returns the first StateMachineBehaviour that matches type T or is derived from T. Returns null if none are found.
+         */
+        GetBehaviour<T extends StateMachineBehaviour>(type: Constructor<T>): T
+        {
+            return null;
+        }
+
+        /**
+         * Returns all StateMachineBehaviour that match type T or are derived from T. Returns null if none are found.
+         */
+        GetBehaviours
+
+        /**
+         * Returns Transform mapped to this human bone id.
+         */
+        GetBoneTransform
+
+        /**
+         * Returns the value of the given boolean parameter.
+         */
+        GetBool
+
+        /**
+         * Returns an array of all the AnimatorClipInfo in the current state of the given layer.
+         */
+        GetCurrentAnimatorClipInfo
+
+        /**
+         * Returns the number of AnimatorClipInfo in the current state.
+         */
+        GetCurrentAnimatorClipInfoCount
+
+        /**
+         * Returns an AnimatorStateInfo with the information on the current state.
+         */
+        GetCurrentAnimatorStateInfo
+
+        /**
+         * Returns the value of the given float parameter.
+         */
+        GetFloat
+
+        /**
+         * Gets the position of an IK hint.
+         */
+        GetIKHintPosition
+
+        /**
+         * Gets the translative weight of an IK Hint (0 = at the original animation before IK, 1 = at the hint).
+         */
+        GetIKHintPositionWeight
+
+        /**
+         * Gets the position of an IK goal.
+         */
+        GetIKPosition
+
+        /**
+         * Gets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
+         */
+        GetIKPositionWeight
+
+        /**
+         * Gets the rotation of an IK goal.
+         */
+        GetIKRotation
+
+        /**
+         * Gets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
+         */
+        GetIKRotationWeight
+
+        /**
+         * Returns the value of the given integer parameter.
+         */
+        GetInteger
+
+        /**
+         * Returns the index of the layer with the given name.
+         */
+        GetLayerIndex
+
+        /**
+         * Returns the layer name.
+         */
+        GetLayerName
+
+        /**
+         * Returns the weight of the layer at the specified index.
+         */
+        GetLayerWeight
+
+        /**
+         * Returns an array of all the AnimatorClipInfo in the next state of the given layer.
+         */
+        GetNextAnimatorClipInfo
+
+        /**
+         * Returns the number of AnimatorClipInfo in the next state.
+         */
+        GetNextAnimatorClipInfoCount
+
+        /**
+         * Returns an AnimatorStateInfo with the information on the next state.
+         */
+        GetNextAnimatorStateInfo
+
+        /**
+         * See AnimatorController.parameters.
+         */
+        GetParameter
+
+        /**
+         * Returns true if the state exists in this layer, false otherwise.
+         */
+        HasState
+
+        /**
+         * Interrupts the automatic target matching.
+         */
+        InterruptMatchTarget
+
+        /**
+         * Returns true if there is a transition on the given layer, false otherwise.
+         */
+        IsInTransition
+
+        /**
+         * Returns true if the parameter is controlled by a curve, false otherwise.
+         */
+        IsParameterControlledByCurve
+
+        /**
+         * Automatically adjust the GameObject position and rotation.
+         */
+        MatchTarget
+
+        /**
+         * Plays a state.
+         */
+        Play
+
+        /**
+         * Plays a state.
+         */
+        PlayInFixedTime
+
+        /**
+         * Rebind all the animated properties and mesh data with the Animator.
+         */
+        Rebind
+
+        /**
+         * Resets the value of the given trigger parameter.
+         */
+        ResetTrigger
+
+        /**
+         * Sets local rotation of a human bone during a IK pass.
+         */
+        SetBoneLocalRotation
+
+        /**
+         * Sets the value of the given boolean parameter.
+         */
+        SetBool
+
+        /**
+         * Send float values to the Animator to affect transitions.
+         */
+        SetFloat
+
+        /**
+         * Sets the position of an IK hint.
+         */
+        SetIKHintPosition
+
+        /**
+         * Sets the translative weight of an IK hint (0 = at the original animation before IK, 1 = at the hint).
+         */
+        SetIKHintPositionWeight
+
+        /**
+         * Sets the position of an IK goal.
+         */
+        SetIKPosition
+
+        /**
+         * Sets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
+         */
+        SetIKPositionWeight
+
+        /**
+         * Sets the rotation of an IK goal.
+         */
+        SetIKRotation
+
+        /**
+         * Sets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
+         */
+        SetIKRotationWeight
+
+        /**
+         * Sets the value of the given integer parameter.
+         */
+        SetInteger
+
+        /**
+         * Sets the weight of the layer at the given index.
+         */
+        SetLayerWeight
+
+        /**
+         * Sets the look at position.
+         */
+        SetLookAtPosition
+
+        /**
+         * Set look at weights.
+         */
+        SetLookAtWeight
+
+        /**
+         * Sets an AvatarTarget and a targetNormalizedTime for the current state.
+         */
+        SetTarget
+
+        /**
+         * Sets the value of the given trigger parameter.
+         */
+        SetTrigger
+
+        /**
+         * Sets the animator in playback mode.
+         */
+        StartPlayback
+
+        /**
+         * Sets the animator in recording mode, and allocates a circular buffer of size frameCount.
+         */
+        StartRecording
+
+        /**
+         * Stops the animator playback mode. When playback stops, the avatar resumes getting control from game logic.
+         */
+        StopPlayback
+
+        /**
+         * Stops animator record mode.
+         */
+        StopRecording
+
+        /**
+         * Evaluates the animator based on deltaTime.
+         */
+        Update
+
+        /**
+         * Forces a write of the default values stored in the animator.
+         */
+        WriteDefaultValues
+
+        /**
+         * Generates an parameter id from a string.
+         */
+        static StringToHash(name: string)
+        {
+
+        }
     }
 }
