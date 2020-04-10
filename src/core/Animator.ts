@@ -276,12 +276,20 @@ namespace feng3d.unity
         /**
          * Returns all StateMachineBehaviour that match type T or are derived from T. Returns null if none are found.
          */
-        GetBehaviours
+        GetBehaviours<T extends StateMachineBehaviour>(type: Constructor<T>): T[]
+        {
+            return null;
+        }
 
         /**
          * Returns Transform mapped to this human bone id.
+         * 
+         * @param humanBoneId The human bone that is queried, see enum HumanBodyBones for a list of possible values.
          */
-        GetBoneTransform
+        GetBoneTransform(humanBoneId: HumanBodyBones)
+        {
+
+        }
 
         /**
          * Returns the value of the given boolean parameter.
