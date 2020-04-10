@@ -40,6 +40,7 @@
         "src/animation/enums/AnimatorControllerParameterType.ts",
         "src/animation/enums/AnimationBlendMode.ts",
         //
+        "src/animation/MatchTargetWeightMask.ts",
         "src/animation/AnimationEvent.ts",
         "src/animation/StateMachineBehaviour.ts",
         "src/animation/AnimatorStateInfo.ts",

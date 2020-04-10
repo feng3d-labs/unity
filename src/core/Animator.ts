@@ -518,6 +518,13 @@ namespace feng3d.unity
 
         /**
          * Automatically adjust the GameObject position and rotation.
+         * 
+         * @param matchPosition The position we want the body part to reach.
+         * @param matchRotation The rotation in which we want the body part to be.
+         * @param targetBodyPart The body part that is involved in the match.
+         * @param weightMask Structure that contains weights for matching position and rotation.
+         * @param startNormalizedTime Start time within the animation clip (0 - beginning of clip, 1 - end of clip).
+         * @param targetNormalizedTime End time within the animation clip (0 - beginning of clip, 1 - end of clip), values greater than 1 can be set to trigger a match after a certain number of loops. Ex: 2.3 means at 30% of 2nd loop.
          */
         MatchTarget(matchPosition: Vector3, matchRotation: Quaternion, targetBodyPart: AvatarTarget, weightMask: MatchTargetWeightMask, startNormalizedTime: number, targetNormalizedTime = 1)
         {
@@ -526,128 +533,261 @@ namespace feng3d.unity
 
         /**
          * Plays a state.
+         * 
+         * @param stateName The state name.
+         * @param layer The layer index. If layer is -1, it plays the first state with the given state name or hash.
+         * @param normalizedTime The time offset between zero and one.
          */
-        Play
+        Play(stateName: string, layer = -1, normalizedTime = Number.MIN_SAFE_INTEGER)
+        {
+
+        }
 
         /**
          * Plays a state.
+         * 
+         * @param stateName The state name.
+         * @param layer The layer index. If layer is -1, it plays the first state with the given state name or hash.
+         * @param fixedTime The time offset (in seconds).
          */
-        PlayInFixedTime
+        PlayInFixedTime(stateName: string, layer = -1, fixedTime = Number.MIN_SAFE_INTEGER)
+        {
+
+        }
 
         /**
          * Rebind all the animated properties and mesh data with the Animator.
          */
-        Rebind
+        Rebind()
+        {
+
+        }
 
         /**
          * Resets the value of the given trigger parameter.
+         * 
+         * @param name The parameter name.
          */
-        ResetTrigger
+        ResetTrigger(name: string)
+        {
+
+        }
 
         /**
          * Sets local rotation of a human bone during a IK pass.
+         * 
+         * @param humanBoneId The human bone Id.
+         * @param rotation The local rotation.
          */
-        SetBoneLocalRotation
+        SetBoneLocalRotation(humanBoneId: HumanBodyBones, rotation: Quaternion)
+        {
+
+        }
 
         /**
          * Sets the value of the given boolean parameter.
+         * 
+         * @param name The parameter name.
+         * @param value The new parameter value.
          */
-        SetBool
+        SetBool(name: string, value: boolean)
+        {
+
+        }
 
         /**
          * Send float values to the Animator to affect transitions.
+         * 
+         * @param name The parameter name.
+         * @param value The new parameter value.
+         * @param dampTime The damper total time.
+         * @param deltaTime The delta time to give to the damper.
          */
-        SetFloat
+        SetFloat(name: string, value: number, dampTime: number, deltaTime: number)
+        {
+
+        }
 
         /**
          * Sets the position of an IK hint.
+         * 
+         * @param hint The AvatarIKHint that is set.
+         * @param hintPosition The position in world space.
          */
-        SetIKHintPosition
+        SetIKHintPosition(hint: AvatarIKHint, hintPosition: Vector3)
+        {
+
+        }
 
         /**
          * Sets the translative weight of an IK hint (0 = at the original animation before IK, 1 = at the hint).
+         * 
+         * @param hint The AvatarIKHint that is set.
+         * @param value The translative weight.
          */
-        SetIKHintPositionWeight
+        SetIKHintPositionWeight(hint: AvatarIKHint, value: number)
+        {
+
+        }
 
         /**
          * Sets the position of an IK goal.
+         * 
+         * @param goal The AvatarIKGoal that is set.
+         * @param goalPosition The position in world space.
          */
-        SetIKPosition
+        SetIKPosition(goal: AvatarIKGoal, goalPosition: Vector3)
+        {
+
+        }
 
         /**
          * Sets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
+         * 
+         * @param goal The AvatarIKGoal that is set.
+         * @param value The translative weight.
          */
-        SetIKPositionWeight
+        SetIKPositionWeight(goal: AvatarIKGoal, value: number)
+        {
+
+        }
 
         /**
          * Sets the rotation of an IK goal.
+         * 
+         * @param goal The AvatarIKGoal that is set.
+         * @param goalRotation The rotation in world space.
          */
-        SetIKRotation
+        SetIKRotation(goal: AvatarIKGoal, goalRotation: Quaternion)
+        {
+
+        }
 
         /**
          * Sets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
+         * 
+         * @param goal The AvatarIKGoal that is set.
+         * @param value The rotational weight.
          */
-        SetIKRotationWeight
+        SetIKRotationWeight(goal: AvatarIKGoal, value: number)
+        {
+
+        }
 
         /**
          * Sets the value of the given integer parameter.
+         * 
+         * @param name The parameter name.
+         * @param value The new parameter value.
          */
-        SetInteger
+        SetInteger(name: string, value: number)
+        {
+
+        }
 
         /**
          * Sets the weight of the layer at the given index.
+         * 
+         * @param layerIndex The layer index.
+         * @param weight The new layer weight.
          */
-        SetLayerWeight
+        SetLayerWeight(layerIndex: number, weight: number)
+        {
+
+        }
 
         /**
          * Sets the look at position.
+         * 
+         * @param lookAtPosition The position to lookAt.
          */
-        SetLookAtPosition
+        SetLookAtPosition(lookAtPosition: Vector3)
+        {
+
+        }
 
         /**
          * Set look at weights.
+         * 
+         * @param weight (0-1) the global weight of the LookAt, multiplier for other parameters.
+         * @param bodyWeight (0-1) determines how much the body is involved in the LookAt.
+         * @param headWeight (0-1) determines how much the head is involved in the LookAt.
+         * @param eyesWeight (0-1) determines how much the eyes are involved in the LookAt.
+         * @param clampWeight (0-1) 0.0 means the character is completely unrestrained in motion, 1.0 means he's completely clamped (look at becomes impossible), and 0.5 means he'll be able to move on half of the possible range (180 degrees).
          */
-        SetLookAtWeight
+        SetLookAtWeight(weight: number, bodyWeight = 0.0, headWeight = 1.0, eyesWeight = 0.0, clampWeight = 0.5)
+        {
+
+        }
 
         /**
          * Sets an AvatarTarget and a targetNormalizedTime for the current state.
+         * 
+         * @param targetIndex The avatar body part that is queried.
+         * @param targetNormalizedTime The current state Time that is queried.
          */
-        SetTarget
+        SetTarget(targetIndex: AvatarTarget, targetNormalizedTime: number)
+        {
+
+        }
 
         /**
          * Sets the value of the given trigger parameter.
+         * 
+         * @param name The parameter name.
          */
-        SetTrigger
+        SetTrigger(name: string)
+        {
+
+        }
 
         /**
          * Sets the animator in playback mode.
          */
-        StartPlayback
+        StartPlayback()
+        {
+
+        }
 
         /**
          * Sets the animator in recording mode, and allocates a circular buffer of size frameCount.
          */
-        StartRecording
+        StartRecording(frameCount: number)
+        {
+
+        }
 
         /**
          * Stops the animator playback mode. When playback stops, the avatar resumes getting control from game logic.
          */
-        StopPlayback
+        StopPlayback()
+        {
+
+        }
 
         /**
          * Stops animator record mode.
          */
-        StopRecording
+        StopRecording()
+        {
+
+        }
 
         /**
          * Evaluates the animator based on deltaTime.
          */
-        Update
+        Update(deltaTime: number)
+        {
+
+        }
 
         /**
          * Forces a write of the default values stored in the animator.
          */
-        WriteDefaultValues
+        WriteDefaultValues()
+        {
+
+        }
 
         /**
          * Generates an parameter id from a string.
