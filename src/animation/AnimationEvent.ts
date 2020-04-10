@@ -15,7 +15,7 @@ namespace feng3d.unity
         /**
          * The animator clip info related to this event (Read Only).
          */
-        animatorClipInfo
+        animatorClipInfo: AnimatorClipInfo;
 
         /**
          * The animator state info related to this event (Read Only).
