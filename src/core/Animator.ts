@@ -369,83 +369,160 @@ namespace feng3d.unity
 
         /**
          * Gets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
+         * 
+         * @param goal The AvatarIKGoal that is queried.
          */
-        GetIKPositionWeight
+        GetIKPositionWeight(goal: AvatarIKGoal)
+        {
+
+        }
 
         /**
          * Gets the rotation of an IK goal.
+         * 
+         * @param goal The AvatarIKGoal that is is queried.
          */
-        GetIKRotation
+        GetIKRotation(goal: AvatarIKGoal)
+        {
+
+        }
 
         /**
          * Gets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
+         * 
+         * @param goal The AvatarIKGoal that is is queried.
          */
-        GetIKRotationWeight
+        GetIKRotationWeight(goal: AvatarIKGoal)
+        {
+
+        }
 
         /**
          * Returns the value of the given integer parameter.
+         * 
+         * @param name The parameter name.
          */
-        GetInteger
+        GetInteger(name: string)
+        {
+            return 0;
+        }
 
         /**
          * Returns the index of the layer with the given name.
+         * 
+         * @param layerName The layer name.
          */
-        GetLayerIndex
+        GetLayerIndex(layerName: string)
+        {
+
+        }
 
         /**
          * Returns the layer name.
+         * 
+         * @param layerIndex The layer index.
          */
-        GetLayerName
+        GetLayerName(layerIndex: number)
+        {
+
+        }
 
         /**
          * Returns the weight of the layer at the specified index.
+         * 
+         * @param layerIndex The layer index.
          */
-        GetLayerWeight
+        GetLayerWeight(layerIndex: number)
+        {
+
+        }
 
         /**
          * Returns an array of all the AnimatorClipInfo in the next state of the given layer.
+         * 
+         * @param layerIndex The layer index.
          */
-        GetNextAnimatorClipInfo
+        GetNextAnimatorClipInfo(layerIndex: number): AnimatorClipInfo[]
+        {
+            return null;
+        }
 
         /**
          * Returns the number of AnimatorClipInfo in the next state.
+         * 
+         * @param layerIndex The layer index.
          */
-        GetNextAnimatorClipInfoCount
+        GetNextAnimatorClipInfoCount(layerIndex: number)
+        {
+            return 0;
+        }
 
         /**
          * Returns an AnimatorStateInfo with the information on the next state.
          */
-        GetNextAnimatorStateInfo
+        GetNextAnimatorStateInfo(layerIndex: number): AnimatorStateInfo
+        {
+            return null;
+        }
 
         /**
          * See AnimatorController.parameters.
          */
-        GetParameter
+        GetParameter(index: number): AnimatorControllerParameter
+        {
+            return null;
+        }
 
         /**
          * Returns true if the state exists in this layer, false otherwise.
+         * 
+         * @param layerIndex The layer index.
+         * @param stateID The state ID.
          */
-        HasState
+        HasState(layerIndex: number, stateID: number)
+        {
+            return false;
+        }
 
         /**
          * Interrupts the automatic target matching.
+         * 
+         * CompleteMatch will make the gameobject match the target completely at the next frame.
          */
-        InterruptMatchTarget
+        InterruptMatchTarget(completeMatch = true)
+        {
+
+        }
 
         /**
          * Returns true if there is a transition on the given layer, false otherwise.
+         * 
+         * @param layerIndex The layer index.
          */
-        IsInTransition
+        IsInTransition(layerIndex: number)
+        {
+
+        }
 
         /**
          * Returns true if the parameter is controlled by a curve, false otherwise.
+         * 
+         * @param name The parameter name.
+         * 
+         * @returns True if the parameter is controlled by a curve, false otherwise.
          */
-        IsParameterControlledByCurve
+        IsParameterControlledByCurve(name: string)
+        {
+
+        }
 
         /**
          * Automatically adjust the GameObject position and rotation.
          */
-        MatchTarget
+        MatchTarget(matchPosition: Vector3, matchRotation: Quaternion, targetBodyPart: AvatarTarget, weightMask: MatchTargetWeightMask, startNormalizedTime: number, targetNormalizedTime = 1)
+        {
+
+        }
 
         /**
          * Plays a state.
