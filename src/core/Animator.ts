@@ -1,182 +1,187 @@
 namespace feng3d.unity
 {
-    export class Animator
+    /**
+     * Interface to control the Mecanim animation system.
+     */
+    export class Animator extends Behaviour
     {
 
         /**
          * Gets the avatar angular velocity for the last evaluated frame.
          */
-        angularVelocity: Vector3;
+        angularVelocity = new Vector3();
 
         /**
          * Should root motion be applied?
          */
-        applyRootMotion: boolean;
+        applyRootMotion = false;
 
         /**
          * Gets/Sets the current Avatar.
          */
-        avatar: Avatar;
+        avatar: Avatar = null;
 
         /**
          * The position of the body center of mass.
          */
-        bodyPosition: Vector3;
+        bodyPosition = new Vector3();
 
         /**
          * The rotation of the body center of mass.
          */
-        bodyRotation: Quaternion;
+        bodyRotation = new Quaternion();
 
         /**
          * Controls culling of this Animator component.
          */
-        cullingMode: AnimatorCullingMode;
+        cullingMode = AnimatorCullingMode.AlwaysAnimate;
 
         /**
          * Gets the avatar delta position for the last evaluated frame.
          */
-        deltaPosition: Vector3;
+        deltaPosition = new Vector3();
 
         /**
          * Gets the avatar delta rotation for the last evaluated frame.
          */
-        deltaRotation: Quaternion;
+        deltaRotation = new Quaternion();
 
         /**
          * Blends pivot point between body center of mass and feet pivot.
          */
-        feetPivotActive: number;
+        feetPivotActive = 1;
 
         /**
          * Sets whether the Animator sends events of type AnimationEvent.
          */
-        fireEvents: boolean;
+        fireEvents = true;
 
         /**
          * The current gravity weight based on current animations that are played.
          */
-        gravityWeight: number;
+        gravityWeight = 0;
 
         /**
          * Returns true if Animator has any playables assigned to it.
          */
-        hasBoundPlayables: boolean;
+        hasBoundPlayables = true;
 
         /**
          * Returns true if the current rig has root motion.
          */
-        hasRootMotion: boolean;
+        hasRootMotion = false;
 
         /**
          * Returns true if the object has a transform hierarchy.
          */
-        hasTransformHierarchy: boolean;
+        hasTransformHierarchy = true;
 
         /**
          * Returns the scale of the current Avatar for a humanoid rig, (1 by default if the rig is generic).
          */
-        humanScale: number;
+        humanScale = 1;
 
         /**
          * Returns true if the current rig is humanoid, false if it is generic.
          */
-        isHuman: boolean;
+        isHuman = false;
 
         /**
          * Returns whether the animator is initialized successfully.
          */
-        isInitialized: boolean;
+        isInitialized = true;
 
         /**
          * If automatic matching is active.
          */
-        isMatchingTarget: boolean;
+        isMatchingTarget = false;
 
         /**
          * Returns true if the current rig is optimizable with AnimatorUtility.OptimizeTransformHierarchy.
          */
-        isOptimizable: boolean;
+        isOptimizable = false;
 
         /**
          * Controls the behaviour of the Animator component when a GameObject is disabled.
          */
-        keepAnimatorControllerStateOnDisable: boolean;
+        keepAnimatorControllerStateOnDisable = false;
 
         /**
          * Returns the number of layers in the controller.
          */
-        layerCount: number;
+        layerCount = 1;
 
         /**
          * Additional layers affects the center of mass.
          */
-        layersAffectMassCenter: boolean;
+        layersAffectMassCenter = false;
 
         /**
          * Get left foot bottom height.
          */
-        leftFeetBottomHeight: number;
+        leftFeetBottomHeight = 0;
 
         /**
          * Returns the number of parameters in the controller.
          */
-        parameterCount: number;
+        parameterCount = 0;
 
         /**
          * The AnimatorControllerParameter list used by the animator. (Read Only)
          */
-        parameters: AnimatorControllerParameter[];
+        parameters: AnimatorControllerParameter[] = [];
 
         /**
          * Get the current position of the pivot.
          */
-        pivotPosition: Vector3;
+        pivotPosition = new Vector3();
 
         /**
          * Gets the pivot weight.
          */
-        pivotWeight: number;
+        pivotWeight = 0.5;
 
         /**
          * The PlayableGraph created by the Animator.
          */
-        playableGraph: PlayableGraph;
+        playableGraph = new PlayableGraph();
 
         /**
          * Sets the playback position in the recording buffer.
+         * 
+         * 设置记录缓冲区中的播放位置。
          */
-        playbackTime: number;
+        playbackTime = -1;
 
         /**
          * Gets the mode of the Animator recorder.
          */
-        recorderMode: AnimatorRecorderMode;
+        recorderMode = AnimatorRecorderMode.Offline;
 
         /**
          * Start time of the first frame of the buffer relative to the frame at which StartRecording was called.
          */
-        recorderStartTime: number;
+        recorderStartTime = -1;
 
         /**
          * End time of the recorded clip relative to when StartRecording was called.
          */
-        recorderStopTime: number;
+        recorderStopTime = -1;
 
         /**
          * Get right foot bottom height.
          */
-        rightFeetBottomHeight: number;
+        rightFeetBottomHeight = 0;
 
         /**
          * The root position, the position of the game object.
          */
-        rootPosition: Vector3;
+        rootPosition = new Vector3();
 
         /**
          * The root rotation, the rotation of the game object.
          */
-        rootRotation: Quaternion;
+        rootRotation = new Quaternion();
 
         /**
          * The runtime representation of AnimatorController that controls the Animator.
@@ -186,32 +191,37 @@ namespace feng3d.unity
         /**
          * The playback speed of the Animator. 1 is normal playback speed.
          */
-        speed: number;
+        speed = 1;
 
         /**
          * Automatic stabilization of feet during transition and blending.
          */
-        stabilizeFeet: boolean;
+        stabilizeFeet = false;
 
         /**
          * Returns the position of the target specified by SetTarget.
          */
-        targetPosition: Vector3;
+        targetPosition = new Vector3();
 
         /**
          * Returns the rotation of the target specified by SetTarget.
          */
-        targetRotation: Quaternion;
+        targetRotation = new Quaternion();
 
         /**
          * Specifies the update mode of the Animator.
          */
-        updateMode: AnimatorUpdateMode;
+        updateMode = AnimatorUpdateMode.Normal;
 
         /**
          * Gets the avatar velocity for the last evaluated frame.
          */
-        velocity: Vector3;
+        velocity = new Vector3();
+
+        /**
+         * 动画播放时
+         */
+        private _activeAnimationClip: AnimationClip;
 
         /**
          * Apply the default Root Motion.
@@ -540,7 +550,25 @@ namespace feng3d.unity
          */
         Play(stateName: string, layer = -1, normalizedTime = Number.MIN_SAFE_INTEGER)
         {
+            if (this.runtimeAnimatorController == null) return;
 
+            var animationClip = this.runtimeAnimatorController.animationClips.filter(v => v.name == stateName)[0];
+            if (animationClip == null) return;
+
+            this._activeAnimationClip = animationClip;
+        }
+
+        /**
+         * 每帧执行
+         */
+        update(interval?: number)
+        {
+            this.playbackTime += interval / 1000;
+
+            if (this._activeAnimationClip)
+            {
+                this._activeAnimationClip.SampleAnimation(this.gameObject, this.playbackTime);
+            }
         }
 
         /**

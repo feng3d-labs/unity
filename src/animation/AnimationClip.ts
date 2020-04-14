@@ -8,6 +8,11 @@ namespace feng3d.unity
     export class AnimationClip
     {
         /**
+         * The name of the object.
+         */
+        name = "";
+
+        /**
          * Returns true if the animation clip has no curves and no events.
          */
         get empty()
@@ -152,6 +157,22 @@ namespace feng3d.unity
         GetAllCurves()
         {
             return this._curvedata;
+        }
+
+        /**
+         * Returns all the float curve bindings currently stored in the clip.
+         */
+        GetCurveBindings()
+        {
+            var bindings: EditorCurveBinding[] = this._curvedata.map(v =>
+            {
+                var binding = new EditorCurveBinding();
+                binding.path = v.path;
+                binding.propertyName = v.propertyName;
+                binding.type = v.type;
+                return binding;
+            });
+            return bindings;
         }
 
     }

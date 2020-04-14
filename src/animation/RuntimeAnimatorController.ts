@@ -8,6 +8,6 @@ namespace feng3d.unity
         /**
          * Retrieves all AnimationClip used by the controller.
          */
-        animationClips: unity.AnimationClip[];
+        animationClips: AnimationClip[];
     }
 }
