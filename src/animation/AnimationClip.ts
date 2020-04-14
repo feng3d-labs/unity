@@ -10,69 +10,93 @@ namespace feng3d.unity
         /**
          * Returns true if the animation clip has no curves and no events.
          */
-        empty: boolean;
+        get empty()
+        {
+            if (this.events.length > 0) return false;
+            if (this._curvedata.length > 0) return false;
+            return true;
+        }
 
         /**
          * Animation Events for this animation clip.
          */
-        events: AnimationEvent[];
+        events: AnimationEvent[] = [];
 
         /**
          * Frame rate at which keyframes are sampled. (Read Only)
          */
-        frameRate: number;
+        frameRate = 60;
 
         /**
          * Returns true if the Animation has animation on the root transform.
          */
-        hasGenericRootTransform: number;
+        hasGenericRootTransform = false;
 
         /**
          * Returns true if the AnimationClip has root motion curves.
          */
-        hasMotionCurves: number;
+        hasMotionCurves = false;
 
         /**
          * Returns true if the AnimationClip has editor curves for its root motion.
          */
-        hasMotionFloatCurves: number;
+        hasMotionFloatCurves = false;
 
         /**
          * Returns true if the AnimationClip has root Curves.
          */
-        hasRootCurves: boolean;
+        hasRootCurves = false;
 
         /**
          * Returns true if the animation contains curve that drives a humanoid rig.
          */
-        humanMotion: boolean;
+        humanMotion = false;
 
         /**
          * Set to true if the AnimationClip will be used with the Legacy Animation component ( instead of the Animator ).
          */
-        legacy: boolean;
+        legacy = false;
 
         /**
          * Animation length in seconds. (Read Only)
          */
-        length: number;
+        get length()
+        {
+            var l = this._curvedata.reduce((pv, cv) =>
+            {
+                var animationCurve = cv.curve;
+                var keys = animationCurve.keys;
+                if (keys.length > 0)
+                {
+                    var lastkey = keys[keys.length - 1];
+                    pv = Math.max(pv, lastkey.time);
+                }
+                return pv;
+            }, 0);
+            return l;
+        }
 
         /**
          * AABB of this Animation Clip in local space of Animation component that it is attached too.
          */
-        localBounds: Bounds;
+        localBounds = new Bounds();
 
         /**
          * Sets the default wrap mode used in the animation state.
          */
-        wrapMode: WrapMode;
+        wrapMode = WrapMode.Default;
+
+        /**
+         * 曲线数据
+         */
+        private _curvedata: AnimationClipCurveData[] = [];
 
         /**
          * Adds an animation event to the clip.
          */
-        AddEvent(evt: unity.AnimationEvent)
+        AddEvent(evt: AnimationEvent)
         {
-
+            this.events.push(evt);
         }
 
         /**
@@ -80,7 +104,7 @@ namespace feng3d.unity
          */
         ClearCurves()
         {
-
+            this._curvedata = [];
         }
 
         /**
@@ -112,7 +136,22 @@ namespace feng3d.unity
          */
         SetCurve(relativePath: string, type: (new () => any), propertyName: string, curve: AnimationCurve)
         {
+            var data = new AnimationClipCurveData();
+            data.path = relativePath;
+            data.type = type;
+            data.propertyName = propertyName;
+            data.curve = curve;
+            this._curvedata.push(data)
+        }
 
+        /**
+         * Retrieves all curves from a specific animation clip.
+         * 
+         * 等价Unity中AnimationUtility.GetAllCurves
+         */
+        GetAllCurves()
+        {
+            return this._curvedata;
         }
 
     }

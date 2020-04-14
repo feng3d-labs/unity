@@ -50,6 +50,7 @@
         "src/animation/RuntimeAnimatorController.ts",
         "src/animation/AnimatorControllerParameter.ts",
         "src/animation/EditorCurveBinding.ts",
+        "src/animation/AnimationClipCurveData.ts",
         //
         "src/playables/PlayableGraph.ts",
         //
