@@ -13,27 +13,27 @@ namespace feng3d.unity
         /**
          * The blending mode used by the layer. It is not taken into account for the first layer.
          */
-        blendingMode
+        blendingMode: AnimatorLayerBlendingMode;
 
         /**
          * The default blending weight that the layers has. It is not taken into account for the first layer.
          */
-        defaultWeight
+        defaultWeight: number;
 
         /**
          * When active, the layer will have an IK pass when evaluated. It will trigger an OnAnimatorIK callback.
          */
-        iKPass
+        iKPass: boolean;
 
         /**
          * The name of the layer.
          */
-        name
+        name: string;
 
         /**
          * The state machine for the layer.
          */
-        stateMachine
+        stateMachine: AnimatorStateMachine;
 
         /**
          * When active, the layer will take control of the duration of the Synced Layer.

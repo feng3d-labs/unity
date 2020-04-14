@@ -39,6 +39,7 @@
         "src/animation/enums/AnimatorCullingMode.ts",
         "src/animation/enums/AnimatorControllerParameterType.ts",
         "src/animation/enums/AnimationBlendMode.ts",
+        "src/animation/enums/AnimatorLayerBlendingMode.ts",
         //
         "src/animation/MatchTargetWeightMask.ts",
         "src/animation/AnimationEvent.ts",
@@ -55,6 +56,9 @@
         "src/animation/AnimatorControllerLayer.ts",
         "src/animation/AvatarMask.ts",
         "src/animation/AvatarMaskBodyPart.ts",
+        "src/animation/AnimatorStateMachine.ts",
+        "src/animation/AnimatorTransitionBase.ts",
+        "src/animation/AnimatorStateTransition.ts",
         //
         "src/playables/PlayableGraph.ts",
         //
