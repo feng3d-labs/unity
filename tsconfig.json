@@ -51,6 +51,10 @@
         "src/animation/AnimatorControllerParameter.ts",
         "src/animation/EditorCurveBinding.ts",
         "src/animation/AnimationClipCurveData.ts",
+        "src/animation/AnimatorController.ts",
+        "src/animation/AnimatorControllerLayer.ts",
+        "src/animation/AvatarMask.ts",
+        "src/animation/AvatarMaskBodyPart.ts",
         //
         "src/playables/PlayableGraph.ts",
         //
