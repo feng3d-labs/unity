@@ -63,6 +63,7 @@
         "src/animation/AnimatorCondition.ts",
         "src/animation/AnimatorState.ts",
         "src/animation/Motion.ts",
+        "src/animation/AnimatorTransition.ts",
         //
         "src/playables/PlayableGraph.ts",
         //

@@ -132,7 +132,7 @@ namespace feng3d.unity
          */
         RemoveTransition(transition: AnimatorStateTransition)
         {
-
+            this.transitions = this.transitions.filter(v => v != transition);
         }
 
     }

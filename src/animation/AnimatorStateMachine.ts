@@ -19,22 +19,22 @@ namespace feng3d.unity
         /**
          * The Behaviour list assigned to this state machine.
          */
-        behaviours
+        behaviours: StateMachineBehaviour[];
 
         /**
          * The state that the state machine will be in when it starts.
          */
-        defaultState
+        defaultState: AnimatorState;
 
         /**
          * The position of the entry node.
          */
-        entryPosition
+        entryPosition: Vector3;
 
         /**
          * The list of entry transitions in the state machine.
          */
-        entryTransitions
+        entryTransitions: AnimatorTransition[];
 
         /**
          * The position of the exit node.

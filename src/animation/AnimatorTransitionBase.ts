@@ -20,32 +20,48 @@ namespace feng3d.unity
         /**
          * The destination state machine of the transition.
          */
-        destinationStateMachine
+        destinationStateMachine: AnimatorStateMachine;
 
         /**
          * Is the transition destination the exit of the current state machine.
          */
-        isExit
+        isExit: boolean;
 
         /**
          * Mutes the transition. The transition will never occur.
          */
-        mute
+        mute: boolean;
 
         /**
          * Mutes all other transitions in the source state.
          */
-        solo
+        solo: boolean;
 
         /**
          * Utility function to add a condition to a transition.
+         * 
+         * @param mode The AnimatorCondition mode of the condition.
+         * @param threshold The threshold value of the condition.
+         * @param parameter The name of the parameter.
          */
-        AddCondition
+        AddCondition(mode: AnimatorConditionMode, threshold: number, parameter: string)
+        {
+            var condition = new AnimatorCondition();
+            condition.mode = mode;
+            condition.threshold = threshold;
+            condition.parameter = parameter;
+            this.conditions.push(condition);
+        }
 
         /**
          * Utility function to remove a condition from the transition.
+         * 
+         * @param condition The condition to remove.
          */
-        RemoveCondition
+        RemoveCondition(condition: AnimatorCondition)
+        {
+            this.conditions = this.conditions.filter(v => v != condition);
+        }
 
     }
 }
