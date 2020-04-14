@@ -40,6 +40,7 @@
         "src/animation/enums/AnimatorControllerParameterType.ts",
         "src/animation/enums/AnimationBlendMode.ts",
         "src/animation/enums/AnimatorLayerBlendingMode.ts",
+        "src/animation/enums/AnimatorConditionMode.ts",
         //
         "src/animation/MatchTargetWeightMask.ts",
         "src/animation/AnimationEvent.ts",
@@ -59,6 +60,9 @@
         "src/animation/AnimatorStateMachine.ts",
         "src/animation/AnimatorTransitionBase.ts",
         "src/animation/AnimatorStateTransition.ts",
+        "src/animation/AnimatorCondition.ts",
+        "src/animation/AnimatorState.ts",
+        "src/animation/Motion.ts",
         //
         "src/playables/PlayableGraph.ts",
         //

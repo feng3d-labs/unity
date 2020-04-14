@@ -10,12 +10,12 @@ namespace feng3d.unity
         /**
          * AnimatorCondition conditions that need to be met for a transition to happen.
          */
-        conditions
+        conditions: AnimatorCondition[];
 
         /**
          * The destination state of the transition.
          */
-        destinationState
+        destinationState: AnimatorState;
 
         /**
          * The destination state machine of the transition.
