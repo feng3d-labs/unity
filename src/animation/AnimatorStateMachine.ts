@@ -39,22 +39,22 @@ namespace feng3d.unity
         /**
          * The position of the exit node.
          */
-        exitPosition
+        exitPosition: Vector3;
 
         /**
          * The position of the parent state machine node.Only valid when in a hierachic state machine.
          */
-        parentStateMachinePosition
+        parentStateMachinePosition: Vector3;
 
         /**
          * The list of sub state machines.
          */
-        stateMachines
+        stateMachines: ChildAnimatorStateMachine[];
 
         /**
          * The list of states.
          */
-        states
+        states: ChildAnimatorState[];
 
     }
 }
