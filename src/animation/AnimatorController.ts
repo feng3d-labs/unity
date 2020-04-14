@@ -13,7 +13,7 @@ namespace feng3d.unity
         /**
          * Parameters are used to communicate between scripting and the controller. They are used to drive transitions and blendtrees for example.
          */
-        parameters
+        parameters: AnimatorControllerParameter[];
 
     }
 }

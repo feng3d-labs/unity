@@ -38,33 +38,54 @@ namespace feng3d.unity
         /**
          * When active, the layer will take control of the duration of the Synced Layer.
          */
-        syncedLayerAffectsTiming
+        syncedLayerAffectsTiming: boolean;
 
         /**
          * Specifies the index of the Synced Layer.
          */
-        syncedLayerIndex
-
+        syncedLayerIndex: number;
 
         /**
          * Gets the override behaviour list for the state on the given layer.
+         * 
+         * @param state The state which we want to get the behaviour list.
          */
-        GetOverrideBehaviours
+        GetOverrideBehaviours(state: AnimatorState)
+        {
+
+        }
 
         /**
          * Gets the override motion for the state on the given layer.
+         * 
+         * @param state The state which we want to get the motion.
          */
-        GetOverrideMotion
+        GetOverrideMotion(state: AnimatorState)
+        {
+
+        }
 
         /**
          * Sets the override behaviour list for the state on the given layer.
+         * 
+         * @param state The state which we want to set the behaviour list.
+         * @param behaviours The behaviour list that will be set.
          */
-        SetOverrideBehaviours
+        SetOverrideBehaviours(state: AnimatorState, behaviours: StateMachineBehaviour[])
+        {
+
+        }
 
         /**
          * Sets the override motion for the state on the given layer.
+         * 
+         * @param state The state which we want to set the motion.
+         * @param motion The motion that will be set.
          */
-        SetOverrideMotion
+        SetOverrideMotion(state: AnimatorState, motion: Motion)
+        {
+
+        }
 
     }
 }
