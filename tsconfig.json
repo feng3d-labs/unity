@@ -41,6 +41,7 @@
         "src/animation/enums/AnimationBlendMode.ts",
         "src/animation/enums/AnimatorLayerBlendingMode.ts",
         "src/animation/enums/AnimatorConditionMode.ts",
+        "src/animation/enums/TransitionInterruptionSource.ts",
         //
         "src/animation/MatchTargetWeightMask.ts",
         "src/animation/AnimationEvent.ts",
