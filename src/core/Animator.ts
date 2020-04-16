@@ -89,7 +89,7 @@ namespace feng3d.unity
         /**
          * Returns whether the animator is initialized successfully.
          */
-        isInitialized = true;
+        isInitialized = false;
 
         /**
          * If automatic matching is active.
@@ -109,7 +109,7 @@ namespace feng3d.unity
         /**
          * Returns the number of layers in the controller.
          */
-        layerCount = 1;
+        layerCount = 0;
 
         /**
          * Additional layers affects the center of mass.

@@ -157,7 +157,7 @@ namespace feng3d.unity
                             var uniforms = meshRenderer.material.uniforms;
                             // serialization.setValue(uniforms,)
                             Object
-                            
+
                         }
                         break;
                     default:
