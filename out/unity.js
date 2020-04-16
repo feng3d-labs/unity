@@ -1,9 +1,3 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -17,43 +11,2413 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var feng3d;
 (function (feng3d) {
-    /**
-     * Skinning bone weights of a vertex in the mesh.
-     *
-     * Each vertex is skinned with up to four bones. All weights should sum up to one. Weights and bone indices should be defined in the order of decreasing weight. If a vertex is affected by less than four bones, the remaining weights should be zeroes.
-     */
-    var BoneWeight = /** @class */ (function () {
-        function BoneWeight() {
-        }
-        return BoneWeight;
-    }());
-    feng3d.BoneWeight = BoneWeight;
+    var unity;
+    (function (unity) {
+        /**
+         * Target.
+         *
+         * See Also: Animator.SetTarget and Animator.MatchTarget.
+         */
+        var AvatarTarget;
+        (function (AvatarTarget) {
+            /**
+             * The root, the position of the game object.
+             */
+            AvatarTarget[AvatarTarget["Root"] = 0] = "Root";
+            /**
+             * The body, center of mass.
+             */
+            AvatarTarget[AvatarTarget["Body"] = 1] = "Body";
+            /**
+             * The left foot.
+             */
+            AvatarTarget[AvatarTarget["LeftFoot"] = 2] = "LeftFoot";
+            /**
+             * The right foot.
+             */
+            AvatarTarget[AvatarTarget["RightFoot"] = 3] = "RightFoot";
+            /**
+             * The left hand.
+             */
+            AvatarTarget[AvatarTarget["LeftHand"] = 4] = "LeftHand";
+            /**
+             * The right hand.
+             */
+            AvatarTarget[AvatarTarget["RightHand"] = 5] = "RightHand";
+        })(AvatarTarget = unity.AvatarTarget || (unity.AvatarTarget = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    /**
-     * 网格数据
-     */
-    var Mesh = /** @class */ (function () {
-        function Mesh() {
-        }
-        Object.defineProperty(Mesh.prototype, "vertexCount", {
+    var unity;
+    (function (unity) {
+        /**
+         * IK Hint.
+         *
+         * Used to set and get IK weights and position. See Also: Animator.GetIKHintPosition, Animator.GetIKHintPositionWeight, Animator.SetIKHintPosition, and Animator.SetIKHintPositionWeight.
+         */
+        var AvatarIKHint;
+        (function (AvatarIKHint) {
             /**
-             * Returns the number of vertices in the Mesh (Read Only).
+             * The left knee IK hint.
              */
-            get: function () {
-                if (!this.vertices)
-                    return 0;
-                return this.vertices.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Mesh;
-    }());
-    feng3d.Mesh = Mesh;
+            AvatarIKHint[AvatarIKHint["LeftKnee"] = 0] = "LeftKnee";
+            /**
+             * The right knee IK hint.
+             */
+            AvatarIKHint[AvatarIKHint["RightKnee"] = 1] = "RightKnee";
+            /**
+             * The left elbow IK hint.
+             */
+            AvatarIKHint[AvatarIKHint["LeftElbow"] = 2] = "LeftElbow";
+            /**
+             * The right elbow IK hint.
+             */
+            AvatarIKHint[AvatarIKHint["RightElbow"] = 3] = "RightElbow";
+        })(AvatarIKHint = unity.AvatarIKHint || (unity.AvatarIKHint = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * IK Goal.
+         *
+         * Used to set and get IK weights, position and rotation. See Also: Animator.SetIKPosition, Animator.SetIKPositionWeight, Animator.SetIKRotation and Animator.SetIKRotationWeight.
+         */
+        var AvatarIKGoal;
+        (function (AvatarIKGoal) {
+            /**
+             * The left foot.
+             */
+            AvatarIKGoal[AvatarIKGoal["LeftFoot"] = 0] = "LeftFoot";
+            /**
+             * The right foot.
+             */
+            AvatarIKGoal[AvatarIKGoal["RightFoot"] = 1] = "RightFoot";
+            /**
+             * The left hand.
+             */
+            AvatarIKGoal[AvatarIKGoal["LeftHand"] = 2] = "LeftHand";
+            /**
+             * The right hand.
+             */
+            AvatarIKGoal[AvatarIKGoal["RightHand"] = 3] = "RightHand";
+        })(AvatarIKGoal = unity.AvatarIKGoal || (unity.AvatarIKGoal = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Human Body Bones.
+         */
+        var HumanBodyBones;
+        (function (HumanBodyBones) {
+            /**
+             * This is the Hips bone.
+             */
+            HumanBodyBones[HumanBodyBones["Hips"] = 0] = "Hips";
+            /**
+             * This is the Left Upper Leg bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftUpperLeg"] = 1] = "LeftUpperLeg";
+            /**
+             * This is the Right Upper Leg bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightUpperLeg"] = 2] = "RightUpperLeg";
+            /**
+             * This is the Left Knee bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftLowerLeg"] = 3] = "LeftLowerLeg";
+            /**
+             * This is the Right Knee bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightLowerLeg"] = 4] = "RightLowerLeg";
+            /**
+             * This is the Left Ankle bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftFoot"] = 5] = "LeftFoot";
+            /**
+             * This is the Right Ankle bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightFoot"] = 6] = "RightFoot";
+            /**
+             * This is the first Spine bone.
+             */
+            HumanBodyBones[HumanBodyBones["Spine"] = 7] = "Spine";
+            /**
+             * This is the Chest bone.
+             */
+            HumanBodyBones[HumanBodyBones["Chest"] = 8] = "Chest";
+            /**
+             * This is the Upper Chest bone.
+             */
+            HumanBodyBones[HumanBodyBones["UpperChest"] = 9] = "UpperChest";
+            /**
+             * This is the Neck bone.
+             */
+            HumanBodyBones[HumanBodyBones["Neck"] = 10] = "Neck";
+            /**
+             * This is the Head bone.
+             */
+            HumanBodyBones[HumanBodyBones["Head"] = 11] = "Head";
+            /**
+             * This is the Left Shoulder bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftShoulder"] = 12] = "LeftShoulder";
+            /**
+             * This is the Right Shoulder bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightShoulder"] = 13] = "RightShoulder";
+            /**
+             * This is the Left Upper Arm bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftUpperArm"] = 14] = "LeftUpperArm";
+            /**
+             * This is the Right Upper Arm bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightUpperArm"] = 15] = "RightUpperArm";
+            /**
+             * This is the Left Elbow bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftLowerArm"] = 16] = "LeftLowerArm";
+            /**
+             * This is the Right Elbow bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightLowerArm"] = 17] = "RightLowerArm";
+            /**
+             * This is the Left Wrist bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftHand"] = 18] = "LeftHand";
+            /**
+             * This is the Right Wrist bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightHand"] = 19] = "RightHand";
+            /**
+             * This is the Left Toes bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftToes"] = 20] = "LeftToes";
+            /**
+             * This is the Right Toes bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightToes"] = 21] = "RightToes";
+            /**
+             * This is the Left Eye bone.
+             */
+            HumanBodyBones[HumanBodyBones["LeftEye"] = 22] = "LeftEye";
+            /**
+             * This is the Right Eye bone.
+             */
+            HumanBodyBones[HumanBodyBones["RightEye"] = 23] = "RightEye";
+            /**
+             * This is the Jaw bone.
+             */
+            HumanBodyBones[HumanBodyBones["Jaw"] = 24] = "Jaw";
+            /**
+             * This is the left thumb 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftThumbProximal"] = 25] = "LeftThumbProximal";
+            /**
+             * This is the left thumb 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftThumbIntermediate"] = 26] = "LeftThumbIntermediate";
+            /**
+             * This is the left thumb 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftThumbDistal"] = 27] = "LeftThumbDistal";
+            /**
+             * This is the left index 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftIndexProximal"] = 28] = "LeftIndexProximal";
+            /**
+             * This is the left index 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftIndexIntermediate"] = 29] = "LeftIndexIntermediate";
+            /**
+             * This is the left index 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftIndexDistal"] = 30] = "LeftIndexDistal";
+            /**
+             * This is the left middle 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftMiddleProximal"] = 31] = "LeftMiddleProximal";
+            /**
+             * This is the left middle 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftMiddleIntermediate"] = 32] = "LeftMiddleIntermediate";
+            /**
+             * This is the left middle 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftMiddleDistal"] = 33] = "LeftMiddleDistal";
+            /**
+             * This is the left ring 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftRingProximal"] = 34] = "LeftRingProximal";
+            /**
+             * This is the left ring 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftRingIntermediate"] = 35] = "LeftRingIntermediate";
+            /**
+             * This is the left ring 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftRingDistal"] = 36] = "LeftRingDistal";
+            /**
+             * This is the left little 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftLittleProximal"] = 37] = "LeftLittleProximal";
+            /**
+             * This is the left little 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftLittleIntermediate"] = 38] = "LeftLittleIntermediate";
+            /**
+             * This is the left little 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["LeftLittleDistal"] = 39] = "LeftLittleDistal";
+            /**
+             * This is the right thumb 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightThumbProximal"] = 40] = "RightThumbProximal";
+            /**
+             * This is the right thumb 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightThumbIntermediate"] = 41] = "RightThumbIntermediate";
+            /**
+             * This is the right thumb 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightThumbDistal"] = 42] = "RightThumbDistal";
+            /**
+             * This is the right index 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightIndexProximal"] = 43] = "RightIndexProximal";
+            /**
+             * This is the right index 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightIndexIntermediate"] = 44] = "RightIndexIntermediate";
+            /**
+             * This is the right index 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightIndexDistal"] = 45] = "RightIndexDistal";
+            /**
+             * This is the right middle 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightMiddleProximal"] = 46] = "RightMiddleProximal";
+            /**
+             * This is the right middle 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightMiddleIntermediate"] = 47] = "RightMiddleIntermediate";
+            /**
+             * This is the right middle 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightMiddleDistal"] = 48] = "RightMiddleDistal";
+            /**
+             * This is the right ring 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightRingProximal"] = 49] = "RightRingProximal";
+            /**
+             * This is the right ring 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightRingIntermediate"] = 50] = "RightRingIntermediate";
+            /**
+             * This is the right ring 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightRingDistal"] = 51] = "RightRingDistal";
+            /**
+             * This is the right little 1st phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightLittleProximal"] = 52] = "RightLittleProximal";
+            /**
+             * This is the right little 2nd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightLittleIntermediate"] = 53] = "RightLittleIntermediate";
+            /**
+             * This is the right little 3rd phalange.
+             */
+            HumanBodyBones[HumanBodyBones["RightLittleDistal"] = 54] = "RightLittleDistal";
+            /**
+             * This is the Last bone index delimiter.
+             */
+            HumanBodyBones[HumanBodyBones["LastBone"] = 55] = "LastBone";
+        })(HumanBodyBones = unity.HumanBodyBones || (unity.HumanBodyBones = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Options for how to send a message.
+         *
+         * This is used by SendMessage & BroadcastMessage in GameObject & Component.
+         */
+        var SendMessageOptions;
+        (function (SendMessageOptions) {
+            /**
+             * A receiver is required for SendMessage.
+             */
+            SendMessageOptions[SendMessageOptions["RequireReceiver"] = 0] = "RequireReceiver";
+            /**
+             * No receiver is required for SendMessage.
+             */
+            SendMessageOptions[SendMessageOptions["DontRequireReceiver"] = 1] = "DontRequireReceiver";
+        })(SendMessageOptions = unity.SendMessageOptions || (unity.SendMessageOptions = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Represents an axis aligned bounding box.
+         *
+         * An axis-aligned bounding box, or AABB for short, is a box aligned with coordinate axes and fully enclosing some object. Because the box is never rotated with respect to the axes, it can be defined by just its center and extents, or alternatively by min and max points.
+         *
+         * Bounds is used by Collider.bounds, Mesh.bounds and Renderer.bounds.
+         */
+        var Bounds = /** @class */ (function (_super) {
+            __extends(Bounds, _super);
+            function Bounds() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return Bounds;
+        }(feng3d.Box3));
+        unity.Bounds = Bounds;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Skinning bone weights of a vertex in the mesh.
+         *
+         * Each vertex is skinned with up to four bones. All weights should sum up to one. Weights and bone indices should be defined in the order of decreasing weight. If a vertex is affected by less than four bones, the remaining weights should be zeroes.
+         */
+        var BoneWeight = /** @class */ (function () {
+            function BoneWeight() {
+            }
+            return BoneWeight;
+        }());
+        unity.BoneWeight = BoneWeight;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * 网格数据
+         */
+        var Mesh = /** @class */ (function () {
+            function Mesh() {
+            }
+            Object.defineProperty(Mesh.prototype, "vertexCount", {
+                /**
+                 * Returns the number of vertices in the Mesh (Read Only).
+                 */
+                get: function () {
+                    if (!this.vertices)
+                        return 0;
+                    return this.vertices.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Mesh;
+        }());
+        unity.Mesh = Mesh;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Avatar definition.
+         */
+        var Avatar = /** @class */ (function () {
+            function Avatar() {
+            }
+            return Avatar;
+        }());
+        unity.Avatar = Avatar;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Interface to control the Mecanim animation system.
+         */
+        var Animator = /** @class */ (function (_super) {
+            __extends(Animator, _super);
+            function Animator() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                /**
+                 * Gets the avatar angular velocity for the last evaluated frame.
+                 */
+                _this.angularVelocity = new feng3d.Vector3();
+                /**
+                 * Should root motion be applied?
+                 */
+                _this.applyRootMotion = false;
+                /**
+                 * Gets/Sets the current Avatar.
+                 */
+                _this.avatar = null;
+                /**
+                 * The position of the body center of mass.
+                 */
+                _this.bodyPosition = new feng3d.Vector3();
+                /**
+                 * The rotation of the body center of mass.
+                 */
+                _this.bodyRotation = new feng3d.Quaternion();
+                /**
+                 * Controls culling of this Animator component.
+                 */
+                _this.cullingMode = unity.AnimatorCullingMode.AlwaysAnimate;
+                /**
+                 * Gets the avatar delta position for the last evaluated frame.
+                 */
+                _this.deltaPosition = new feng3d.Vector3();
+                /**
+                 * Gets the avatar delta rotation for the last evaluated frame.
+                 */
+                _this.deltaRotation = new feng3d.Quaternion();
+                /**
+                 * Blends pivot point between body center of mass and feet pivot.
+                 */
+                _this.feetPivotActive = 1;
+                /**
+                 * Sets whether the Animator sends events of type AnimationEvent.
+                 */
+                _this.fireEvents = true;
+                /**
+                 * The current gravity weight based on current animations that are played.
+                 */
+                _this.gravityWeight = 0;
+                /**
+                 * Returns true if Animator has any playables assigned to it.
+                 */
+                _this.hasBoundPlayables = true;
+                /**
+                 * Returns true if the current rig has root motion.
+                 */
+                _this.hasRootMotion = false;
+                /**
+                 * Returns true if the object has a transform hierarchy.
+                 */
+                _this.hasTransformHierarchy = true;
+                /**
+                 * Returns the scale of the current Avatar for a humanoid rig, (1 by default if the rig is generic).
+                 */
+                _this.humanScale = 1;
+                /**
+                 * Returns true if the current rig is humanoid, false if it is generic.
+                 */
+                _this.isHuman = false;
+                /**
+                 * Returns whether the animator is initialized successfully.
+                 */
+                _this.isInitialized = true;
+                /**
+                 * If automatic matching is active.
+                 */
+                _this.isMatchingTarget = false;
+                /**
+                 * Returns true if the current rig is optimizable with AnimatorUtility.OptimizeTransformHierarchy.
+                 */
+                _this.isOptimizable = false;
+                /**
+                 * Controls the behaviour of the Animator component when a GameObject is disabled.
+                 */
+                _this.keepAnimatorControllerStateOnDisable = false;
+                /**
+                 * Returns the number of layers in the controller.
+                 */
+                _this.layerCount = 1;
+                /**
+                 * Additional layers affects the center of mass.
+                 */
+                _this.layersAffectMassCenter = false;
+                /**
+                 * Get left foot bottom height.
+                 */
+                _this.leftFeetBottomHeight = 0;
+                /**
+                 * Returns the number of parameters in the controller.
+                 */
+                _this.parameterCount = 0;
+                /**
+                 * The AnimatorControllerParameter list used by the animator. (Read Only)
+                 */
+                _this.parameters = [];
+                /**
+                 * Get the current position of the pivot.
+                 */
+                _this.pivotPosition = new feng3d.Vector3();
+                /**
+                 * Gets the pivot weight.
+                 */
+                _this.pivotWeight = 0.5;
+                /**
+                 * The PlayableGraph created by the Animator.
+                 */
+                _this.playableGraph = new unity.PlayableGraph();
+                /**
+                 * Sets the playback position in the recording buffer.
+                 *
+                 * 设置记录缓冲区中的播放位置。
+                 */
+                _this.playbackTime = -1;
+                /**
+                 * Gets the mode of the Animator recorder.
+                 */
+                _this.recorderMode = unity.AnimatorRecorderMode.Offline;
+                /**
+                 * Start time of the first frame of the buffer relative to the frame at which StartRecording was called.
+                 */
+                _this.recorderStartTime = -1;
+                /**
+                 * End time of the recorded clip relative to when StartRecording was called.
+                 */
+                _this.recorderStopTime = -1;
+                /**
+                 * Get right foot bottom height.
+                 */
+                _this.rightFeetBottomHeight = 0;
+                /**
+                 * The root position, the position of the game object.
+                 */
+                _this.rootPosition = new feng3d.Vector3();
+                /**
+                 * The root rotation, the rotation of the game object.
+                 */
+                _this.rootRotation = new feng3d.Quaternion();
+                /**
+                 * The playback speed of the Animator. 1 is normal playback speed.
+                 */
+                _this.speed = 1;
+                /**
+                 * Automatic stabilization of feet during transition and blending.
+                 */
+                _this.stabilizeFeet = false;
+                /**
+                 * Returns the position of the target specified by SetTarget.
+                 */
+                _this.targetPosition = new feng3d.Vector3();
+                /**
+                 * Returns the rotation of the target specified by SetTarget.
+                 */
+                _this.targetRotation = new feng3d.Quaternion();
+                /**
+                 * Specifies the update mode of the Animator.
+                 */
+                _this.updateMode = unity.AnimatorUpdateMode.Normal;
+                /**
+                 * Gets the avatar velocity for the last evaluated frame.
+                 */
+                _this.velocity = new feng3d.Vector3();
+                /**
+                 * 是否播放中
+                 */
+                _this._isPlaying = false;
+                return _this;
+            }
+            /**
+             * Apply the default Root Motion.
+             *
+             * @param stateName 	The name of the state.
+             * @param normalizedTransitionDuration The duration of the transition (normalized).
+             * @param layer The layer where the crossfade occurs.
+             * @param normalizedTimeOffset The time of the state (normalized).
+             * @param normalizedTransitionTime The time of the transition (normalized).
+             */
+            Animator.prototype.ApplyBuiltinRootMotion = function (stateName, normalizedTransitionDuration, layer, normalizedTimeOffset, normalizedTransitionTime) {
+                if (layer === void 0) { layer = -1; }
+                if (normalizedTimeOffset === void 0) { normalizedTimeOffset = Number.MIN_SAFE_INTEGER; }
+                if (normalizedTransitionTime === void 0) { normalizedTransitionTime = 0.0; }
+            };
+            /**
+             * Creates a crossfade from the current state to any other state using normalized times.
+             *
+             * @param stateName The name of the state.
+             * @param normalizedTransitionDuration The duration of the transition (in seconds).
+             * @param layer The layer where the crossfade occurs.
+             * @param normalizedTimeOffset The time of the state (in seconds).
+             * @param normalizedTransitionTime The time of the transition (normalized).
+             */
+            Animator.prototype.CrossFade = function (stateName, normalizedTransitionDuration, layer, normalizedTimeOffset, normalizedTransitionTime) {
+                if (layer === void 0) { layer = -1; }
+                if (normalizedTimeOffset === void 0) { normalizedTimeOffset = Number.MIN_SAFE_INTEGER; }
+                if (normalizedTransitionTime === void 0) { normalizedTransitionTime = 0.0; }
+            };
+            /**
+             * Creates a crossfade from the current state to any other state using times in seconds.
+             *
+             * @param stateName The name of the state.
+             * @param fixedTransitionDuration The duration of the transition (in seconds).
+             * @param layer The layer where the crossfade occurs.
+             * @param fixedTimeOffset The time of the state (in seconds).
+             * @param normalizedTransitionTime The time of the transition (normalized).
+             */
+            Animator.prototype.CrossFadeInFixedTime = function (stateName, fixedTransitionDuration, layer, fixedTimeOffset, normalizedTransitionTime) {
+                if (layer === void 0) { layer = -1; }
+                if (fixedTimeOffset === void 0) { fixedTimeOffset = 0.0; }
+                if (normalizedTransitionTime === void 0) { normalizedTransitionTime = 0.0; }
+            };
+            /**
+             * Returns an AnimatorTransitionInfo with the informations on the current transition.
+             *
+             * @param layerIndex The layer's index.
+             */
+            Animator.prototype.GetAnimatorTransitionInfo = function (layerIndex) {
+            };
+            /**
+             * Returns the first StateMachineBehaviour that matches type T or is derived from T. Returns null if none are found.
+             */
+            Animator.prototype.GetBehaviour = function (type) {
+                return null;
+            };
+            /**
+             * Returns all StateMachineBehaviour that match type T or are derived from T. Returns null if none are found.
+             */
+            Animator.prototype.GetBehaviours = function (type) {
+                return null;
+            };
+            /**
+             * Returns Transform mapped to this human bone id.
+             *
+             * @param humanBoneId The human bone that is queried, see enum HumanBodyBones for a list of possible values.
+             */
+            Animator.prototype.GetBoneTransform = function (humanBoneId) {
+            };
+            /**
+             * Returns the value of the given boolean parameter.
+             *
+             * @param name The parameter name.
+             */
+            Animator.prototype.GetBool = function (name) {
+                return false;
+            };
+            /**
+             * Returns an array of all the AnimatorClipInfo in the current state of the given layer.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.GetCurrentAnimatorClipInfo = function (layerIndex) {
+                return null;
+            };
+            /**
+             * Returns the number of AnimatorClipInfo in the current state.
+             */
+            Animator.prototype.GetCurrentAnimatorClipInfoCount = function (layerIndex) {
+                return 0;
+            };
+            /**
+             * Returns an AnimatorStateInfo with the information on the current state.
+             */
+            Animator.prototype.GetCurrentAnimatorStateInfo = function (layerIndex) {
+                return null;
+            };
+            /**
+             * Returns the value of the given float parameter.
+             */
+            Animator.prototype.GetFloat = function (name) {
+                return 0;
+            };
+            /**
+             * Gets the position of an IK hint.
+             *
+             * @param hint The AvatarIKHint that is queried.
+             *
+             * @returns Vector3 Return the current position of this IK hint in world space.
+             */
+            Animator.prototype.GetIKHintPosition = function (hint) {
+                return null;
+            };
+            /**
+             * Gets the translative weight of an IK Hint (0 = at the original animation before IK, 1 = at the hint).
+             *
+             * @param hint The AvatarIKHint that is queried.
+             */
+            Animator.prototype.GetIKHintPositionWeight = function (hint) {
+                return 0;
+            };
+            /**
+             * Gets the position of an IK goal.
+             *
+             * @param goal The AvatarIKGoal that is queried.
+             */
+            Animator.prototype.GetIKPosition = function (goal) {
+                return null;
+            };
+            /**
+             * Gets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
+             *
+             * @param goal The AvatarIKGoal that is queried.
+             */
+            Animator.prototype.GetIKPositionWeight = function (goal) {
+            };
+            /**
+             * Gets the rotation of an IK goal.
+             *
+             * @param goal The AvatarIKGoal that is is queried.
+             */
+            Animator.prototype.GetIKRotation = function (goal) {
+            };
+            /**
+             * Gets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
+             *
+             * @param goal The AvatarIKGoal that is is queried.
+             */
+            Animator.prototype.GetIKRotationWeight = function (goal) {
+            };
+            /**
+             * Returns the value of the given integer parameter.
+             *
+             * @param name The parameter name.
+             */
+            Animator.prototype.GetInteger = function (name) {
+                return 0;
+            };
+            /**
+             * Returns the index of the layer with the given name.
+             *
+             * @param layerName The layer name.
+             */
+            Animator.prototype.GetLayerIndex = function (layerName) {
+            };
+            /**
+             * Returns the layer name.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.GetLayerName = function (layerIndex) {
+            };
+            /**
+             * Returns the weight of the layer at the specified index.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.GetLayerWeight = function (layerIndex) {
+            };
+            /**
+             * Returns an array of all the AnimatorClipInfo in the next state of the given layer.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.GetNextAnimatorClipInfo = function (layerIndex) {
+                return null;
+            };
+            /**
+             * Returns the number of AnimatorClipInfo in the next state.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.GetNextAnimatorClipInfoCount = function (layerIndex) {
+                return 0;
+            };
+            /**
+             * Returns an AnimatorStateInfo with the information on the next state.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.GetNextAnimatorStateInfo = function (layerIndex) {
+                return null;
+            };
+            /**
+             * See AnimatorController.parameters.
+             */
+            Animator.prototype.GetParameter = function (index) {
+                return null;
+            };
+            /**
+             * Returns true if the state exists in this layer, false otherwise.
+             *
+             * @param layerIndex The layer index.
+             * @param stateID The state ID.
+             */
+            Animator.prototype.HasState = function (layerIndex, stateID) {
+                return false;
+            };
+            /**
+             * Interrupts the automatic target matching.
+             *
+             * CompleteMatch will make the gameobject match the target completely at the next frame.
+             */
+            Animator.prototype.InterruptMatchTarget = function (completeMatch) {
+                if (completeMatch === void 0) { completeMatch = true; }
+            };
+            /**
+             * Returns true if there is a transition on the given layer, false otherwise.
+             *
+             * @param layerIndex The layer index.
+             */
+            Animator.prototype.IsInTransition = function (layerIndex) {
+            };
+            /**
+             * Returns true if the parameter is controlled by a curve, false otherwise.
+             *
+             * @param name The parameter name.
+             *
+             * @returns True if the parameter is controlled by a curve, false otherwise.
+             */
+            Animator.prototype.IsParameterControlledByCurve = function (name) {
+            };
+            /**
+             * Automatically adjust the GameObject position and rotation.
+             *
+             * @param matchPosition The position we want the body part to reach.
+             * @param matchRotation The rotation in which we want the body part to be.
+             * @param targetBodyPart The body part that is involved in the match.
+             * @param weightMask Structure that contains weights for matching position and rotation.
+             * @param startNormalizedTime Start time within the animation clip (0 - beginning of clip, 1 - end of clip).
+             * @param targetNormalizedTime End time within the animation clip (0 - beginning of clip, 1 - end of clip), values greater than 1 can be set to trigger a match after a certain number of loops. Ex: 2.3 means at 30% of 2nd loop.
+             */
+            Animator.prototype.MatchTarget = function (matchPosition, matchRotation, targetBodyPart, weightMask, startNormalizedTime, targetNormalizedTime) {
+                if (targetNormalizedTime === void 0) { targetNormalizedTime = 1; }
+            };
+            /**
+             * Plays a state.
+             *
+             * @param stateName The state name.
+             * @param layer The layer index. If layer is -1, it plays the first state with the given state name or hash.
+             * @param normalizedTime The time offset between zero and one.
+             */
+            Animator.prototype.Play = function (stateName, layer, normalizedTime) {
+                if (layer === void 0) { layer = -1; }
+                if (normalizedTime === void 0) { normalizedTime = Number.MIN_SAFE_INTEGER; }
+                if (this.runtimeAnimatorController == null)
+                    return;
+                var animationClip = this.runtimeAnimatorController.animationClips.filter(function (v) { return v.name == stateName; })[0];
+                if (animationClip == null)
+                    return;
+                this._activeAnimationClip = animationClip;
+                this.StartPlayback();
+            };
+            /**
+             * Plays a state.
+             *
+             * @param stateName The state name.
+             * @param layer The layer index. If layer is -1, it plays the first state with the given state name or hash.
+             * @param fixedTime The time offset (in seconds).
+             */
+            Animator.prototype.PlayInFixedTime = function (stateName, layer, fixedTime) {
+                if (layer === void 0) { layer = -1; }
+                if (fixedTime === void 0) { fixedTime = Number.MIN_SAFE_INTEGER; }
+            };
+            /**
+             * 每帧执行
+             *
+             * Evaluates the animator based on deltaTime.
+             */
+            Animator.prototype.update = function (deltaTime) {
+                if (!this._isPlaying)
+                    return;
+                this.playbackTime += deltaTime / 1000 * this.speed;
+                if (this._activeAnimationClip) {
+                    this._activeAnimationClip.SampleAnimation(this.gameObject, this.playbackTime);
+                }
+            };
+            /**
+             * Rebind all the animated properties and mesh data with the Animator.
+             */
+            Animator.prototype.Rebind = function () {
+            };
+            /**
+             * Resets the value of the given trigger parameter.
+             *
+             * @param name The parameter name.
+             */
+            Animator.prototype.ResetTrigger = function (name) {
+            };
+            /**
+             * Sets local rotation of a human bone during a IK pass.
+             *
+             * @param humanBoneId The human bone Id.
+             * @param rotation The local rotation.
+             */
+            Animator.prototype.SetBoneLocalRotation = function (humanBoneId, rotation) {
+            };
+            /**
+             * Sets the value of the given boolean parameter.
+             *
+             * @param name The parameter name.
+             * @param value The new parameter value.
+             */
+            Animator.prototype.SetBool = function (name, value) {
+            };
+            /**
+             * Send float values to the Animator to affect transitions.
+             *
+             * @param name The parameter name.
+             * @param value The new parameter value.
+             * @param dampTime The damper total time.
+             * @param deltaTime The delta time to give to the damper.
+             */
+            Animator.prototype.SetFloat = function (name, value, dampTime, deltaTime) {
+            };
+            /**
+             * Sets the position of an IK hint.
+             *
+             * @param hint The AvatarIKHint that is set.
+             * @param hintPosition The position in world space.
+             */
+            Animator.prototype.SetIKHintPosition = function (hint, hintPosition) {
+            };
+            /**
+             * Sets the translative weight of an IK hint (0 = at the original animation before IK, 1 = at the hint).
+             *
+             * @param hint The AvatarIKHint that is set.
+             * @param value The translative weight.
+             */
+            Animator.prototype.SetIKHintPositionWeight = function (hint, value) {
+            };
+            /**
+             * Sets the position of an IK goal.
+             *
+             * @param goal The AvatarIKGoal that is set.
+             * @param goalPosition The position in world space.
+             */
+            Animator.prototype.SetIKPosition = function (goal, goalPosition) {
+            };
+            /**
+             * Sets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
+             *
+             * @param goal The AvatarIKGoal that is set.
+             * @param value The translative weight.
+             */
+            Animator.prototype.SetIKPositionWeight = function (goal, value) {
+            };
+            /**
+             * Sets the rotation of an IK goal.
+             *
+             * @param goal The AvatarIKGoal that is set.
+             * @param goalRotation The rotation in world space.
+             */
+            Animator.prototype.SetIKRotation = function (goal, goalRotation) {
+            };
+            /**
+             * Sets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
+             *
+             * @param goal The AvatarIKGoal that is set.
+             * @param value The rotational weight.
+             */
+            Animator.prototype.SetIKRotationWeight = function (goal, value) {
+            };
+            /**
+             * Sets the value of the given integer parameter.
+             *
+             * @param name The parameter name.
+             * @param value The new parameter value.
+             */
+            Animator.prototype.SetInteger = function (name, value) {
+            };
+            /**
+             * Sets the weight of the layer at the given index.
+             *
+             * @param layerIndex The layer index.
+             * @param weight The new layer weight.
+             */
+            Animator.prototype.SetLayerWeight = function (layerIndex, weight) {
+            };
+            /**
+             * Sets the look at position.
+             *
+             * @param lookAtPosition The position to lookAt.
+             */
+            Animator.prototype.SetLookAtPosition = function (lookAtPosition) {
+            };
+            /**
+             * Set look at weights.
+             *
+             * @param weight (0-1) the global weight of the LookAt, multiplier for other parameters.
+             * @param bodyWeight (0-1) determines how much the body is involved in the LookAt.
+             * @param headWeight (0-1) determines how much the head is involved in the LookAt.
+             * @param eyesWeight (0-1) determines how much the eyes are involved in the LookAt.
+             * @param clampWeight (0-1) 0.0 means the character is completely unrestrained in motion, 1.0 means he's completely clamped (look at becomes impossible), and 0.5 means he'll be able to move on half of the possible range (180 degrees).
+             */
+            Animator.prototype.SetLookAtWeight = function (weight, bodyWeight, headWeight, eyesWeight, clampWeight) {
+                if (bodyWeight === void 0) { bodyWeight = 0.0; }
+                if (headWeight === void 0) { headWeight = 1.0; }
+                if (eyesWeight === void 0) { eyesWeight = 0.0; }
+                if (clampWeight === void 0) { clampWeight = 0.5; }
+            };
+            /**
+             * Sets an AvatarTarget and a targetNormalizedTime for the current state.
+             *
+             * @param targetIndex The avatar body part that is queried.
+             * @param targetNormalizedTime The current state Time that is queried.
+             */
+            Animator.prototype.SetTarget = function (targetIndex, targetNormalizedTime) {
+            };
+            /**
+             * Sets the value of the given trigger parameter.
+             *
+             * @param name The parameter name.
+             */
+            Animator.prototype.SetTrigger = function (name) {
+            };
+            /**
+             * Sets the animator in playback mode.
+             */
+            Animator.prototype.StartPlayback = function () {
+                this._isPlaying = true;
+            };
+            /**
+             * Sets the animator in recording mode, and allocates a circular buffer of size frameCount.
+             *
+             * @param frameCount The number of frames (updates) that will be recorded. If frameCount is 0, the recording will continue until the user calls StopRecording. The maximum value for frameCount is 10000.
+             */
+            Animator.prototype.StartRecording = function (frameCount) {
+            };
+            /**
+             * Stops the animator playback mode. When playback stops, the avatar resumes getting control from game logic.
+             */
+            Animator.prototype.StopPlayback = function () {
+                this._isPlaying = false;
+            };
+            /**
+             * Stops animator record mode.
+             */
+            Animator.prototype.StopRecording = function () {
+            };
+            /**
+             * Forces a write of the default values stored in the animator.
+             */
+            Animator.prototype.WriteDefaultValues = function () {
+            };
+            /**
+             * Generates an parameter id from a string.
+             */
+            Animator.StringToHash = function (name) {
+            };
+            return Animator;
+        }(feng3d.Behaviour));
+        unity.Animator = Animator;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The mode of the Animator's recorder.
+         *
+         * The recorder can either be Offline, in Playback or in Record.
+         */
+        var AnimatorRecorderMode;
+        (function (AnimatorRecorderMode) {
+            /**
+             * The Animator recorder is offline.
+             */
+            AnimatorRecorderMode[AnimatorRecorderMode["Offline"] = 0] = "Offline";
+            /**
+             * The Animator recorder is in Playback.
+             */
+            AnimatorRecorderMode[AnimatorRecorderMode["Playback"] = 1] = "Playback";
+            /**
+             * The Animator recorder is in Record.
+             */
+            AnimatorRecorderMode[AnimatorRecorderMode["Record"] = 2] = "Record";
+        })(AnimatorRecorderMode = unity.AnimatorRecorderMode || (unity.AnimatorRecorderMode = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The update mode of the Animator.
+         */
+        var AnimatorUpdateMode;
+        (function (AnimatorUpdateMode) {
+            /**
+             * Normal update of the animator.
+             */
+            AnimatorUpdateMode[AnimatorUpdateMode["Normal"] = 0] = "Normal";
+            /**
+             * Updates the animator during the physic loop in order to have the animation system synchronized with the physics engine.
+             */
+            AnimatorUpdateMode[AnimatorUpdateMode["AnimatePhysics"] = 1] = "AnimatePhysics";
+            /**
+             * Animator updates independently of Time.timeScale.
+             */
+            AnimatorUpdateMode[AnimatorUpdateMode["UnscaledTime"] = 2] = "UnscaledTime";
+        })(AnimatorUpdateMode = unity.AnimatorUpdateMode || (unity.AnimatorUpdateMode = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Culling mode for the Animator.
+         */
+        var AnimatorCullingMode;
+        (function (AnimatorCullingMode) {
+            /**
+             * Always animate the entire character. Object is animated even when offscreen.
+             */
+            AnimatorCullingMode[AnimatorCullingMode["AlwaysAnimate"] = 0] = "AlwaysAnimate";
+            /**
+             * Retarget, IK and write of Transforms are disabled when renderers are not visible.
+             */
+            AnimatorCullingMode[AnimatorCullingMode["CullUpdateTransforms"] = 1] = "CullUpdateTransforms";
+            /**
+             * Animation is completely disabled when renderers are not visible.
+             */
+            AnimatorCullingMode[AnimatorCullingMode["CullCompletely"] = 2] = "CullCompletely";
+        })(AnimatorCullingMode = unity.AnimatorCullingMode || (unity.AnimatorCullingMode = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The type of the parameter.
+         *
+         * Can be bool, float, int or trigger.
+         */
+        var AnimatorControllerParameterType;
+        (function (AnimatorControllerParameterType) {
+            /**
+             * Float type parameter.
+             */
+            AnimatorControllerParameterType[AnimatorControllerParameterType["Float"] = 0] = "Float";
+            /**
+             * Int type parameter.
+             */
+            AnimatorControllerParameterType[AnimatorControllerParameterType["Int"] = 1] = "Int";
+            /**
+             * Boolean type parameter.
+             */
+            AnimatorControllerParameterType[AnimatorControllerParameterType["Bool"] = 2] = "Bool";
+            /**
+             * Trigger type parameter.
+             */
+            AnimatorControllerParameterType[AnimatorControllerParameterType["Trigger"] = 3] = "Trigger";
+        })(AnimatorControllerParameterType = unity.AnimatorControllerParameterType || (unity.AnimatorControllerParameterType = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Used by Animation.Play function.
+         */
+        var AnimationBlendMode;
+        (function (AnimationBlendMode) {
+            /**
+             * Animations will be blended.
+             */
+            AnimationBlendMode[AnimationBlendMode["Blend"] = 0] = "Blend";
+            /**
+             * Animations will be added.
+             */
+            AnimationBlendMode[AnimationBlendMode["Additive"] = 1] = "Additive";
+        })(AnimationBlendMode = unity.AnimationBlendMode || (unity.AnimationBlendMode = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Specifies how the layer is blended with the previous layers.
+         */
+        var AnimatorLayerBlendingMode;
+        (function (AnimatorLayerBlendingMode) {
+            /**
+             * Animations overrides to the previous layers.
+             */
+            AnimatorLayerBlendingMode[AnimatorLayerBlendingMode["Override"] = 0] = "Override";
+            /**
+             * Animations are added to the previous layers.
+             */
+            AnimatorLayerBlendingMode[AnimatorLayerBlendingMode["Additive"] = 1] = "Additive";
+        })(AnimatorLayerBlendingMode = unity.AnimatorLayerBlendingMode || (unity.AnimatorLayerBlendingMode = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The mode of the condition.
+         */
+        var AnimatorConditionMode;
+        (function (AnimatorConditionMode) {
+            /**
+             * The condition is true when the parameter value is true.
+             */
+            AnimatorConditionMode[AnimatorConditionMode["If"] = 0] = "If";
+            /**
+             * The condition is true when the parameter value is false.
+             */
+            AnimatorConditionMode[AnimatorConditionMode["IfNot"] = 1] = "IfNot";
+            /**
+             * The condition is true when parameter value is greater than the threshold.
+             */
+            AnimatorConditionMode[AnimatorConditionMode["Greater"] = 2] = "Greater";
+            /**
+             * The condition is true when the parameter value is less than the threshold.
+             */
+            AnimatorConditionMode[AnimatorConditionMode["Less"] = 3] = "Less";
+            /**
+             * The condition is true when parameter value is equal to the threshold.
+             */
+            AnimatorConditionMode[AnimatorConditionMode["Equals"] = 4] = "Equals";
+            /**
+             * The condition is true when the parameter value is not equal to the threshold.
+             */
+            AnimatorConditionMode[AnimatorConditionMode["NotEqual"] = 5] = "NotEqual";
+        })(AnimatorConditionMode = unity.AnimatorConditionMode || (unity.AnimatorConditionMode = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Which AnimatorState transitions can interrupt the Transition.
+         */
+        var TransitionInterruptionSource;
+        (function (TransitionInterruptionSource) {
+            /**
+             * The Transition cannot be interrupted. Formely know as Atomic.
+             */
+            TransitionInterruptionSource[TransitionInterruptionSource["None"] = 0] = "None";
+            /**
+             * The Transition can be interrupted by transitions in the source AnimatorState.
+             */
+            TransitionInterruptionSource[TransitionInterruptionSource["Source"] = 1] = "Source";
+            /**
+             * The Transition can be interrupted by transitions in the destination AnimatorState.
+             */
+            TransitionInterruptionSource[TransitionInterruptionSource["Destination"] = 2] = "Destination";
+            /**
+             * The Transition can be interrupted by transitions in the source or the destination AnimatorState.
+             */
+            TransitionInterruptionSource[TransitionInterruptionSource["SourceThenDestination"] = 3] = "SourceThenDestination";
+            /**
+             * The Transition can be interrupted by transitions in the source or the destination AnimatorState.
+             */
+            TransitionInterruptionSource[TransitionInterruptionSource["DestinationThenSource"] = 4] = "DestinationThenSource";
+        })(TransitionInterruptionSource = unity.TransitionInterruptionSource || (unity.TransitionInterruptionSource = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Use this struct to specify the position and rotation weight mask for Animator.MatchTarget.
+         */
+        var MatchTargetWeightMask = /** @class */ (function () {
+            function MatchTargetWeightMask() {
+            }
+            return MatchTargetWeightMask;
+        }());
+        unity.MatchTargetWeightMask = MatchTargetWeightMask;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * AnimationEvent lets you call a script function similar to SendMessage as part of playing back an animation.
+         *
+         * Animation events support functions that take zero or one parameter. The parameter can be a float, an int, a string, an object reference, or an AnimationEvent.
+         */
+        var AnimationEvent = /** @class */ (function () {
+            function AnimationEvent() {
+            }
+            return AnimationEvent;
+        }());
+        unity.AnimationEvent = AnimationEvent;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * StateMachineBehaviour is a component that can be added to a state machine state. It's the base class every script on a state derives from.
+         */
+        var StateMachineBehaviour = /** @class */ (function () {
+            function StateMachineBehaviour() {
+            }
+            /**
+             * Called on the first Update frame when making a transition to a state machine. This is not called when making a transition into a state machine sub-state.
+             *
+             * @param animator The Animator playing this state machine.
+             * @param stateMachinePathHash The full path hash for this state machine.
+             */
+            StateMachineBehaviour.prototype.OnStateMachineEnter = function (animator, stateMachinePathHash) {
+            };
+            /**
+             * Called on the last Update frame when making a transition out of a StateMachine. This is not called when making a transition into a StateMachine sub-state.
+             *
+             * @param animator The Animator playing this state machine.
+             * @param stateMachinePathHash The full path hash for this state machine.
+             */
+            StateMachineBehaviour.prototype.OnStateMachineExit = function (animator, stateMachinePathHash) {
+            };
+            /**
+             * Called on the first Update frame when a state machine evaluate this state.
+             */
+            StateMachineBehaviour.prototype.OnStateEnter = function (animator, animatorStateInfo, layerIndex) {
+            };
+            /**
+             * Called on the last update frame when a state machine evaluate this state.
+             */
+            StateMachineBehaviour.prototype.OnStateExit = function (animator, animatorStateInfo, layerIndex) {
+            };
+            /**
+             * Called right after MonoBehaviour.OnAnimatorIK.
+             */
+            StateMachineBehaviour.prototype.OnStateIK = function (animator, animatorStateInfo, layerIndex) {
+            };
+            /**
+             * Called right after MonoBehaviour.OnAnimatorMove.
+             */
+            StateMachineBehaviour.prototype.OnStateMove = function (animator, animatorStateInfo, layerIndex) {
+            };
+            /**
+             * Called at each Update frame except for the first and last frame.
+             */
+            StateMachineBehaviour.prototype.OnStateUpdate = function (animator, animatorStateInfo, layerIndex) {
+            };
+            return StateMachineBehaviour;
+        }());
+        unity.StateMachineBehaviour = StateMachineBehaviour;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The animator state info related to this event (Read Only).
+         */
+        var AnimatorStateInfo = /** @class */ (function () {
+            function AnimatorStateInfo() {
+            }
+            /**
+             * Does name match the name of the active state in the statemachine?
+             */
+            AnimatorStateInfo.prototype.IsName = function (name) {
+            };
+            /**
+             * Does tag match the tag of the active state in the statemachine.
+             */
+            AnimatorStateInfo.prototype.IsTag = function (tag) {
+            };
+            return AnimatorStateInfo;
+        }());
+        unity.AnimatorStateInfo = AnimatorStateInfo;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Information about clip being played and blended by the Animator.
+         */
+        var AnimatorClipInfo = /** @class */ (function () {
+            function AnimatorClipInfo() {
+            }
+            return AnimatorClipInfo;
+        }());
+        unity.AnimatorClipInfo = AnimatorClipInfo;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The AnimationState gives full control over animation blending.
+         */
+        var AnimationState = /** @class */ (function () {
+            function AnimationState() {
+            }
+            /**
+             * Adds a transform which should be animated. This allows you to reduce the number of animations you have to create.
+             *
+             * @param mix The transform to animate.
+             * @param recursive Whether to also animate all children of the specified transform.
+             */
+            AnimationState.prototype.AddMixingTransform = function (mix, recursive) {
+                if (recursive === void 0) { recursive = true; }
+            };
+            /**
+             * Removes a transform which should be animated.
+             */
+            AnimationState.prototype.RemoveMixingTransform = function (mix) {
+            };
+            return AnimationState;
+        }());
+        unity.AnimationState = AnimationState;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Stores keyframe based animations.
+         *
+         * AnimationClip is used by Animation to play back animations.
+         */
+        var AnimationClip = /** @class */ (function () {
+            function AnimationClip() {
+                /**
+                 * The name of the object.
+                 */
+                this.name = "";
+                /**
+                 * Animation Events for this animation clip.
+                 */
+                this.events = [];
+                /**
+                 * Frame rate at which keyframes are sampled. (Read Only)
+                 */
+                this.frameRate = 60;
+                /**
+                 * Returns true if the Animation has animation on the root transform.
+                 */
+                this.hasGenericRootTransform = false;
+                /**
+                 * Returns true if the AnimationClip has root motion curves.
+                 */
+                this.hasMotionCurves = false;
+                /**
+                 * Returns true if the AnimationClip has editor curves for its root motion.
+                 */
+                this.hasMotionFloatCurves = false;
+                /**
+                 * Returns true if the AnimationClip has root Curves.
+                 */
+                this.hasRootCurves = false;
+                /**
+                 * Returns true if the animation contains curve that drives a humanoid rig.
+                 */
+                this.humanMotion = false;
+                /**
+                 * Set to true if the AnimationClip will be used with the Legacy Animation component ( instead of the Animator ).
+                 */
+                this.legacy = false;
+                /**
+                 * AABB of this Animation Clip in local space of Animation component that it is attached too.
+                 */
+                this.localBounds = new unity.Bounds();
+                /**
+                 * Sets the default wrap mode used in the animation state.
+                 */
+                this.wrapMode = feng3d.WrapMode.Default;
+                /**
+                 * 曲线数据
+                 */
+                this.curvedatas = [];
+                this.name = "New Animation";
+                feng3d.serialization.setValue(this.curvedatas, [
+                    {
+                        "path": "",
+                        "propertyName": "m_LocalScale.x",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 1.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 2.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "m_LocalScale.y",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 1.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 1.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "m_LocalScale.z",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 1.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 1.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "localEulerAnglesRaw.x",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 0.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 90.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "localEulerAnglesRaw.y",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 0.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 0.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "localEulerAnglesRaw.z",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 0.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 0.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "material._Color.r",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 1.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 0.04585886,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "material._Color.g",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 0.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 1.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "material._Color.b",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 0.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 0.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    },
+                    {
+                        "path": "",
+                        "propertyName": "material._Color.a",
+                        "curve": {
+                            "postWrapMode": 8,
+                            "preWrapMode": 8,
+                            "keys": [
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.0,
+                                    "value": 1.0,
+                                },
+                                {
+                                    "inTangent": 0.0,
+                                    "outTangent": 0.0,
+                                    "time": 0.5,
+                                    "value": 1.0,
+                                }
+                            ],
+                            "__class__": "feng3d.AnimationCurve"
+                        },
+                        "__class__": "feng3d.unity.AnimationClipCurveData"
+                    }
+                ]);
+            }
+            Object.defineProperty(AnimationClip.prototype, "empty", {
+                /**
+                 * Returns true if the animation clip has no curves and no events.
+                 */
+                get: function () {
+                    if (this.events.length > 0)
+                        return false;
+                    if (this.curvedatas.length > 0)
+                        return false;
+                    return true;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(AnimationClip.prototype, "length", {
+                /**
+                 * Animation length in seconds. (Read Only)
+                 */
+                get: function () {
+                    var l = this.curvedatas.reduce(function (pv, cv) {
+                        var animationCurve = cv.curve;
+                        var keys = animationCurve.keys;
+                        if (keys.length > 0) {
+                            var lastkey = keys[keys.length - 1];
+                            pv = Math.max(pv, lastkey.time);
+                        }
+                        return pv;
+                    }, 0);
+                    return l;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+             * Adds an animation event to the clip.
+             */
+            AnimationClip.prototype.AddEvent = function (evt) {
+                this.events.push(evt);
+            };
+            /**
+             * Clears all curves from the clip.
+             */
+            AnimationClip.prototype.ClearCurves = function () {
+                this.curvedatas = [];
+            };
+            /**
+             * Realigns quaternion keys to ensure shortest interpolation paths.
+             */
+            AnimationClip.prototype.EnsureQuaternionContinuity = function () {
+            };
+            /**
+             * Samples an animation at a given time for any animated properties.
+             *
+             * @param go The animated game object.
+             * @param time The time to sample an animation.
+             */
+            AnimationClip.prototype.SampleAnimation = function (go, time) {
+                this.curvedatas.forEach(function (cd) {
+                    var anigo = go.find(cd.path);
+                    var propertys = cd.propertyName.split(".");
+                    cd.path;
+                    cd.type;
+                    var value = cd.curve.getValue(time);
+                    switch (propertys[0]) {
+                        case "m_LocalScale":
+                            anigo.transform.scale[propertys[1]] = value;
+                            break;
+                        case "localEulerAnglesRaw":
+                            anigo.transform.rotation[propertys[1]] = value;
+                            break;
+                        case "material":
+                            var meshRenderer = anigo.getComponent(feng3d.MeshRenderer);
+                            if (meshRenderer && meshRenderer.material) {
+                                var uniforms = meshRenderer.material.uniforms;
+                                // serialization.setValue(uniforms,)
+                                Object;
+                            }
+                            break;
+                        default:
+                            console.warn("\u65E0\u6CD5\u5904\u7406\u52A8\u753B\u5C5E\u6027 " + propertys[0]);
+                            break;
+                    }
+                });
+            };
+            /**
+             * Assigns the curve to animate a specific property.
+             *
+             * @param relativePath Path to the game object this curve applies to. The relativePath is formatted similar to a pathname, e.g. "root/spine/leftArm". If relativePath is empty it refers to the game object the animation clip is attached to.
+             * @param type The class type of the component that is animated.
+             * @param propertyName The name or path to the property being animated.
+             * @param curve The animation curve.
+             */
+            AnimationClip.prototype.SetCurve = function (relativePath, type, propertyName, curve) {
+                var data = new unity.AnimationClipCurveData();
+                data.path = relativePath;
+                data.type = type;
+                data.propertyName = propertyName;
+                data.curve = curve;
+                this.curvedatas.push(data);
+            };
+            /**
+             * Retrieves all curves from a specific animation clip.
+             *
+             * 等价Unity中AnimationUtility.GetAllCurves
+             */
+            AnimationClip.prototype.GetAllCurves = function () {
+                return this.curvedatas;
+            };
+            /**
+             * Returns all the float curve bindings currently stored in the clip.
+             */
+            AnimationClip.prototype.GetCurveBindings = function () {
+                var bindings = this.curvedatas.map(function (v) {
+                    var binding = new unity.EditorCurveBinding();
+                    binding.path = v.path;
+                    binding.propertyName = v.propertyName;
+                    binding.type = v.type;
+                    return binding;
+                });
+                return bindings;
+            };
+            return AnimationClip;
+        }());
+        unity.AnimationClip = AnimationClip;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The runtime representation of the AnimatorController. Use this representation to change the Animator Controller during runtime.
+         */
+        var RuntimeAnimatorController = /** @class */ (function () {
+            function RuntimeAnimatorController() {
+            }
+            return RuntimeAnimatorController;
+        }());
+        unity.RuntimeAnimatorController = RuntimeAnimatorController;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Used to communicate between scripting and the controller. Some parameters can be set in scripting and used by the controller, while other parameters are based on Custom Curves in Animation Clips and can be sampled using the scripting API.
+         */
+        var AnimatorControllerParameter = /** @class */ (function () {
+            function AnimatorControllerParameter() {
+            }
+            return AnimatorControllerParameter;
+        }());
+        unity.AnimatorControllerParameter = AnimatorControllerParameter;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Defines how a curve is attached to an object that it controls.
+         */
+        var EditorCurveBinding = /** @class */ (function () {
+            function EditorCurveBinding() {
+            }
+            /**
+             * Creates a preconfigured binding for a curve where values should not be interpolated.
+             *
+             * @param inPath The transform path to the object to animate.
+             * @param inType The type of the object to animate.
+             * @param inPropertyName The name of the property to animate on the object.
+             */
+            EditorCurveBinding.DiscreteCurve = function (inPath, inType, inPropertyName) {
+            };
+            /**
+             * Creates a preconfigured binding for a float curve.
+             *
+             * @param inPath The transform path to the object to animate.
+             * @param inType The type of the object to animate.
+             * @param inPropertyName The name of the property to animate on the object.
+             */
+            EditorCurveBinding.FloatCurve = function (inPath, inType, inPropertyName) {
+            };
+            /**
+             * Creates a preconfigured binding for a curve that points to an Object.
+             *
+             * @param inPath The transform path to the object to animate.
+             * @param inType The type of the object to animate.
+             * @param inPropertyName The name of the property to animate on the object.
+             */
+            EditorCurveBinding.PPtrCurve = function (inPath, inType, inPropertyName) {
+            };
+            return EditorCurveBinding;
+        }());
+        unity.EditorCurveBinding = EditorCurveBinding;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * An AnimationClipCurveData object contains all the information needed to identify a specific curve in an AnimationClip. The curve animates a specific property of a component / material attached to a game object / animated bone.
+         */
+        var AnimationClipCurveData = /** @class */ (function () {
+            function AnimationClipCurveData() {
+            }
+            return AnimationClipCurveData;
+        }());
+        unity.AnimationClipCurveData = AnimationClipCurveData;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The Animator Controller controls animation through layers with state machines, controlled by parameters.
+         */
+        var AnimatorController = /** @class */ (function (_super) {
+            __extends(AnimatorController, _super);
+            function AnimatorController() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return AnimatorController;
+        }(unity.RuntimeAnimatorController));
+        unity.AnimatorController = AnimatorController;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * The Animation Layer contains a state machine that controls animations of a model or part of it.
+         */
+        var AnimatorControllerLayer = /** @class */ (function () {
+            function AnimatorControllerLayer() {
+            }
+            /**
+             * Gets the override behaviour list for the state on the given layer.
+             *
+             * @param state The state which we want to get the behaviour list.
+             */
+            AnimatorControllerLayer.prototype.GetOverrideBehaviours = function (state) {
+            };
+            /**
+             * Gets the override motion for the state on the given layer.
+             *
+             * @param state The state which we want to get the motion.
+             */
+            AnimatorControllerLayer.prototype.GetOverrideMotion = function (state) {
+            };
+            /**
+             * Sets the override behaviour list for the state on the given layer.
+             *
+             * @param state The state which we want to set the behaviour list.
+             * @param behaviours The behaviour list that will be set.
+             */
+            AnimatorControllerLayer.prototype.SetOverrideBehaviours = function (state, behaviours) {
+            };
+            /**
+             * Sets the override motion for the state on the given layer.
+             *
+             * @param state The state which we want to set the motion.
+             * @param motion The motion that will be set.
+             */
+            AnimatorControllerLayer.prototype.SetOverrideMotion = function (state, motion) {
+            };
+            return AnimatorControllerLayer;
+        }());
+        unity.AnimatorControllerLayer = AnimatorControllerLayer;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * AvatarMask is used to mask out humanoid body parts and transforms.
+         *
+         * They can be used when importing animation or in an animator controller layer.
+         */
+        var AvatarMask = /** @class */ (function () {
+            function AvatarMask() {
+            }
+            /**
+             * Adds a transform path into the AvatarMask.
+             *
+             * @param transform The transform to add into the AvatarMask.
+             * @param recursive Whether to also add all children of the specified transform.
+             */
+            AvatarMask.prototype.AddTransformPath = function (transform, recursive) {
+                if (recursive === void 0) { recursive = true; }
+            };
+            /**
+             * Returns true if the humanoid body part at the given index is active.
+             *
+             * @param index The index of the humanoid body part.
+             */
+            AvatarMask.prototype.GetHumanoidBodyPartActive = function (index) {
+            };
+            /**
+             * Returns true if the transform at the given index is active.
+             *
+             * @param index The index of the transform.
+             */
+            AvatarMask.prototype.GetTransformActive = function (index) {
+            };
+            /**
+             * Returns the path of the transform at the given index.
+             *
+             * @param index The index of the transform.
+             */
+            AvatarMask.prototype.GetTransformPath = function (index) {
+            };
+            /**
+             * Removes a transform path from the AvatarMask.
+             *
+             * @param transform The Transform that should be removed from the AvatarMask.
+             * @param recursive Whether to also remove all children of the specified transform.
+             */
+            AvatarMask.prototype.RemoveTransformPath = function (transform, recursive) {
+                if (recursive === void 0) { recursive = true; }
+            };
+            /**
+             * Sets the humanoid body part at the given index to active or not.
+             *
+             * @param index The index of the humanoid body part.
+             * @param value Active or not.
+             */
+            AvatarMask.prototype.SetHumanoidBodyPartActive = function (index, value) {
+            };
+            /**
+             * Sets the tranform at the given index to active or not.
+             *
+             * @param index The index of the transform.
+             * @param value Active or not.
+             */
+            AvatarMask.prototype.SetTransformActive = function (index, value) {
+            };
+            /**
+             * Sets the path of the transform at the given index.
+             *
+             * @param index The index of the transform.
+             * @param path The path of the transform.
+             */
+            AvatarMask.prototype.SetTransformPath = function (index, path) {
+            };
+            return AvatarMask;
+        }());
+        unity.AvatarMask = AvatarMask;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Avatar body part.
+         */
+        var AvatarMaskBodyPart;
+        (function (AvatarMaskBodyPart) {
+            /**
+             * The Root.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["Root"] = 0] = "Root";
+            /**
+             * The Body.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["Body"] = 1] = "Body";
+            /**
+             * The Head.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["Head"] = 2] = "Head";
+            /**
+             * The Left Leg.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["LeftLeg"] = 3] = "LeftLeg";
+            /**
+             * The Right Leg.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["RightLeg"] = 4] = "RightLeg";
+            /**
+             * The Left Arm.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["LeftArm"] = 5] = "LeftArm";
+            /**
+             * The Right Arm.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["RightArm"] = 6] = "RightArm";
+            /**
+             * Left Fingers.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["LeftFingers"] = 7] = "LeftFingers";
+            /**
+             * Right Fingers.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["RightFingers"] = 8] = "RightFingers";
+            /**
+             * Left Foot IK.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["LeftFootIK"] = 9] = "LeftFootIK";
+            /**
+             * Right Foot IK.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["RightFootIK"] = 10] = "RightFootIK";
+            /**
+             * Left Hand IK.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["LeftHandIK"] = 11] = "LeftHandIK";
+            /**
+             * Right Hand IK.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["RightHandIK"] = 12] = "RightHandIK";
+            /**
+             * Total number of body parts.
+             */
+            AvatarMaskBodyPart[AvatarMaskBodyPart["LastBodyPart"] = 13] = "LastBodyPart";
+        })(AvatarMaskBodyPart = unity.AvatarMaskBodyPart || (unity.AvatarMaskBodyPart = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * A graph controlling the interaction of states. Each state references a motion.
+         */
+        var AnimatorStateMachine = /** @class */ (function () {
+            function AnimatorStateMachine() {
+            }
+            return AnimatorStateMachine;
+        }());
+        unity.AnimatorStateMachine = AnimatorStateMachine;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Base class for animator transitions. Transitions define when and how the state machine switches from one state to another.
+         *
+         * A transition happens when all its conditions are met.
+         */
+        var AnimatorTransitionBase = /** @class */ (function () {
+            function AnimatorTransitionBase() {
+            }
+            /**
+             * Utility function to add a condition to a transition.
+             *
+             * @param mode The AnimatorCondition mode of the condition.
+             * @param threshold The threshold value of the condition.
+             * @param parameter The name of the parameter.
+             */
+            AnimatorTransitionBase.prototype.AddCondition = function (mode, threshold, parameter) {
+                var condition = new unity.AnimatorCondition();
+                condition.mode = mode;
+                condition.threshold = threshold;
+                condition.parameter = parameter;
+                this.conditions.push(condition);
+            };
+            /**
+             * Utility function to remove a condition from the transition.
+             *
+             * @param condition The condition to remove.
+             */
+            AnimatorTransitionBase.prototype.RemoveCondition = function (condition) {
+                this.conditions = this.conditions.filter(function (v) { return v != condition; });
+            };
+            return AnimatorTransitionBase;
+        }());
+        unity.AnimatorTransitionBase = AnimatorTransitionBase;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Transitions define when and how the state machine switch from one state to another. AnimatorStateTransition always originate from an Animator State (or AnyState) and have timing parameters.
+         *
+         * A transition happens when all its conditions are met. AnimatorStateTransition derives from AnimatorTransitionBase.
+         */
+        var AnimatorStateTransition = /** @class */ (function (_super) {
+            __extends(AnimatorStateTransition, _super);
+            function AnimatorStateTransition() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return AnimatorStateTransition;
+        }(unity.AnimatorTransitionBase));
+        unity.AnimatorStateTransition = AnimatorStateTransition;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * AnimatorCondition conditions that need to be met for a transition to happen.
+         */
+        var AnimatorCondition = /** @class */ (function () {
+            function AnimatorCondition() {
+            }
+            return AnimatorCondition;
+        }());
+        unity.AnimatorCondition = AnimatorCondition;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * States are the basic building blocks of a state machine. Each state contains a Motion ( AnimationClip or BlendTree) which will play while the character is in that state. When an event in the game triggers a state transition, the character will be left in a new state whose animation sequence will then take over.
+         */
+        var AnimatorState = /** @class */ (function () {
+            function AnimatorState() {
+            }
+            /**
+             * Utility function to add an outgoing transition to the exit of the state's parent state machine.
+             *
+             * @param defaultExitTime If true, the exit time will be the equivalent of 0.25 second.
+             */
+            AnimatorState.prototype.AddExitTransition = function (defaultExitTime) {
+            };
+            /**
+             * Adds a state machine behaviour class of type stateMachineBehaviourType to the AnimatorState. C# Users can use a generic version.
+             */
+            AnimatorState.prototype.AddStateMachineBehaviour = function (stateMachineBehaviourType) {
+            };
+            /**
+             * Utility function to add an outgoing transition to the destination state.
+             *
+             * @param destinationState The destination state | machine.
+             * @param defaultExitTime If true, the exit time will be the equivalent of 0.25 second.
+             */
+            AnimatorState.prototype.AddTransition = function (destinationState, defaultExitTime) {
+            };
+            /**
+             * Utility function to remove a transition from the state.
+             *
+             * @param transition Transition to remove.
+             */
+            AnimatorState.prototype.RemoveTransition = function (transition) {
+                this.transitions = this.transitions.filter(function (v) { return v != transition; });
+            };
+            return AnimatorState;
+        }());
+        unity.AnimatorState = AnimatorState;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Base class for AnimationClips and BlendTrees.
+         *
+         * Motions are used by animation States in the Mecanim StateMachines.
+         */
+        var Motion = /** @class */ (function () {
+            function Motion() {
+            }
+            return Motion;
+        }());
+        unity.Motion = Motion;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Transitions define when and how the state machine switch from on state to another. AnimatorTransition always originate from a StateMachine or a StateMachine entry. They do not define timing parameters.
+         *
+         * A transition happens when all its conditions are met.
+         */
+        var AnimatorTransition = /** @class */ (function (_super) {
+            __extends(AnimatorTransition, _super);
+            function AnimatorTransition() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            return AnimatorTransition;
+        }(unity.AnimatorTransitionBase));
+        unity.AnimatorTransition = AnimatorTransition;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Structure that represents a state machine in the context of its parent state machine.
+         */
+        var ChildAnimatorStateMachine = /** @class */ (function () {
+            function ChildAnimatorStateMachine() {
+            }
+            return ChildAnimatorStateMachine;
+        }());
+        unity.ChildAnimatorStateMachine = ChildAnimatorStateMachine;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Structure that represents a state in the context of its parent state machine.
+         */
+        var ChildAnimatorState = /** @class */ (function () {
+            function ChildAnimatorState() {
+            }
+            return ChildAnimatorState;
+        }());
+        unity.ChildAnimatorState = ChildAnimatorState;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
+         * Use the PlayableGraph to manage Playable creations and destructions.
+         *
+         * The PlayableGraph is also the link to different systems, through structs that implement IPlayableOutput. For example, AnimationPlayableOutput or AudioPlayableOutput.
+         */
+        var PlayableGraph = /** @class */ (function () {
+            function PlayableGraph() {
+            }
+            return PlayableGraph;
+        }());
+        unity.PlayableGraph = PlayableGraph;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {

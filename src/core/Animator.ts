@@ -224,6 +224,11 @@ namespace feng3d.unity
         private _activeAnimationClip: AnimationClip;
 
         /**
+         * 是否播放中
+         */
+        private _isPlaying = false;
+
+        /**
          * Apply the default Root Motion.
          * 
          * @param stateName 	The name of the state.
@@ -469,6 +474,8 @@ namespace feng3d.unity
 
         /**
          * Returns an AnimatorStateInfo with the information on the next state.
+         * 
+         * @param layerIndex The layer index.
          */
         GetNextAnimatorStateInfo(layerIndex: number): AnimatorStateInfo
         {
@@ -556,19 +563,8 @@ namespace feng3d.unity
             if (animationClip == null) return;
 
             this._activeAnimationClip = animationClip;
-        }
 
-        /**
-         * 每帧执行
-         */
-        update(interval?: number)
-        {
-            this.playbackTime += interval / 1000;
-
-            if (this._activeAnimationClip)
-            {
-                this._activeAnimationClip.SampleAnimation(this.gameObject, this.playbackTime);
-            }
+            this.StartPlayback();
         }
 
         /**
@@ -581,6 +577,23 @@ namespace feng3d.unity
         PlayInFixedTime(stateName: string, layer = -1, fixedTime = Number.MIN_SAFE_INTEGER)
         {
 
+        }
+
+        /**
+         * 每帧执行
+         * 
+         * Evaluates the animator based on deltaTime.
+         */
+        update(deltaTime?: number)
+        {
+            if (!this._isPlaying) return;
+
+            this.playbackTime += deltaTime / 1000 * this.speed;
+
+            if (this._activeAnimationClip)
+            {
+                this._activeAnimationClip.SampleAnimation(this.gameObject, this.playbackTime);
+            }
         }
 
         /**
@@ -774,11 +787,13 @@ namespace feng3d.unity
          */
         StartPlayback()
         {
-
+            this._isPlaying = true;
         }
 
         /**
          * Sets the animator in recording mode, and allocates a circular buffer of size frameCount.
+         * 
+         * @param frameCount The number of frames (updates) that will be recorded. If frameCount is 0, the recording will continue until the user calls StopRecording. The maximum value for frameCount is 10000.
          */
         StartRecording(frameCount: number)
         {
@@ -790,21 +805,13 @@ namespace feng3d.unity
          */
         StopPlayback()
         {
-
+            this._isPlaying = false;
         }
 
         /**
          * Stops animator record mode.
          */
         StopRecording()
-        {
-
-        }
-
-        /**
-         * Evaluates the animator based on deltaTime.
-         */
-        Update(deltaTime: number)
         {
 
         }

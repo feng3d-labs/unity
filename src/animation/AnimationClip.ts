@@ -18,7 +18,7 @@ namespace feng3d.unity
         get empty()
         {
             if (this.events.length > 0) return false;
-            if (this._curvedata.length > 0) return false;
+            if (this.curvedatas.length > 0) return false;
             return true;
         }
 
@@ -67,7 +67,7 @@ namespace feng3d.unity
          */
         get length()
         {
-            var l = this._curvedata.reduce((pv, cv) =>
+            var l = this.curvedatas.reduce((pv, cv) =>
             {
                 var animationCurve = cv.curve;
                 var keys = animationCurve.keys;
@@ -94,7 +94,273 @@ namespace feng3d.unity
         /**
          * 曲线数据
          */
-        private _curvedata: AnimationClipCurveData[] = [];
+        private curvedatas: AnimationClipCurveData[] = [];
+
+        constructor()
+        {
+            this.name = "New Animation";
+
+            serialization.setValue(this.curvedatas, [
+                {
+                    "path": "",
+                    "propertyName": "m_LocalScale.x",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 1.0,
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 2.0,
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "m_LocalScale.y",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 1.0,
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 1.0,
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "m_LocalScale.z",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 1.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 1.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "localEulerAnglesRaw.x",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 0.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 90.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "localEulerAnglesRaw.y",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 0.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 0.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "localEulerAnglesRaw.z",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 0.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 0.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "material._Color.r",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 1.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 0.04585886,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "material._Color.g",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 0.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 1.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "material._Color.b",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 0.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 0.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                },
+                {
+                    "path": "",
+                    "propertyName": "material._Color.a",
+                    "curve": {
+                        "postWrapMode": 8,
+                        "preWrapMode": 8,
+                        "keys": [
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.0,
+                                "value": 1.0,
+
+                            },
+                            {
+                                "inTangent": 0.0,
+                                "outTangent": 0.0,
+                                "time": 0.5,
+                                "value": 1.0,
+
+                            }
+                        ],
+                        "__class__": "feng3d.AnimationCurve"
+                    },
+                    "__class__": "feng3d.unity.AnimationClipCurveData"
+                }
+            ]);
+
+
+        }
 
         /**
          * Adds an animation event to the clip.
@@ -109,7 +375,7 @@ namespace feng3d.unity
          */
         ClearCurves()
         {
-            this._curvedata = [];
+            this.curvedatas = [];
         }
 
         /**
@@ -128,7 +394,40 @@ namespace feng3d.unity
          */
         SampleAnimation(go: GameObject, time: number)
         {
+            this.curvedatas.forEach(cd =>
+            {
+                var anigo = go.find(cd.path);
+                var propertys = cd.propertyName.split(".");
 
+                cd.path
+                cd.type
+                var value = cd.curve.getValue(time);
+
+                switch (propertys[0])
+                {
+                    case "m_LocalScale":
+                        anigo.transform.scale[propertys[1]] = value;
+                        break;
+                    case "localEulerAnglesRaw":
+                        anigo.transform.rotation[propertys[1]] = value;
+                        break;
+                    case "material":
+                        var meshRenderer = anigo.getComponent(MeshRenderer);
+                        if (meshRenderer && meshRenderer.material)
+                        {
+                            var uniforms = meshRenderer.material.uniforms;
+                            // serialization.setValue(uniforms,)
+                            Object
+                            
+                        }
+                        break;
+                    default:
+                        console.warn(`无法处理动画属性 ${propertys[0]}`);
+                        break;
+                }
+
+
+            });
         }
 
         /**
@@ -146,7 +445,7 @@ namespace feng3d.unity
             data.type = type;
             data.propertyName = propertyName;
             data.curve = curve;
-            this._curvedata.push(data)
+            this.curvedatas.push(data)
         }
 
         /**
@@ -156,7 +455,7 @@ namespace feng3d.unity
          */
         GetAllCurves()
         {
-            return this._curvedata;
+            return this.curvedatas;
         }
 
         /**
@@ -164,7 +463,7 @@ namespace feng3d.unity
          */
         GetCurveBindings()
         {
-            var bindings: EditorCurveBinding[] = this._curvedata.map(v =>
+            var bindings: EditorCurveBinding[] = this.curvedatas.map(v =>
             {
                 var binding = new EditorCurveBinding();
                 binding.path = v.path;

@@ -2,8 +2,49 @@
   "bundle": {
     "commonSourceDirectory": "..",
     "sourceFiles": [
+      "../src/enums/AvatarTarget.ts",
+      "../src/enums/AvatarIKHint.ts",
+      "../src/enums/AvatarIKGoal.ts",
+      "../src/enums/HumanBodyBones.ts",
+      "../src/enums/SendMessageOptions.ts",
+      "../src/base/Bounds.ts",
       "../src/core/BoneWeight.ts",
       "../src/core/Mesh.ts",
+      "../src/core/Avatar.ts",
+      "../src/core/Animator.ts",
+      "../src/animation/enums/AnimatorRecorderMode.ts",
+      "../src/animation/enums/AnimatorUpdateMode.ts",
+      "../src/animation/enums/AnimatorCullingMode.ts",
+      "../src/animation/enums/AnimatorControllerParameterType.ts",
+      "../src/animation/enums/AnimationBlendMode.ts",
+      "../src/animation/enums/AnimatorLayerBlendingMode.ts",
+      "../src/animation/enums/AnimatorConditionMode.ts",
+      "../src/animation/enums/TransitionInterruptionSource.ts",
+      "../src/animation/MatchTargetWeightMask.ts",
+      "../src/animation/AnimationEvent.ts",
+      "../src/animation/StateMachineBehaviour.ts",
+      "../src/animation/AnimatorStateInfo.ts",
+      "../src/animation/AnimatorClipInfo.ts",
+      "../src/animation/AnimationState.ts",
+      "../src/animation/AnimationClip.ts",
+      "../src/animation/RuntimeAnimatorController.ts",
+      "../src/animation/AnimatorControllerParameter.ts",
+      "../src/animation/EditorCurveBinding.ts",
+      "../src/animation/AnimationClipCurveData.ts",
+      "../src/animation/AnimatorController.ts",
+      "../src/animation/AnimatorControllerLayer.ts",
+      "../src/animation/AvatarMask.ts",
+      "../src/animation/AvatarMaskBodyPart.ts",
+      "../src/animation/AnimatorStateMachine.ts",
+      "../src/animation/AnimatorTransitionBase.ts",
+      "../src/animation/AnimatorStateTransition.ts",
+      "../src/animation/AnimatorCondition.ts",
+      "../src/animation/AnimatorState.ts",
+      "../src/animation/Motion.ts",
+      "../src/animation/AnimatorTransition.ts",
+      "../src/animation/ChildAnimatorStateMachine.ts",
+      "../src/animation/ChildAnimatorState.ts",
+      "../src/playables/PlayableGraph.ts",
       "../src/shaders/Line_Trail.vertex.glsl.ts",
       "../src/shaders/Line_Trail.fragment.glsl.ts",
       "../src/shaders/Line_Trail.shader.ts",
@@ -19,26 +60,26 @@
       "sections": [
         {
           "pos": 0,
-          "end": 576,
-          "kind": "emitHelpers",
-          "data": "typescript:decorate"
-        },
-        {
-          "pos": 578,
-          "end": 1175,
+          "end": 597,
           "kind": "emitHelpers",
           "data": "typescript:extends"
         },
         {
+          "pos": 599,
+          "end": 1175,
+          "kind": "emitHelpers",
+          "data": "typescript:decorate"
+        },
+        {
           "pos": 1177,
-          "end": 73997,
+          "end": 175341,
           "kind": "text"
         }
       ],
       "sources": {
         "helpers": [
-          "typescript:decorate",
-          "typescript:extends"
+          "typescript:extends",
+          "typescript:decorate"
         ]
       }
     },
@@ -46,7 +87,7 @@
       "sections": [
         {
           "pos": 0,
-          "end": 22807,
+          "end": 93025,
           "kind": "text"
         }
       ]

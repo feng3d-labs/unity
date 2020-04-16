@@ -5,6 +5,8 @@ namespace feng3d.unity
      */
     export class AnimationClipCurveData
     {
+        __class__: "feng3d.unity.AnimationClipCurveData";
+        
         /**
          * The actual animation curve.
          */

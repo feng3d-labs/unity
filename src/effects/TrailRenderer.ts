@@ -8,6 +8,8 @@ namespace feng3d
     @AddComponentMenu("Effects/TrailRenderer")
     export class TrailRenderer extends Renderable
     {
+        "__class__": "feng3d.TrailRenderer";
+        
         @oav({ exclude: true })
         geometry = <any>new Geometry();
 
