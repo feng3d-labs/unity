@@ -2,12 +2,14 @@
   "bundle": {
     "commonSourceDirectory": "..",
     "sourceFiles": [
+      "../src/math/Rect.ts",
       "../src/enums/AvatarTarget.ts",
       "../src/enums/AvatarIKHint.ts",
       "../src/enums/AvatarIKGoal.ts",
       "../src/enums/HumanBodyBones.ts",
       "../src/enums/SendMessageOptions.ts",
       "../src/base/Bounds.ts",
+      "../src/core/RectTransform.ts",
       "../src/core/BoneWeight.ts",
       "../src/core/Mesh.ts",
       "../src/core/Avatar.ts",
@@ -72,7 +74,7 @@
         },
         {
           "pos": 1177,
-          "end": 175341,
+          "end": 177077,
           "kind": "text"
         }
       ],
@@ -87,7 +89,7 @@
       "sections": [
         {
           "pos": 0,
-          "end": 93025,
+          "end": 105329,
           "kind": "text"
         }
       ]

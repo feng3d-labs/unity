@@ -1,5 +1,162 @@
 declare namespace feng3d.unity {
     /**
+     * A 2D Rectangle defined by X and Y position, width and height.
+     *
+     * Unity uses a number of 2D coordinate spaces, most of which define X as increasing to the right, and Y increasing upwards. The one exception is in the GUI and GUILayout classes, where Y increases downwards.
+     *
+     * The following examples are illustrated in GUI space, where (0,0) represents the top-left corner and Y increases downwards.
+     *
+     * Rectangles can be specified in two different ways. The first is with an x and y position and a width and height:
+     *
+     * The other way is with the X and Y coordinates of each of its edges. These are called xMin, xMax, yMin and yMax:
+     *
+     * Note that although x and y have the same values as xMin and yMin, they behave differently when you set them. Setting x or y changes the position of the rectangle, but preserves its size:
+     *
+     *
+     * Setting any of xMin, xMax, yMin and yMax will resize the rectangle, but preserve the position of the opposite edge:
+     */
+    class Rect {
+        /**
+         * Shorthand for writing new Rect(0,0,0,0).
+         */
+        static zero: Rect;
+        /**
+         * The position of the center of the rectangle.
+         */
+        center: Vector2;
+        /**
+         * The height of the rectangle, measured from the Y position.
+         */
+        height: number;
+        /**
+         * The position of the maximum corner of the rectangle.
+         */
+        max: number;
+        /**
+         * The position of the minimum corner of the rectangle.
+         */
+        min: number;
+        /**
+         * The X and Y position of the rectangle.
+         */
+        position: number;
+        /**
+         * The width and height of the rectangle.
+         */
+        size: Vector2;
+        /**
+         * The width of the rectangle, measured from the X position.
+         */
+        width: number;
+        /**
+         * The X coordinate of the rectangle.
+         */
+        x: number;
+        /**
+         * The maximum X coordinate of the rectangle.
+         */
+        xMax: number;
+        /**
+         * The minimum X coordinate of the rectangle.
+         */
+        xMin: number;
+        /**
+         * The Y coordinate of the rectangle.
+         */
+        y: number;
+        /**
+         * The maximum Y coordinate of the rectangle.
+         */
+        yMax: number;
+        /**
+         * The minimum Y coordinate of the rectangle.
+         */
+        yMin: number;
+        /**
+         * Rect	Creates a new rectangle.
+         *
+         * @param x	The X value the rect is measured from.
+         * @param y	The Y value the rect is measured from.
+         * @param width	The width of the rectangle.
+         * @param height	The height of the rectangle.
+         */
+        constructor(x: number, y: number, width: number, height: number);
+        /**
+         * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
+         *
+         * @param point Point to test.
+         *
+         * @returns bool True if the point lies within the specified rectangle.
+         */
+        Contains(point: Vector2): void;
+        /**
+         * Returns true if the other rectangle overlaps this one.
+         *
+         * @param other Other rectangle to test overlapping with.
+         *
+         * @returns Returns true if the other rectangle overlaps this one.
+         */
+        Overlaps(other: Rect): void;
+        /**
+         * Set components of an existing Rect.
+         *
+         * @param x	The X value the rect is measured from.
+         * @param y	The Y value the rect is measured from.
+         * @param width	The width of the rectangle.
+         * @param height	The height of the rectangle.
+         */
+        Set(x: number, y: number, width: number, height: number): void;
+        /**
+         * Returns a nicely formatted string for this Rect.
+         *
+         * @todo
+         */
+        ToString(): void;
+        /**
+         * Creates a rectangle from min/max coordinate values.
+         *
+         * @param xmin	The minimum X coordinate.
+         * @param ymin	The minimum Y coordinate.
+         * @param xmax	The maximum X coordinate.
+         * @param ymax	The maximum Y coordinate.
+         *
+         * @returns Rect A rectangle matching the specified coordinates.
+         */
+        static MinMaxRect(xmin: number, ymin: number, xmax: number, ymax: number): Rect;
+        /**
+         * Returns a point inside a rectangle, given normalized coordinates.
+         *
+         * @param rectangle	Rectangle to get a point inside.
+         * @param normalizedRectCoordinates	Normalized coordinates to get a point for.
+         *
+         * @returns Returns a point inside a rectangle, given normalized coordinates.
+         *
+         * The rectangle has coordinates between zero and one for the x and y axes. This function will compute the real screen coordinates and return as a Vector2.
+         *
+         * @todo
+         */
+        static NormalizedToPoint(rectangle: Rect, normalizedRectCoordinates: Vector2): void;
+        /**
+         * Returns the normalized coordinates cooresponding the the point.
+         *
+         * @param rectangle	Rectangle to get normalized coordinates inside.
+         * @param point	A point inside the rectangle to get normalized coordinates for.
+         *
+         * @returns Returns the normalized coordinates cooresponding the the point.
+         *
+         * The returned Vector2 is in the range 0 to 1 with values more 1 or less than zero clamped.
+         *
+         * @todo
+         */
+        static PointToNormalized(rectangle: Rect, point: Vector2): void;
+        /**
+         * Returns true if the rectangles are the same.
+         */
+        static equals(lhs: Rect, rhs: Rect): boolean;
+    }
+}
+declare namespace feng3d.unity {
+    /**
      * Target.
      *
      * See Also: Animator.SetTarget and Animator.MatchTarget.
@@ -338,6 +495,148 @@ declare namespace feng3d.unity {
      * Bounds is used by Collider.bounds, Mesh.bounds and Renderer.bounds.
      */
     class Bounds extends Box3 {
+    }
+}
+declare namespace feng3d.unity {
+    /**
+     * Position, size, anchor and pivot information for a rectangle.
+     *
+     * RectTransforms are used for GUI but can also be used for other things. It's used to store and manipulate the position, size, and anchoring of a rectangle and supports various forms of scaling based on a parent RectTransform.
+     *
+     * Note: The Inspector changes which properties are exposed based on which anchor preset is in use. For more information see Rect Transform and Basic Layout.
+     */
+    class RectTransform extends Transform {
+        /**
+         * The position of the pivot of this RectTransform relative to the anchor reference point.
+         */
+        anchoredPosition: Vector2;
+        /**
+         * The 3D position of the pivot of this RectTransform relative to the anchor reference point.
+         */
+        anchoredPosition3D: Vector3;
+        /**
+         * The normalized position in the parent RectTransform that the upper right corner is anchored to.
+         */
+        anchorMax: Vector2;
+        /**
+         * The normalized position in the parent RectTransform that the lower left corner is anchored to.
+         */
+        anchorMin: Vector2;
+        /**
+         * The offset of the upper right corner of the rectangle relative to the upper right anchor.
+         */
+        offsetMax: Vector2;
+        /**
+         * The offset of the lower left corner of the rectangle relative to the lower left anchor.
+         */
+        offsetMin: Vector2;
+        /**
+         * The normalized position in this RectTransform that it rotates around.
+         */
+        pivot: Vector2;
+        /**
+         * The calculated rectangle in the local space of the Transform.
+         */
+        rect: Rect;
+        /**
+         * The size of this RectTransform relative to the distances between the anchors.
+         */
+        sizeDelta: Vector2;
+        /**
+         * Force the recalculation of RectTransforms internal data.
+         */
+        ForceUpdateRectTransforms(): void;
+        /**
+         * Get the corners of the calculated rectangle in the local space of its Transform.
+         *
+         * @param fourCornersArray	The array that corners are filled into.
+         *
+         * Get the corners of the calculated rectangle in the local space of its Transform.
+         *
+         * Each corner provides its local space value. The returned array of 4 vertices is clockwise. It starts bottom left and rotates to top left, then top right, and finally bottom right. Note that bottom left, for example, is an (x, y, z) vector with x being left and y being bottom.
+         *
+         * Note: If the RectTransform is rotated in Z then the dimensions of the GetWorldCorners will not be changed.
+         */
+        GetLocalCorners(fourCornersArray: Vector3[]): void;
+        /**
+         * Get the corners of the calculated rectangle in world space.
+         *
+         * @param fourCornersArray	The array that corners are filled into.
+         *
+         * Get the corners of the calculated rectangle in world space.
+         *
+         * Each corner provides its world space value. The returned array of 4 vertices is clockwise. It starts bottom left and rotates to top left, then top right, and finally bottom right. Note that bottom left, for example, is an (x, y, z) vector with x being left and y being bottom.
+         *
+         * Note: If the RectTransform is rotated in Z then the dimensions of the GetWorldCorners will be changed.
+         */
+        GetWorldCorners(fourCornersArray: Vector3[]): void;
+        /**
+         *
+         * Set the distance of this rectangle relative to a specified edge of the parent rectangle, while also setting its size.
+         *
+         * Calling this method sets both the anchors, anchoredPosition, and sizeDelta, though only either the horizontal or vertical components, depending on which edge is specified for the inset.
+         *
+         * The method can particularly be useful when scripting layout behaviours, since it makes it simple to specify positions relative to the parent edges without needing to be concerned with anchoring functionality.
+         *
+         * @param edge	The edge of the parent rectangle to inset from.
+         * @param inset	The inset distance.
+         * @param size	The size of the rectangle along the same direction of the inset.
+         *
+         */
+        SetInsetAndSizeFromParentEdge(edge: RectTransform.Edge, inset: number, size: number): void;
+        /**
+         * Makes the RectTransform calculated rect be a given size on the specified axis.
+         *
+         * This method produces the given size with the current anchoring. If the parent RectTransform changes size, the size of the rect may change. If the size is meant to stay, either the RectTransform anchors should be set not to stretch, or this method should be invoked again whenever the parent size changes.
+         *
+         * @param axis	The axis to specify the size along.
+         * @param size	The desired size along the specified axis.
+         */
+        SetSizeWithCurrentAnchors(axis: RectTransform.Axis, size: number): void;
+    }
+}
+declare namespace feng3d.unity.RectTransform {
+    /**
+     * Enum used to specify one edge of a rectangle.
+     */
+    enum Edge {
+        /**
+         * The left edge.
+         */
+        Left = 0,
+        /**
+         * The right edge.
+         */
+        Right = 1,
+        /**
+         * The top edge.
+         */
+        Top = 2,
+        /**
+         * The bottom edge.
+         */
+        Bottom = 3
+    }
+    /**
+     * Represents the axes used in 3D space.
+     */
+    enum Axis {
+        /**
+         * Represents the case when no axis is specified.
+         */
+        None = 0,
+        /**
+         * Represents the X axis.
+         */
+        X = 1,
+        /**
+         * Represents the Y axis.
+         */
+        Y = 2,
+        /**
+         * Represents the Z axis.
+         */
+        Z = 3
     }
 }
 declare namespace feng3d.unity {

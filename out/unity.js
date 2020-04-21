@@ -22,6 +22,144 @@ var feng3d;
     var unity;
     (function (unity) {
         /**
+         * A 2D Rectangle defined by X and Y position, width and height.
+         *
+         * Unity uses a number of 2D coordinate spaces, most of which define X as increasing to the right, and Y increasing upwards. The one exception is in the GUI and GUILayout classes, where Y increases downwards.
+         *
+         * The following examples are illustrated in GUI space, where (0,0) represents the top-left corner and Y increases downwards.
+         *
+         * Rectangles can be specified in two different ways. The first is with an x and y position and a width and height:
+         *
+         * The other way is with the X and Y coordinates of each of its edges. These are called xMin, xMax, yMin and yMax:
+         *
+         * Note that although x and y have the same values as xMin and yMin, they behave differently when you set them. Setting x or y changes the position of the rectangle, but preserves its size:
+         *
+         *
+         * Setting any of xMin, xMax, yMin and yMax will resize the rectangle, but preserve the position of the opposite edge:
+         */
+        var Rect = /** @class */ (function () {
+            /**
+             * Rect	Creates a new rectangle.
+             *
+             * @param x	The X value the rect is measured from.
+             * @param y	The Y value the rect is measured from.
+             * @param width	The width of the rectangle.
+             * @param height	The height of the rectangle.
+             */
+            function Rect(x, y, width, height) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+            }
+            /**
+             * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
+             *
+             * @param point Point to test.
+             *
+             * @returns bool True if the point lies within the specified rectangle.
+             */
+            Rect.prototype.Contains = function (point) {
+            };
+            /**
+             * Returns true if the other rectangle overlaps this one.
+             *
+             * @param other Other rectangle to test overlapping with.
+             *
+             * @returns Returns true if the other rectangle overlaps this one.
+             */
+            Rect.prototype.Overlaps = function (other) {
+            };
+            /**
+             * Set components of an existing Rect.
+             *
+             * @param x	The X value the rect is measured from.
+             * @param y	The Y value the rect is measured from.
+             * @param width	The width of the rectangle.
+             * @param height	The height of the rectangle.
+             */
+            Rect.prototype.Set = function (x, y, width, height) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+            };
+            /**
+             * Returns a nicely formatted string for this Rect.
+             *
+             * @todo
+             */
+            Rect.prototype.ToString = function () {
+            };
+            /**
+             * Creates a rectangle from min/max coordinate values.
+             *
+             * @param xmin	The minimum X coordinate.
+             * @param ymin	The minimum Y coordinate.
+             * @param xmax	The maximum X coordinate.
+             * @param ymax	The maximum Y coordinate.
+             *
+             * @returns Rect A rectangle matching the specified coordinates.
+             */
+            Rect.MinMaxRect = function (xmin, ymin, xmax, ymax) {
+                return new Rect(xmin, ymin, xmax - xmin, ymax - ymin);
+            };
+            /**
+             * Returns a point inside a rectangle, given normalized coordinates.
+             *
+             * @param rectangle	Rectangle to get a point inside.
+             * @param normalizedRectCoordinates	Normalized coordinates to get a point for.
+             *
+             * @returns Returns a point inside a rectangle, given normalized coordinates.
+             *
+             * The rectangle has coordinates between zero and one for the x and y axes. This function will compute the real screen coordinates and return as a Vector2.
+             *
+             * @todo
+             */
+            Rect.NormalizedToPoint = function (rectangle, normalizedRectCoordinates) {
+            };
+            /**
+             * Returns the normalized coordinates cooresponding the the point.
+             *
+             * @param rectangle	Rectangle to get normalized coordinates inside.
+             * @param point	A point inside the rectangle to get normalized coordinates for.
+             *
+             * @returns Returns the normalized coordinates cooresponding the the point.
+             *
+             * The returned Vector2 is in the range 0 to 1 with values more 1 or less than zero clamped.
+             *
+             * @todo
+             */
+            Rect.PointToNormalized = function (rectangle, point) {
+            };
+            /**
+             * Returns true if the rectangles are the same.
+             */
+            Rect.equals = function (lhs, rhs) {
+                if (lhs.x != rhs.x)
+                    return false;
+                if (lhs.y != rhs.y)
+                    return false;
+                if (lhs.width != rhs.width)
+                    return false;
+                if (lhs.height != rhs.height)
+                    return false;
+                return true;
+            };
+            /**
+             * Shorthand for writing new Rect(0,0,0,0).
+             */
+            Rect.zero = new Rect(0, 0, 0, 0);
+            return Rect;
+        }());
+        unity.Rect = Rect;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
          * Target.
          *
          * See Also: Animator.SetTarget and Animator.MatchTarget.
@@ -399,6 +537,135 @@ var feng3d;
     var unity;
     (function (unity) {
         /**
+         * Position, size, anchor and pivot information for a rectangle.
+         *
+         * RectTransforms are used for GUI but can also be used for other things. It's used to store and manipulate the position, size, and anchoring of a rectangle and supports various forms of scaling based on a parent RectTransform.
+         *
+         * Note: The Inspector changes which properties are exposed based on which anchor preset is in use. For more information see Rect Transform and Basic Layout.
+         */
+        var RectTransform = /** @class */ (function (_super) {
+            __extends(RectTransform, _super);
+            function RectTransform() {
+                return _super !== null && _super.apply(this, arguments) || this;
+            }
+            /**
+             * Force the recalculation of RectTransforms internal data.
+             */
+            RectTransform.prototype.ForceUpdateRectTransforms = function () {
+            };
+            /**
+             * Get the corners of the calculated rectangle in the local space of its Transform.
+             *
+             * @param fourCornersArray	The array that corners are filled into.
+             *
+             * Get the corners of the calculated rectangle in the local space of its Transform.
+             *
+             * Each corner provides its local space value. The returned array of 4 vertices is clockwise. It starts bottom left and rotates to top left, then top right, and finally bottom right. Note that bottom left, for example, is an (x, y, z) vector with x being left and y being bottom.
+             *
+             * Note: If the RectTransform is rotated in Z then the dimensions of the GetWorldCorners will not be changed.
+             */
+            RectTransform.prototype.GetLocalCorners = function (fourCornersArray) {
+            };
+            /**
+             * Get the corners of the calculated rectangle in world space.
+             *
+             * @param fourCornersArray	The array that corners are filled into.
+             *
+             * Get the corners of the calculated rectangle in world space.
+             *
+             * Each corner provides its world space value. The returned array of 4 vertices is clockwise. It starts bottom left and rotates to top left, then top right, and finally bottom right. Note that bottom left, for example, is an (x, y, z) vector with x being left and y being bottom.
+             *
+             * Note: If the RectTransform is rotated in Z then the dimensions of the GetWorldCorners will be changed.
+             */
+            RectTransform.prototype.GetWorldCorners = function (fourCornersArray) {
+            };
+            /**
+             *
+             * Set the distance of this rectangle relative to a specified edge of the parent rectangle, while also setting its size.
+             *
+             * Calling this method sets both the anchors, anchoredPosition, and sizeDelta, though only either the horizontal or vertical components, depending on which edge is specified for the inset.
+             *
+             * The method can particularly be useful when scripting layout behaviours, since it makes it simple to specify positions relative to the parent edges without needing to be concerned with anchoring functionality.
+             *
+             * @param edge	The edge of the parent rectangle to inset from.
+             * @param inset	The inset distance.
+             * @param size	The size of the rectangle along the same direction of the inset.
+             *
+             */
+            RectTransform.prototype.SetInsetAndSizeFromParentEdge = function (edge, inset, size) {
+            };
+            /**
+             * Makes the RectTransform calculated rect be a given size on the specified axis.
+             *
+             * This method produces the given size with the current anchoring. If the parent RectTransform changes size, the size of the rect may change. If the size is meant to stay, either the RectTransform anchors should be set not to stretch, or this method should be invoked again whenever the parent size changes.
+             *
+             * @param axis	The axis to specify the size along.
+             * @param size	The desired size along the specified axis.
+             */
+            RectTransform.prototype.SetSizeWithCurrentAnchors = function (axis, size) {
+            };
+            return RectTransform;
+        }(feng3d.Transform));
+        unity.RectTransform = RectTransform;
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        var RectTransform;
+        (function (RectTransform) {
+            /**
+             * Enum used to specify one edge of a rectangle.
+             */
+            var Edge;
+            (function (Edge) {
+                /**
+                 * The left edge.
+                 */
+                Edge[Edge["Left"] = 0] = "Left";
+                /**
+                 * The right edge.
+                 */
+                Edge[Edge["Right"] = 1] = "Right";
+                /**
+                 * The top edge.
+                 */
+                Edge[Edge["Top"] = 2] = "Top";
+                /**
+                 * The bottom edge.
+                 */
+                Edge[Edge["Bottom"] = 3] = "Bottom";
+            })(Edge = RectTransform.Edge || (RectTransform.Edge = {}));
+            /**
+             * Represents the axes used in 3D space.
+             */
+            var Axis;
+            (function (Axis) {
+                /**
+                 * Represents the case when no axis is specified.
+                 */
+                Axis[Axis["None"] = 0] = "None";
+                /**
+                 * Represents the X axis.
+                 */
+                Axis[Axis["X"] = 1] = "X";
+                /**
+                 * Represents the Y axis.
+                 */
+                Axis[Axis["Y"] = 2] = "Y";
+                /**
+                 * Represents the Z axis.
+                 */
+                Axis[Axis["Z"] = 3] = "Z";
+            })(Axis = RectTransform.Axis || (RectTransform.Axis = {}));
+        })(RectTransform = unity.RectTransform || (unity.RectTransform = {}));
+    })(unity = feng3d.unity || (feng3d.unity = {}));
+})(feng3d || (feng3d = {}));
+var feng3d;
+(function (feng3d) {
+    var unity;
+    (function (unity) {
+        /**
          * Skinning bone weights of a vertex in the mesh.
          *
          * Each vertex is skinned with up to four bones. All weights should sum up to one. Weights and bone indices should be defined in the order of decreasing weight. If a vertex is affected by less than four bones, the remaining weights should be zeroes.
@@ -531,7 +798,7 @@ var feng3d;
                 /**
                  * Returns whether the animator is initialized successfully.
                  */
-                _this.isInitialized = true;
+                _this.isInitialized = false;
                 /**
                  * If automatic matching is active.
                  */
@@ -547,7 +814,7 @@ var feng3d;
                 /**
                  * Returns the number of layers in the controller.
                  */
-                _this.layerCount = 1;
+                _this.layerCount = 0;
                 /**
                  * Additional layers affects the center of mass.
                  */
@@ -1538,249 +1805,6 @@ var feng3d;
                  * 曲线数据
                  */
                 this.curvedatas = [];
-                this.name = "New Animation";
-                feng3d.serialization.setValue(this.curvedatas, [
-                    {
-                        "path": "",
-                        "propertyName": "m_LocalScale.x",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 1.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 2.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "m_LocalScale.y",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 1.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 1.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "m_LocalScale.z",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 1.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 1.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "localEulerAnglesRaw.x",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 0.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 90.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "localEulerAnglesRaw.y",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 0.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 0.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "localEulerAnglesRaw.z",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 0.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 0.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "material._Color.r",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 1.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 0.04585886,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "material._Color.g",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 0.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 1.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "material._Color.b",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 0.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 0.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    },
-                    {
-                        "path": "",
-                        "propertyName": "material._Color.a",
-                        "curve": {
-                            "postWrapMode": 8,
-                            "preWrapMode": 8,
-                            "keys": [
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.0,
-                                    "value": 1.0,
-                                },
-                                {
-                                    "inTangent": 0.0,
-                                    "outTangent": 0.0,
-                                    "time": 0.5,
-                                    "value": 1.0,
-                                }
-                            ],
-                            "__class__": "feng3d.AnimationCurve"
-                        },
-                        "__class__": "feng3d.unity.AnimationClipCurveData"
-                    }
-                ]);
             }
             Object.defineProperty(AnimationClip.prototype, "empty", {
                 /**

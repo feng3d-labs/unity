@@ -22,9 +22,6 @@
         //
         "src/math/Rect.ts",
         //
-        "src/animation/Animations.ts",
-        //
-        "src/enums/Edge.ts",
         "src/enums/AvatarTarget.ts",
         "src/enums/AvatarIKHint.ts",
         "src/enums/AvatarIKGoal.ts",
