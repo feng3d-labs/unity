@@ -20,6 +20,11 @@
     ],
     "files": [
         //
+        "src/math/Rect.ts",
+        //
+        "src/animation/Animations.ts",
+        //
+        "src/enums/Edge.ts",
         "src/enums/AvatarTarget.ts",
         "src/enums/AvatarIKHint.ts",
         "src/enums/AvatarIKGoal.ts",
@@ -28,6 +33,7 @@
         //
         "src/base/Bounds.ts",
         //
+        "src/core/RectTransform.ts",
         "src/core/BoneWeight.ts",
         "src/core/Mesh.ts",
         //
