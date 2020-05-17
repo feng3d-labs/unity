@@ -2549,7 +2549,7 @@ declare namespace feng3d {
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    export class LineRenderer extends Renderable {
+    export class LineRenderer extends Renderer {
         geometry: any;
         material: Material;
         /**
@@ -2803,7 +2803,7 @@ declare namespace feng3d {
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    class TrailRenderer extends Renderable {
+    class TrailRenderer extends Renderer {
         "__class__": "feng3d.TrailRenderer";
         geometry: any;
         material: Material;

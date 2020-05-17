@@ -3306,7 +3306,7 @@ var feng3d;
             feng3d.AddComponentMenu("Effects/LineRenderer")
         ], LineRenderer);
         return LineRenderer;
-    }(feng3d.Renderable));
+    }(feng3d.Renderer));
     feng3d.LineRenderer = LineRenderer;
 })(feng3d || (feng3d = {}));
 var feng3d;
@@ -3730,7 +3730,7 @@ var feng3d;
             feng3d.AddComponentMenu("Effects/TrailRenderer")
         ], TrailRenderer);
         return TrailRenderer;
-    }(feng3d.Renderable));
+    }(feng3d.Renderer));
     feng3d.TrailRenderer = TrailRenderer;
     feng3d.GameObject.registerPrimitive("TrailRenderer", function (g) {
         g.addComponent(TrailRenderer);
