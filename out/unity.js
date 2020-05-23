@@ -2755,11 +2755,11 @@ var feng3d;
             enumerable: true,
             configurable: true
         });
-        LineRenderer.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
+        LineRenderer.prototype.beforeRender = function (renderAtomic, scene, camera) {
             this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
             renderAtomic.shaderMacro.HAS_a_color = true;
-            _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
+            _super.prototype.beforeRender.call(this, renderAtomic, scene, camera);
         };
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
@@ -3518,11 +3518,11 @@ var feng3d;
             enumerable: true,
             configurable: true
         });
-        TrailRenderer.prototype.beforeRender = function (gl, renderAtomic, scene, camera) {
+        TrailRenderer.prototype.beforeRender = function (renderAtomic, scene, camera) {
             this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
             renderAtomic.shaderMacro.HAS_a_color = true;
-            _super.prototype.beforeRender.call(this, gl, renderAtomic, scene, camera);
+            _super.prototype.beforeRender.call(this, renderAtomic, scene, camera);
         };
         /**
          * 每帧执行

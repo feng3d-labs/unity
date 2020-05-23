@@ -238,14 +238,14 @@ namespace feng3d
             this.widthCurve.keys[0].value = v / this.widthMultiplier;
         }
 
-        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera)
+        beforeRender(renderAtomic: RenderAtomic, scene: Scene, camera: Camera)
         {
             this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
 
             renderAtomic.shaderMacro.HAS_a_color = true;
 
-            super.beforeRender(gl, renderAtomic, scene, camera);
+            super.beforeRender(renderAtomic, scene, camera);
         }
 
         /**

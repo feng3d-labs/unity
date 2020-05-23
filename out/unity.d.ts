@@ -2675,7 +2675,7 @@ declare namespace feng3d {
          */
         get startWidth(): number;
         set startWidth(v: number);
-        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
+        beforeRender(renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
@@ -2926,7 +2926,7 @@ declare namespace feng3d {
          */
         get startWidth(): number;
         set startWidth(v: number);
-        beforeRender(gl: GL, renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
+        beforeRender(renderAtomic: RenderAtomic, scene: Scene, camera: Camera): void;
         /**
          * 每帧执行
          */
