@@ -697,7 +697,7 @@ var feng3d;
                         return 0;
                     return this.vertices.length;
                 },
-                enumerable: true,
+                enumerable: false,
                 configurable: true
             });
             return Mesh;
@@ -1817,7 +1817,7 @@ var feng3d;
                         return false;
                     return true;
                 },
-                enumerable: true,
+                enumerable: false,
                 configurable: true
             });
             Object.defineProperty(AnimationClip.prototype, "length", {
@@ -1836,7 +1836,7 @@ var feng3d;
                     }, 0);
                     return l;
                 },
-                enumerable: true,
+                enumerable: false,
                 configurable: true
             });
             /**
@@ -2640,7 +2640,7 @@ var feng3d;
             get: function () {
                 return this.lineWidth.curve;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "widthMultiplier", {
@@ -2655,7 +2655,7 @@ var feng3d;
             set: function (v) {
                 this.lineWidth.curveMultiplier = v;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "colorGradient", {
@@ -2667,7 +2667,7 @@ var feng3d;
             get: function () {
                 return this.lineColor.gradient;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "endColor", {
@@ -2687,7 +2687,7 @@ var feng3d;
                 this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1].alpha = v.a;
                 this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1].color.setTo(v.r, v.g, v.b);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "endWidth", {
@@ -2702,7 +2702,7 @@ var feng3d;
             set: function (v) {
                 this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "positionCount", {
@@ -2717,7 +2717,7 @@ var feng3d;
             set: function (v) {
                 this.positions.length = v;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "startColor", {
@@ -2737,7 +2737,7 @@ var feng3d;
                 this.colorGradient.alphaKeys[0].alpha = v.a;
                 this.colorGradient.colorKeys[0].color.setTo(v.r, v.g, v.b);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(LineRenderer.prototype, "startWidth", {
@@ -2752,7 +2752,7 @@ var feng3d;
             set: function (v) {
                 this.widthCurve.keys[0].value = v / this.widthMultiplier;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         LineRenderer.prototype.beforeRender = function (renderAtomic, scene, camera) {
@@ -3403,7 +3403,7 @@ var feng3d;
             get: function () {
                 return this.lineWidth.curve;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "widthMultiplier", {
@@ -3418,7 +3418,7 @@ var feng3d;
             set: function (v) {
                 this.lineWidth.curveMultiplier = v;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "colorGradient", {
@@ -3430,7 +3430,7 @@ var feng3d;
             get: function () {
                 return this.lineColor.gradient;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "endColor", {
@@ -3450,7 +3450,7 @@ var feng3d;
                 this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1].alpha = v.a;
                 this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1].color.setTo(v.r, v.g, v.b);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "endWidth", {
@@ -3465,7 +3465,7 @@ var feng3d;
             set: function (v) {
                 this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v / this.widthMultiplier;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "positionCount", {
@@ -3480,7 +3480,7 @@ var feng3d;
             set: function (v) {
                 this.positions.length = v;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "startColor", {
@@ -3500,7 +3500,7 @@ var feng3d;
                 this.colorGradient.alphaKeys[0].alpha = v.a;
                 this.colorGradient.colorKeys[0].color.setTo(v.r, v.g, v.b);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(TrailRenderer.prototype, "startWidth", {
@@ -3515,7 +3515,7 @@ var feng3d;
             set: function (v) {
                 this.widthCurve.keys[0].value = v / this.widthMultiplier;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         TrailRenderer.prototype.beforeRender = function (renderAtomic, scene, camera) {
