@@ -1,16 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -37,7 +24,7 @@ var feng3d;
          *
          * Setting any of xMin, xMax, yMin and yMax will resize the rectangle, but preserve the position of the opposite edge:
          */
-        var Rect = /** @class */ (function () {
+        class Rect {
             /**
              * Rect	Creates a new rectangle.
              *
@@ -46,7 +33,7 @@ var feng3d;
              * @param width	The width of the rectangle.
              * @param height	The height of the rectangle.
              */
-            function Rect(x, y, width, height) {
+            constructor(x, y, width, height) {
                 this.x = x;
                 this.y = y;
                 this.width = width;
@@ -59,8 +46,8 @@ var feng3d;
              *
              * @returns bool True if the point lies within the specified rectangle.
              */
-            Rect.prototype.Contains = function (point) {
-            };
+            Contains(point) {
+            }
             /**
              * Returns true if the other rectangle overlaps this one.
              *
@@ -68,8 +55,8 @@ var feng3d;
              *
              * @returns Returns true if the other rectangle overlaps this one.
              */
-            Rect.prototype.Overlaps = function (other) {
-            };
+            Overlaps(other) {
+            }
             /**
              * Set components of an existing Rect.
              *
@@ -78,19 +65,19 @@ var feng3d;
              * @param width	The width of the rectangle.
              * @param height	The height of the rectangle.
              */
-            Rect.prototype.Set = function (x, y, width, height) {
+            Set(x, y, width, height) {
                 this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
-            };
+            }
             /**
              * Returns a nicely formatted string for this Rect.
              *
              * @todo
              */
-            Rect.prototype.ToString = function () {
-            };
+            ToString() {
+            }
             /**
              * Creates a rectangle from min/max coordinate values.
              *
@@ -101,9 +88,9 @@ var feng3d;
              *
              * @returns Rect A rectangle matching the specified coordinates.
              */
-            Rect.MinMaxRect = function (xmin, ymin, xmax, ymax) {
+            static MinMaxRect(xmin, ymin, xmax, ymax) {
                 return new Rect(xmin, ymin, xmax - xmin, ymax - ymin);
-            };
+            }
             /**
              * Returns a point inside a rectangle, given normalized coordinates.
              *
@@ -116,8 +103,8 @@ var feng3d;
              *
              * @todo
              */
-            Rect.NormalizedToPoint = function (rectangle, normalizedRectCoordinates) {
-            };
+            static NormalizedToPoint(rectangle, normalizedRectCoordinates) {
+            }
             /**
              * Returns the normalized coordinates cooresponding the the point.
              *
@@ -130,12 +117,12 @@ var feng3d;
              *
              * @todo
              */
-            Rect.PointToNormalized = function (rectangle, point) {
-            };
+            static PointToNormalized(rectangle, point) {
+            }
             /**
              * Returns true if the rectangles are the same.
              */
-            Rect.equals = function (lhs, rhs) {
+            static equals(lhs, rhs) {
                 if (lhs.x != rhs.x)
                     return false;
                 if (lhs.y != rhs.y)
@@ -145,13 +132,12 @@ var feng3d;
                 if (lhs.height != rhs.height)
                     return false;
                 return true;
-            };
-            /**
-             * Shorthand for writing new Rect(0,0,0,0).
-             */
-            Rect.zero = new Rect(0, 0, 0, 0);
-            return Rect;
-        }());
+            }
+        }
+        /**
+         * Shorthand for writing new Rect(0,0,0,0).
+         */
+        Rect.zero = new Rect(0, 0, 0, 0);
         unity.Rect = Rect;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -164,7 +150,7 @@ var feng3d;
          *
          * See Also: Animator.SetTarget and Animator.MatchTarget.
          */
-        var AvatarTarget;
+        let AvatarTarget;
         (function (AvatarTarget) {
             /**
              * The root, the position of the game object.
@@ -202,7 +188,7 @@ var feng3d;
          *
          * Used to set and get IK weights and position. See Also: Animator.GetIKHintPosition, Animator.GetIKHintPositionWeight, Animator.SetIKHintPosition, and Animator.SetIKHintPositionWeight.
          */
-        var AvatarIKHint;
+        let AvatarIKHint;
         (function (AvatarIKHint) {
             /**
              * The left knee IK hint.
@@ -232,7 +218,7 @@ var feng3d;
          *
          * Used to set and get IK weights, position and rotation. See Also: Animator.SetIKPosition, Animator.SetIKPositionWeight, Animator.SetIKRotation and Animator.SetIKRotationWeight.
          */
-        var AvatarIKGoal;
+        let AvatarIKGoal;
         (function (AvatarIKGoal) {
             /**
              * The left foot.
@@ -260,7 +246,7 @@ var feng3d;
         /**
          * Human Body Bones.
          */
-        var HumanBodyBones;
+        let HumanBodyBones;
         (function (HumanBodyBones) {
             /**
              * This is the Hips bone.
@@ -498,7 +484,7 @@ var feng3d;
          *
          * This is used by SendMessage & BroadcastMessage in GameObject & Component.
          */
-        var SendMessageOptions;
+        let SendMessageOptions;
         (function (SendMessageOptions) {
             /**
              * A receiver is required for SendMessage.
@@ -522,13 +508,8 @@ var feng3d;
          *
          * Bounds is used by Collider.bounds, Mesh.bounds and Renderer.bounds.
          */
-        var Bounds = /** @class */ (function (_super) {
-            __extends(Bounds, _super);
-            function Bounds() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return Bounds;
-        }(feng3d.Box3));
+        class Bounds extends feng3d.Box3 {
+        }
         unity.Bounds = Bounds;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -543,16 +524,12 @@ var feng3d;
          *
          * Note: The Inspector changes which properties are exposed based on which anchor preset is in use. For more information see Rect Transform and Basic Layout.
          */
-        var RectTransform = /** @class */ (function (_super) {
-            __extends(RectTransform, _super);
-            function RectTransform() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
+        class RectTransform extends feng3d.Transform {
             /**
              * Force the recalculation of RectTransforms internal data.
              */
-            RectTransform.prototype.ForceUpdateRectTransforms = function () {
-            };
+            ForceUpdateRectTransforms() {
+            }
             /**
              * Get the corners of the calculated rectangle in the local space of its Transform.
              *
@@ -564,8 +541,8 @@ var feng3d;
              *
              * Note: If the RectTransform is rotated in Z then the dimensions of the GetWorldCorners will not be changed.
              */
-            RectTransform.prototype.GetLocalCorners = function (fourCornersArray) {
-            };
+            GetLocalCorners(fourCornersArray) {
+            }
             /**
              * Get the corners of the calculated rectangle in world space.
              *
@@ -577,8 +554,8 @@ var feng3d;
              *
              * Note: If the RectTransform is rotated in Z then the dimensions of the GetWorldCorners will be changed.
              */
-            RectTransform.prototype.GetWorldCorners = function (fourCornersArray) {
-            };
+            GetWorldCorners(fourCornersArray) {
+            }
             /**
              *
              * Set the distance of this rectangle relative to a specified edge of the parent rectangle, while also setting its size.
@@ -592,8 +569,8 @@ var feng3d;
              * @param size	The size of the rectangle along the same direction of the inset.
              *
              */
-            RectTransform.prototype.SetInsetAndSizeFromParentEdge = function (edge, inset, size) {
-            };
+            SetInsetAndSizeFromParentEdge(edge, inset, size) {
+            }
             /**
              * Makes the RectTransform calculated rect be a given size on the specified axis.
              *
@@ -602,10 +579,9 @@ var feng3d;
              * @param axis	The axis to specify the size along.
              * @param size	The desired size along the specified axis.
              */
-            RectTransform.prototype.SetSizeWithCurrentAnchors = function (axis, size) {
-            };
-            return RectTransform;
-        }(feng3d.Transform));
+            SetSizeWithCurrentAnchors(axis, size) {
+            }
+        }
         unity.RectTransform = RectTransform;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -617,7 +593,7 @@ var feng3d;
             /**
              * Enum used to specify one edge of a rectangle.
              */
-            var Edge;
+            let Edge;
             (function (Edge) {
                 /**
                  * The left edge.
@@ -639,7 +615,7 @@ var feng3d;
             /**
              * Represents the axes used in 3D space.
              */
-            var Axis;
+            let Axis;
             (function (Axis) {
                 /**
                  * Represents the case when no axis is specified.
@@ -670,11 +646,8 @@ var feng3d;
          *
          * Each vertex is skinned with up to four bones. All weights should sum up to one. Weights and bone indices should be defined in the order of decreasing weight. If a vertex is affected by less than four bones, the remaining weights should be zeroes.
          */
-        var BoneWeight = /** @class */ (function () {
-            function BoneWeight() {
-            }
-            return BoneWeight;
-        }());
+        class BoneWeight {
+        }
         unity.BoneWeight = BoneWeight;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -685,23 +658,16 @@ var feng3d;
         /**
          * 网格数据
          */
-        var Mesh = /** @class */ (function () {
-            function Mesh() {
+        class Mesh {
+            /**
+             * Returns the number of vertices in the Mesh (Read Only).
+             */
+            get vertexCount() {
+                if (!this.vertices)
+                    return 0;
+                return this.vertices.length;
             }
-            Object.defineProperty(Mesh.prototype, "vertexCount", {
-                /**
-                 * Returns the number of vertices in the Mesh (Read Only).
-                 */
-                get: function () {
-                    if (!this.vertices)
-                        return 0;
-                    return this.vertices.length;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            return Mesh;
-        }());
+        }
         unity.Mesh = Mesh;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -712,11 +678,8 @@ var feng3d;
         /**
          * Avatar definition.
          */
-        var Avatar = /** @class */ (function () {
-            function Avatar() {
-            }
-            return Avatar;
-        }());
+        class Avatar {
+        }
         unity.Avatar = Avatar;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -727,181 +690,179 @@ var feng3d;
         /**
          * Interface to control the Mecanim animation system.
          */
-        var Animator = /** @class */ (function (_super) {
-            __extends(Animator, _super);
-            function Animator() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
+        class Animator extends feng3d.Behaviour {
+            constructor() {
+                super(...arguments);
                 /**
                  * Gets the avatar angular velocity for the last evaluated frame.
                  */
-                _this.angularVelocity = new feng3d.Vector3();
+                this.angularVelocity = new feng3d.Vector3();
                 /**
                  * Should root motion be applied?
                  */
-                _this.applyRootMotion = false;
+                this.applyRootMotion = false;
                 /**
                  * Gets/Sets the current Avatar.
                  */
-                _this.avatar = null;
+                this.avatar = null;
                 /**
                  * The position of the body center of mass.
                  */
-                _this.bodyPosition = new feng3d.Vector3();
+                this.bodyPosition = new feng3d.Vector3();
                 /**
                  * The rotation of the body center of mass.
                  */
-                _this.bodyRotation = new feng3d.Quaternion();
+                this.bodyRotation = new feng3d.Quaternion();
                 /**
                  * Controls culling of this Animator component.
                  */
-                _this.cullingMode = unity.AnimatorCullingMode.AlwaysAnimate;
+                this.cullingMode = unity.AnimatorCullingMode.AlwaysAnimate;
                 /**
                  * Gets the avatar delta position for the last evaluated frame.
                  */
-                _this.deltaPosition = new feng3d.Vector3();
+                this.deltaPosition = new feng3d.Vector3();
                 /**
                  * Gets the avatar delta rotation for the last evaluated frame.
                  */
-                _this.deltaRotation = new feng3d.Quaternion();
+                this.deltaRotation = new feng3d.Quaternion();
                 /**
                  * Blends pivot point between body center of mass and feet pivot.
                  */
-                _this.feetPivotActive = 1;
+                this.feetPivotActive = 1;
                 /**
                  * Sets whether the Animator sends events of type AnimationEvent.
                  */
-                _this.fireEvents = true;
+                this.fireEvents = true;
                 /**
                  * The current gravity weight based on current animations that are played.
                  */
-                _this.gravityWeight = 0;
+                this.gravityWeight = 0;
                 /**
                  * Returns true if Animator has any playables assigned to it.
                  */
-                _this.hasBoundPlayables = true;
+                this.hasBoundPlayables = true;
                 /**
                  * Returns true if the current rig has root motion.
                  */
-                _this.hasRootMotion = false;
+                this.hasRootMotion = false;
                 /**
                  * Returns true if the object has a transform hierarchy.
                  */
-                _this.hasTransformHierarchy = true;
+                this.hasTransformHierarchy = true;
                 /**
                  * Returns the scale of the current Avatar for a humanoid rig, (1 by default if the rig is generic).
                  */
-                _this.humanScale = 1;
+                this.humanScale = 1;
                 /**
                  * Returns true if the current rig is humanoid, false if it is generic.
                  */
-                _this.isHuman = false;
+                this.isHuman = false;
                 /**
                  * Returns whether the animator is initialized successfully.
                  */
-                _this.isInitialized = false;
+                this.isInitialized = false;
                 /**
                  * If automatic matching is active.
                  */
-                _this.isMatchingTarget = false;
+                this.isMatchingTarget = false;
                 /**
                  * Returns true if the current rig is optimizable with AnimatorUtility.OptimizeTransformHierarchy.
                  */
-                _this.isOptimizable = false;
+                this.isOptimizable = false;
                 /**
                  * Controls the behaviour of the Animator component when a GameObject is disabled.
                  */
-                _this.keepAnimatorControllerStateOnDisable = false;
+                this.keepAnimatorControllerStateOnDisable = false;
                 /**
                  * Returns the number of layers in the controller.
                  */
-                _this.layerCount = 0;
+                this.layerCount = 0;
                 /**
                  * Additional layers affects the center of mass.
                  */
-                _this.layersAffectMassCenter = false;
+                this.layersAffectMassCenter = false;
                 /**
                  * Get left foot bottom height.
                  */
-                _this.leftFeetBottomHeight = 0;
+                this.leftFeetBottomHeight = 0;
                 /**
                  * Returns the number of parameters in the controller.
                  */
-                _this.parameterCount = 0;
+                this.parameterCount = 0;
                 /**
                  * The AnimatorControllerParameter list used by the animator. (Read Only)
                  */
-                _this.parameters = [];
+                this.parameters = [];
                 /**
                  * Get the current position of the pivot.
                  */
-                _this.pivotPosition = new feng3d.Vector3();
+                this.pivotPosition = new feng3d.Vector3();
                 /**
                  * Gets the pivot weight.
                  */
-                _this.pivotWeight = 0.5;
+                this.pivotWeight = 0.5;
                 /**
                  * The PlayableGraph created by the Animator.
                  */
-                _this.playableGraph = new unity.PlayableGraph();
+                this.playableGraph = new unity.PlayableGraph();
                 /**
                  * Sets the playback position in the recording buffer.
                  *
                  * 设置记录缓冲区中的播放位置。
                  */
-                _this.playbackTime = -1;
+                this.playbackTime = -1;
                 /**
                  * Gets the mode of the Animator recorder.
                  */
-                _this.recorderMode = unity.AnimatorRecorderMode.Offline;
+                this.recorderMode = unity.AnimatorRecorderMode.Offline;
                 /**
                  * Start time of the first frame of the buffer relative to the frame at which StartRecording was called.
                  */
-                _this.recorderStartTime = -1;
+                this.recorderStartTime = -1;
                 /**
                  * End time of the recorded clip relative to when StartRecording was called.
                  */
-                _this.recorderStopTime = -1;
+                this.recorderStopTime = -1;
                 /**
                  * Get right foot bottom height.
                  */
-                _this.rightFeetBottomHeight = 0;
+                this.rightFeetBottomHeight = 0;
                 /**
                  * The root position, the position of the game object.
                  */
-                _this.rootPosition = new feng3d.Vector3();
+                this.rootPosition = new feng3d.Vector3();
                 /**
                  * The root rotation, the rotation of the game object.
                  */
-                _this.rootRotation = new feng3d.Quaternion();
+                this.rootRotation = new feng3d.Quaternion();
                 /**
                  * The playback speed of the Animator. 1 is normal playback speed.
                  */
-                _this.speed = 1;
+                this.speed = 1;
                 /**
                  * Automatic stabilization of feet during transition and blending.
                  */
-                _this.stabilizeFeet = false;
+                this.stabilizeFeet = false;
                 /**
                  * Returns the position of the target specified by SetTarget.
                  */
-                _this.targetPosition = new feng3d.Vector3();
+                this.targetPosition = new feng3d.Vector3();
                 /**
                  * Returns the rotation of the target specified by SetTarget.
                  */
-                _this.targetRotation = new feng3d.Quaternion();
+                this.targetRotation = new feng3d.Quaternion();
                 /**
                  * Specifies the update mode of the Animator.
                  */
-                _this.updateMode = unity.AnimatorUpdateMode.Normal;
+                this.updateMode = unity.AnimatorUpdateMode.Normal;
                 /**
                  * Gets the avatar velocity for the last evaluated frame.
                  */
-                _this.velocity = new feng3d.Vector3();
+                this.velocity = new feng3d.Vector3();
                 /**
                  * 是否播放中
                  */
-                _this._isPlaying = false;
-                return _this;
+                this._isPlaying = false;
             }
             /**
              * Apply the default Root Motion.
@@ -912,11 +873,8 @@ var feng3d;
              * @param normalizedTimeOffset The time of the state (normalized).
              * @param normalizedTransitionTime The time of the transition (normalized).
              */
-            Animator.prototype.ApplyBuiltinRootMotion = function (stateName, normalizedTransitionDuration, layer, normalizedTimeOffset, normalizedTransitionTime) {
-                if (layer === void 0) { layer = -1; }
-                if (normalizedTimeOffset === void 0) { normalizedTimeOffset = Number.MIN_SAFE_INTEGER; }
-                if (normalizedTransitionTime === void 0) { normalizedTransitionTime = 0.0; }
-            };
+            ApplyBuiltinRootMotion(stateName, normalizedTransitionDuration, layer = -1, normalizedTimeOffset = Number.MIN_SAFE_INTEGER, normalizedTransitionTime = 0.0) {
+            }
             /**
              * Creates a crossfade from the current state to any other state using normalized times.
              *
@@ -926,11 +884,8 @@ var feng3d;
              * @param normalizedTimeOffset The time of the state (in seconds).
              * @param normalizedTransitionTime The time of the transition (normalized).
              */
-            Animator.prototype.CrossFade = function (stateName, normalizedTransitionDuration, layer, normalizedTimeOffset, normalizedTransitionTime) {
-                if (layer === void 0) { layer = -1; }
-                if (normalizedTimeOffset === void 0) { normalizedTimeOffset = Number.MIN_SAFE_INTEGER; }
-                if (normalizedTransitionTime === void 0) { normalizedTransitionTime = 0.0; }
-            };
+            CrossFade(stateName, normalizedTransitionDuration, layer = -1, normalizedTimeOffset = Number.MIN_SAFE_INTEGER, normalizedTransitionTime = 0.0) {
+            }
             /**
              * Creates a crossfade from the current state to any other state using times in seconds.
              *
@@ -940,71 +895,68 @@ var feng3d;
              * @param fixedTimeOffset The time of the state (in seconds).
              * @param normalizedTransitionTime The time of the transition (normalized).
              */
-            Animator.prototype.CrossFadeInFixedTime = function (stateName, fixedTransitionDuration, layer, fixedTimeOffset, normalizedTransitionTime) {
-                if (layer === void 0) { layer = -1; }
-                if (fixedTimeOffset === void 0) { fixedTimeOffset = 0.0; }
-                if (normalizedTransitionTime === void 0) { normalizedTransitionTime = 0.0; }
-            };
+            CrossFadeInFixedTime(stateName, fixedTransitionDuration, layer = -1, fixedTimeOffset = 0.0, normalizedTransitionTime = 0.0) {
+            }
             /**
              * Returns an AnimatorTransitionInfo with the informations on the current transition.
              *
              * @param layerIndex The layer's index.
              */
-            Animator.prototype.GetAnimatorTransitionInfo = function (layerIndex) {
-            };
+            GetAnimatorTransitionInfo(layerIndex) {
+            }
             /**
              * Returns the first StateMachineBehaviour that matches type T or is derived from T. Returns null if none are found.
              */
-            Animator.prototype.GetBehaviour = function (type) {
+            GetBehaviour(type) {
                 return null;
-            };
+            }
             /**
              * Returns all StateMachineBehaviour that match type T or are derived from T. Returns null if none are found.
              */
-            Animator.prototype.GetBehaviours = function (type) {
+            GetBehaviours(type) {
                 return null;
-            };
+            }
             /**
              * Returns Transform mapped to this human bone id.
              *
              * @param humanBoneId The human bone that is queried, see enum HumanBodyBones for a list of possible values.
              */
-            Animator.prototype.GetBoneTransform = function (humanBoneId) {
-            };
+            GetBoneTransform(humanBoneId) {
+            }
             /**
              * Returns the value of the given boolean parameter.
              *
              * @param name The parameter name.
              */
-            Animator.prototype.GetBool = function (name) {
+            GetBool(name) {
                 return false;
-            };
+            }
             /**
              * Returns an array of all the AnimatorClipInfo in the current state of the given layer.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.GetCurrentAnimatorClipInfo = function (layerIndex) {
+            GetCurrentAnimatorClipInfo(layerIndex) {
                 return null;
-            };
+            }
             /**
              * Returns the number of AnimatorClipInfo in the current state.
              */
-            Animator.prototype.GetCurrentAnimatorClipInfoCount = function (layerIndex) {
+            GetCurrentAnimatorClipInfoCount(layerIndex) {
                 return 0;
-            };
+            }
             /**
              * Returns an AnimatorStateInfo with the information on the current state.
              */
-            Animator.prototype.GetCurrentAnimatorStateInfo = function (layerIndex) {
+            GetCurrentAnimatorStateInfo(layerIndex) {
                 return null;
-            };
+            }
             /**
              * Returns the value of the given float parameter.
              */
-            Animator.prototype.GetFloat = function (name) {
+            GetFloat(name) {
                 return 0;
-            };
+            }
             /**
              * Gets the position of an IK hint.
              *
@@ -1012,129 +964,128 @@ var feng3d;
              *
              * @returns Vector3 Return the current position of this IK hint in world space.
              */
-            Animator.prototype.GetIKHintPosition = function (hint) {
+            GetIKHintPosition(hint) {
                 return null;
-            };
+            }
             /**
              * Gets the translative weight of an IK Hint (0 = at the original animation before IK, 1 = at the hint).
              *
              * @param hint The AvatarIKHint that is queried.
              */
-            Animator.prototype.GetIKHintPositionWeight = function (hint) {
+            GetIKHintPositionWeight(hint) {
                 return 0;
-            };
+            }
             /**
              * Gets the position of an IK goal.
              *
              * @param goal The AvatarIKGoal that is queried.
              */
-            Animator.prototype.GetIKPosition = function (goal) {
+            GetIKPosition(goal) {
                 return null;
-            };
+            }
             /**
              * Gets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
              *
              * @param goal The AvatarIKGoal that is queried.
              */
-            Animator.prototype.GetIKPositionWeight = function (goal) {
-            };
+            GetIKPositionWeight(goal) {
+            }
             /**
              * Gets the rotation of an IK goal.
              *
              * @param goal The AvatarIKGoal that is is queried.
              */
-            Animator.prototype.GetIKRotation = function (goal) {
-            };
+            GetIKRotation(goal) {
+            }
             /**
              * Gets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
              *
              * @param goal The AvatarIKGoal that is is queried.
              */
-            Animator.prototype.GetIKRotationWeight = function (goal) {
-            };
+            GetIKRotationWeight(goal) {
+            }
             /**
              * Returns the value of the given integer parameter.
              *
              * @param name The parameter name.
              */
-            Animator.prototype.GetInteger = function (name) {
+            GetInteger(name) {
                 return 0;
-            };
+            }
             /**
              * Returns the index of the layer with the given name.
              *
              * @param layerName The layer name.
              */
-            Animator.prototype.GetLayerIndex = function (layerName) {
-            };
+            GetLayerIndex(layerName) {
+            }
             /**
              * Returns the layer name.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.GetLayerName = function (layerIndex) {
-            };
+            GetLayerName(layerIndex) {
+            }
             /**
              * Returns the weight of the layer at the specified index.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.GetLayerWeight = function (layerIndex) {
-            };
+            GetLayerWeight(layerIndex) {
+            }
             /**
              * Returns an array of all the AnimatorClipInfo in the next state of the given layer.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.GetNextAnimatorClipInfo = function (layerIndex) {
+            GetNextAnimatorClipInfo(layerIndex) {
                 return null;
-            };
+            }
             /**
              * Returns the number of AnimatorClipInfo in the next state.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.GetNextAnimatorClipInfoCount = function (layerIndex) {
+            GetNextAnimatorClipInfoCount(layerIndex) {
                 return 0;
-            };
+            }
             /**
              * Returns an AnimatorStateInfo with the information on the next state.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.GetNextAnimatorStateInfo = function (layerIndex) {
+            GetNextAnimatorStateInfo(layerIndex) {
                 return null;
-            };
+            }
             /**
              * See AnimatorController.parameters.
              */
-            Animator.prototype.GetParameter = function (index) {
+            GetParameter(index) {
                 return null;
-            };
+            }
             /**
              * Returns true if the state exists in this layer, false otherwise.
              *
              * @param layerIndex The layer index.
              * @param stateID The state ID.
              */
-            Animator.prototype.HasState = function (layerIndex, stateID) {
+            HasState(layerIndex, stateID) {
                 return false;
-            };
+            }
             /**
              * Interrupts the automatic target matching.
              *
              * CompleteMatch will make the gameobject match the target completely at the next frame.
              */
-            Animator.prototype.InterruptMatchTarget = function (completeMatch) {
-                if (completeMatch === void 0) { completeMatch = true; }
-            };
+            InterruptMatchTarget(completeMatch = true) {
+            }
             /**
              * Returns true if there is a transition on the given layer, false otherwise.
              *
              * @param layerIndex The layer index.
              */
-            Animator.prototype.IsInTransition = function (layerIndex) {
-            };
+            IsInTransition(layerIndex) {
+            }
             /**
              * Returns true if the parameter is controlled by a curve, false otherwise.
              *
@@ -1142,8 +1093,8 @@ var feng3d;
              *
              * @returns True if the parameter is controlled by a curve, false otherwise.
              */
-            Animator.prototype.IsParameterControlledByCurve = function (name) {
-            };
+            IsParameterControlledByCurve(name) {
+            }
             /**
              * Automatically adjust the GameObject position and rotation.
              *
@@ -1154,9 +1105,8 @@ var feng3d;
              * @param startNormalizedTime Start time within the animation clip (0 - beginning of clip, 1 - end of clip).
              * @param targetNormalizedTime End time within the animation clip (0 - beginning of clip, 1 - end of clip), values greater than 1 can be set to trigger a match after a certain number of loops. Ex: 2.3 means at 30% of 2nd loop.
              */
-            Animator.prototype.MatchTarget = function (matchPosition, matchRotation, targetBodyPart, weightMask, startNormalizedTime, targetNormalizedTime) {
-                if (targetNormalizedTime === void 0) { targetNormalizedTime = 1; }
-            };
+            MatchTarget(matchPosition, matchRotation, targetBodyPart, weightMask, startNormalizedTime, targetNormalizedTime = 1) {
+            }
             /**
              * Plays a state.
              *
@@ -1164,17 +1114,15 @@ var feng3d;
              * @param layer The layer index. If layer is -1, it plays the first state with the given state name or hash.
              * @param normalizedTime The time offset between zero and one.
              */
-            Animator.prototype.Play = function (stateName, layer, normalizedTime) {
-                if (layer === void 0) { layer = -1; }
-                if (normalizedTime === void 0) { normalizedTime = Number.MIN_SAFE_INTEGER; }
+            Play(stateName, layer = -1, normalizedTime = Number.MIN_SAFE_INTEGER) {
                 if (this.runtimeAnimatorController == null)
                     return;
-                var animationClip = this.runtimeAnimatorController.animationClips.filter(function (v) { return v.name == stateName; })[0];
+                var animationClip = this.runtimeAnimatorController.animationClips.filter(v => v.name == stateName)[0];
                 if (animationClip == null)
                     return;
                 this._activeAnimationClip = animationClip;
                 this.StartPlayback();
-            };
+            }
             /**
              * Plays a state.
              *
@@ -1182,51 +1130,49 @@ var feng3d;
              * @param layer The layer index. If layer is -1, it plays the first state with the given state name or hash.
              * @param fixedTime The time offset (in seconds).
              */
-            Animator.prototype.PlayInFixedTime = function (stateName, layer, fixedTime) {
-                if (layer === void 0) { layer = -1; }
-                if (fixedTime === void 0) { fixedTime = Number.MIN_SAFE_INTEGER; }
-            };
+            PlayInFixedTime(stateName, layer = -1, fixedTime = Number.MIN_SAFE_INTEGER) {
+            }
             /**
              * 每帧执行
              *
              * Evaluates the animator based on deltaTime.
              */
-            Animator.prototype.update = function (deltaTime) {
+            update(deltaTime) {
                 if (!this._isPlaying)
                     return;
                 this.playbackTime += deltaTime / 1000 * this.speed;
                 if (this._activeAnimationClip) {
                     this._activeAnimationClip.SampleAnimation(this.gameObject, this.playbackTime);
                 }
-            };
+            }
             /**
              * Rebind all the animated properties and mesh data with the Animator.
              */
-            Animator.prototype.Rebind = function () {
-            };
+            Rebind() {
+            }
             /**
              * Resets the value of the given trigger parameter.
              *
              * @param name The parameter name.
              */
-            Animator.prototype.ResetTrigger = function (name) {
-            };
+            ResetTrigger(name) {
+            }
             /**
              * Sets local rotation of a human bone during a IK pass.
              *
              * @param humanBoneId The human bone Id.
              * @param rotation The local rotation.
              */
-            Animator.prototype.SetBoneLocalRotation = function (humanBoneId, rotation) {
-            };
+            SetBoneLocalRotation(humanBoneId, rotation) {
+            }
             /**
              * Sets the value of the given boolean parameter.
              *
              * @param name The parameter name.
              * @param value The new parameter value.
              */
-            Animator.prototype.SetBool = function (name, value) {
-            };
+            SetBool(name, value) {
+            }
             /**
              * Send float values to the Animator to affect transitions.
              *
@@ -1235,79 +1181,79 @@ var feng3d;
              * @param dampTime The damper total time.
              * @param deltaTime The delta time to give to the damper.
              */
-            Animator.prototype.SetFloat = function (name, value, dampTime, deltaTime) {
-            };
+            SetFloat(name, value, dampTime, deltaTime) {
+            }
             /**
              * Sets the position of an IK hint.
              *
              * @param hint The AvatarIKHint that is set.
              * @param hintPosition The position in world space.
              */
-            Animator.prototype.SetIKHintPosition = function (hint, hintPosition) {
-            };
+            SetIKHintPosition(hint, hintPosition) {
+            }
             /**
              * Sets the translative weight of an IK hint (0 = at the original animation before IK, 1 = at the hint).
              *
              * @param hint The AvatarIKHint that is set.
              * @param value The translative weight.
              */
-            Animator.prototype.SetIKHintPositionWeight = function (hint, value) {
-            };
+            SetIKHintPositionWeight(hint, value) {
+            }
             /**
              * Sets the position of an IK goal.
              *
              * @param goal The AvatarIKGoal that is set.
              * @param goalPosition The position in world space.
              */
-            Animator.prototype.SetIKPosition = function (goal, goalPosition) {
-            };
+            SetIKPosition(goal, goalPosition) {
+            }
             /**
              * Sets the translative weight of an IK goal (0 = at the original animation before IK, 1 = at the goal).
              *
              * @param goal The AvatarIKGoal that is set.
              * @param value The translative weight.
              */
-            Animator.prototype.SetIKPositionWeight = function (goal, value) {
-            };
+            SetIKPositionWeight(goal, value) {
+            }
             /**
              * Sets the rotation of an IK goal.
              *
              * @param goal The AvatarIKGoal that is set.
              * @param goalRotation The rotation in world space.
              */
-            Animator.prototype.SetIKRotation = function (goal, goalRotation) {
-            };
+            SetIKRotation(goal, goalRotation) {
+            }
             /**
              * Sets the rotational weight of an IK goal (0 = rotation before IK, 1 = rotation at the IK goal).
              *
              * @param goal The AvatarIKGoal that is set.
              * @param value The rotational weight.
              */
-            Animator.prototype.SetIKRotationWeight = function (goal, value) {
-            };
+            SetIKRotationWeight(goal, value) {
+            }
             /**
              * Sets the value of the given integer parameter.
              *
              * @param name The parameter name.
              * @param value The new parameter value.
              */
-            Animator.prototype.SetInteger = function (name, value) {
-            };
+            SetInteger(name, value) {
+            }
             /**
              * Sets the weight of the layer at the given index.
              *
              * @param layerIndex The layer index.
              * @param weight The new layer weight.
              */
-            Animator.prototype.SetLayerWeight = function (layerIndex, weight) {
-            };
+            SetLayerWeight(layerIndex, weight) {
+            }
             /**
              * Sets the look at position.
              *
              * @param lookAtPosition The position to lookAt.
              */
-            Animator.prototype.SetLookAtPosition = function (lookAtPosition) {
-            };
+            SetLookAtPosition(lookAtPosition) {
+            }
             /**
              * Set look at weights.
              *
@@ -1317,63 +1263,58 @@ var feng3d;
              * @param eyesWeight (0-1) determines how much the eyes are involved in the LookAt.
              * @param clampWeight (0-1) 0.0 means the character is completely unrestrained in motion, 1.0 means he's completely clamped (look at becomes impossible), and 0.5 means he'll be able to move on half of the possible range (180 degrees).
              */
-            Animator.prototype.SetLookAtWeight = function (weight, bodyWeight, headWeight, eyesWeight, clampWeight) {
-                if (bodyWeight === void 0) { bodyWeight = 0.0; }
-                if (headWeight === void 0) { headWeight = 1.0; }
-                if (eyesWeight === void 0) { eyesWeight = 0.0; }
-                if (clampWeight === void 0) { clampWeight = 0.5; }
-            };
+            SetLookAtWeight(weight, bodyWeight = 0.0, headWeight = 1.0, eyesWeight = 0.0, clampWeight = 0.5) {
+            }
             /**
              * Sets an AvatarTarget and a targetNormalizedTime for the current state.
              *
              * @param targetIndex The avatar body part that is queried.
              * @param targetNormalizedTime The current state Time that is queried.
              */
-            Animator.prototype.SetTarget = function (targetIndex, targetNormalizedTime) {
-            };
+            SetTarget(targetIndex, targetNormalizedTime) {
+            }
             /**
              * Sets the value of the given trigger parameter.
              *
              * @param name The parameter name.
              */
-            Animator.prototype.SetTrigger = function (name) {
-            };
+            SetTrigger(name) {
+            }
             /**
              * Sets the animator in playback mode.
              */
-            Animator.prototype.StartPlayback = function () {
+            StartPlayback() {
                 this._isPlaying = true;
-            };
+            }
             /**
              * Sets the animator in recording mode, and allocates a circular buffer of size frameCount.
              *
              * @param frameCount The number of frames (updates) that will be recorded. If frameCount is 0, the recording will continue until the user calls StopRecording. The maximum value for frameCount is 10000.
              */
-            Animator.prototype.StartRecording = function (frameCount) {
-            };
+            StartRecording(frameCount) {
+            }
             /**
              * Stops the animator playback mode. When playback stops, the avatar resumes getting control from game logic.
              */
-            Animator.prototype.StopPlayback = function () {
+            StopPlayback() {
                 this._isPlaying = false;
-            };
+            }
             /**
              * Stops animator record mode.
              */
-            Animator.prototype.StopRecording = function () {
-            };
+            StopRecording() {
+            }
             /**
              * Forces a write of the default values stored in the animator.
              */
-            Animator.prototype.WriteDefaultValues = function () {
-            };
+            WriteDefaultValues() {
+            }
             /**
              * Generates an parameter id from a string.
              */
-            Animator.StringToHash = function (name) {
-            };
-            return Animator;
-        }(feng3d.Behaviour));
+            static StringToHash(name) {
+            }
+        }
         unity.Animator = Animator;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1386,7 +1327,7 @@ var feng3d;
          *
          * The recorder can either be Offline, in Playback or in Record.
          */
-        var AnimatorRecorderMode;
+        let AnimatorRecorderMode;
         (function (AnimatorRecorderMode) {
             /**
              * The Animator recorder is offline.
@@ -1410,7 +1351,7 @@ var feng3d;
         /**
          * The update mode of the Animator.
          */
-        var AnimatorUpdateMode;
+        let AnimatorUpdateMode;
         (function (AnimatorUpdateMode) {
             /**
              * Normal update of the animator.
@@ -1434,7 +1375,7 @@ var feng3d;
         /**
          * Culling mode for the Animator.
          */
-        var AnimatorCullingMode;
+        let AnimatorCullingMode;
         (function (AnimatorCullingMode) {
             /**
              * Always animate the entire character. Object is animated even when offscreen.
@@ -1460,7 +1401,7 @@ var feng3d;
          *
          * Can be bool, float, int or trigger.
          */
-        var AnimatorControllerParameterType;
+        let AnimatorControllerParameterType;
         (function (AnimatorControllerParameterType) {
             /**
              * Float type parameter.
@@ -1488,7 +1429,7 @@ var feng3d;
         /**
          * Used by Animation.Play function.
          */
-        var AnimationBlendMode;
+        let AnimationBlendMode;
         (function (AnimationBlendMode) {
             /**
              * Animations will be blended.
@@ -1508,7 +1449,7 @@ var feng3d;
         /**
          * Specifies how the layer is blended with the previous layers.
          */
-        var AnimatorLayerBlendingMode;
+        let AnimatorLayerBlendingMode;
         (function (AnimatorLayerBlendingMode) {
             /**
              * Animations overrides to the previous layers.
@@ -1528,7 +1469,7 @@ var feng3d;
         /**
          * The mode of the condition.
          */
-        var AnimatorConditionMode;
+        let AnimatorConditionMode;
         (function (AnimatorConditionMode) {
             /**
              * The condition is true when the parameter value is true.
@@ -1564,7 +1505,7 @@ var feng3d;
         /**
          * Which AnimatorState transitions can interrupt the Transition.
          */
-        var TransitionInterruptionSource;
+        let TransitionInterruptionSource;
         (function (TransitionInterruptionSource) {
             /**
              * The Transition cannot be interrupted. Formely know as Atomic.
@@ -1596,11 +1537,8 @@ var feng3d;
         /**
          * Use this struct to specify the position and rotation weight mask for Animator.MatchTarget.
          */
-        var MatchTargetWeightMask = /** @class */ (function () {
-            function MatchTargetWeightMask() {
-            }
-            return MatchTargetWeightMask;
-        }());
+        class MatchTargetWeightMask {
+        }
         unity.MatchTargetWeightMask = MatchTargetWeightMask;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1613,11 +1551,8 @@ var feng3d;
          *
          * Animation events support functions that take zero or one parameter. The parameter can be a float, an int, a string, an object reference, or an AnimationEvent.
          */
-        var AnimationEvent = /** @class */ (function () {
-            function AnimationEvent() {
-            }
-            return AnimationEvent;
-        }());
+        class AnimationEvent {
+        }
         unity.AnimationEvent = AnimationEvent;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1628,52 +1563,49 @@ var feng3d;
         /**
          * StateMachineBehaviour is a component that can be added to a state machine state. It's the base class every script on a state derives from.
          */
-        var StateMachineBehaviour = /** @class */ (function () {
-            function StateMachineBehaviour() {
-            }
+        class StateMachineBehaviour {
             /**
              * Called on the first Update frame when making a transition to a state machine. This is not called when making a transition into a state machine sub-state.
              *
              * @param animator The Animator playing this state machine.
              * @param stateMachinePathHash The full path hash for this state machine.
              */
-            StateMachineBehaviour.prototype.OnStateMachineEnter = function (animator, stateMachinePathHash) {
-            };
+            OnStateMachineEnter(animator, stateMachinePathHash) {
+            }
             /**
              * Called on the last Update frame when making a transition out of a StateMachine. This is not called when making a transition into a StateMachine sub-state.
              *
              * @param animator The Animator playing this state machine.
              * @param stateMachinePathHash The full path hash for this state machine.
              */
-            StateMachineBehaviour.prototype.OnStateMachineExit = function (animator, stateMachinePathHash) {
-            };
+            OnStateMachineExit(animator, stateMachinePathHash) {
+            }
             /**
              * Called on the first Update frame when a state machine evaluate this state.
              */
-            StateMachineBehaviour.prototype.OnStateEnter = function (animator, animatorStateInfo, layerIndex) {
-            };
+            OnStateEnter(animator, animatorStateInfo, layerIndex) {
+            }
             /**
              * Called on the last update frame when a state machine evaluate this state.
              */
-            StateMachineBehaviour.prototype.OnStateExit = function (animator, animatorStateInfo, layerIndex) {
-            };
+            OnStateExit(animator, animatorStateInfo, layerIndex) {
+            }
             /**
              * Called right after MonoBehaviour.OnAnimatorIK.
              */
-            StateMachineBehaviour.prototype.OnStateIK = function (animator, animatorStateInfo, layerIndex) {
-            };
+            OnStateIK(animator, animatorStateInfo, layerIndex) {
+            }
             /**
              * Called right after MonoBehaviour.OnAnimatorMove.
              */
-            StateMachineBehaviour.prototype.OnStateMove = function (animator, animatorStateInfo, layerIndex) {
-            };
+            OnStateMove(animator, animatorStateInfo, layerIndex) {
+            }
             /**
              * Called at each Update frame except for the first and last frame.
              */
-            StateMachineBehaviour.prototype.OnStateUpdate = function (animator, animatorStateInfo, layerIndex) {
-            };
-            return StateMachineBehaviour;
-        }());
+            OnStateUpdate(animator, animatorStateInfo, layerIndex) {
+            }
+        }
         unity.StateMachineBehaviour = StateMachineBehaviour;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1684,21 +1616,18 @@ var feng3d;
         /**
          * The animator state info related to this event (Read Only).
          */
-        var AnimatorStateInfo = /** @class */ (function () {
-            function AnimatorStateInfo() {
-            }
+        class AnimatorStateInfo {
             /**
              * Does name match the name of the active state in the statemachine?
              */
-            AnimatorStateInfo.prototype.IsName = function (name) {
-            };
+            IsName(name) {
+            }
             /**
              * Does tag match the tag of the active state in the statemachine.
              */
-            AnimatorStateInfo.prototype.IsTag = function (tag) {
-            };
-            return AnimatorStateInfo;
-        }());
+            IsTag(tag) {
+            }
+        }
         unity.AnimatorStateInfo = AnimatorStateInfo;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1709,11 +1638,8 @@ var feng3d;
         /**
          * Information about clip being played and blended by the Animator.
          */
-        var AnimatorClipInfo = /** @class */ (function () {
-            function AnimatorClipInfo() {
-            }
-            return AnimatorClipInfo;
-        }());
+        class AnimatorClipInfo {
+        }
         unity.AnimatorClipInfo = AnimatorClipInfo;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1724,25 +1650,21 @@ var feng3d;
         /**
          * The AnimationState gives full control over animation blending.
          */
-        var AnimationState = /** @class */ (function () {
-            function AnimationState() {
-            }
+        class AnimationState {
             /**
              * Adds a transform which should be animated. This allows you to reduce the number of animations you have to create.
              *
              * @param mix The transform to animate.
              * @param recursive Whether to also animate all children of the specified transform.
              */
-            AnimationState.prototype.AddMixingTransform = function (mix, recursive) {
-                if (recursive === void 0) { recursive = true; }
-            };
+            AddMixingTransform(mix, recursive = true) {
+            }
             /**
              * Removes a transform which should be animated.
              */
-            AnimationState.prototype.RemoveMixingTransform = function (mix) {
-            };
-            return AnimationState;
-        }());
+            RemoveMixingTransform(mix) {
+            }
+        }
         unity.AnimationState = AnimationState;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1755,8 +1677,8 @@ var feng3d;
          *
          * AnimationClip is used by Animation to play back animations.
          */
-        var AnimationClip = /** @class */ (function () {
-            function AnimationClip() {
+        class AnimationClip {
+            constructor() {
                 /**
                  * The name of the object.
                  */
@@ -1806,64 +1728,56 @@ var feng3d;
                  */
                 this.curvedatas = [];
             }
-            Object.defineProperty(AnimationClip.prototype, "empty", {
-                /**
-                 * Returns true if the animation clip has no curves and no events.
-                 */
-                get: function () {
-                    if (this.events.length > 0)
-                        return false;
-                    if (this.curvedatas.length > 0)
-                        return false;
-                    return true;
-                },
-                enumerable: false,
-                configurable: true
-            });
-            Object.defineProperty(AnimationClip.prototype, "length", {
-                /**
-                 * Animation length in seconds. (Read Only)
-                 */
-                get: function () {
-                    var l = this.curvedatas.reduce(function (pv, cv) {
-                        var animationCurve = cv.curve;
-                        var keys = animationCurve.keys;
-                        if (keys.length > 0) {
-                            var lastkey = keys[keys.length - 1];
-                            pv = Math.max(pv, lastkey.time);
-                        }
-                        return pv;
-                    }, 0);
-                    return l;
-                },
-                enumerable: false,
-                configurable: true
-            });
+            /**
+             * Returns true if the animation clip has no curves and no events.
+             */
+            get empty() {
+                if (this.events.length > 0)
+                    return false;
+                if (this.curvedatas.length > 0)
+                    return false;
+                return true;
+            }
+            /**
+             * Animation length in seconds. (Read Only)
+             */
+            get length() {
+                var l = this.curvedatas.reduce((pv, cv) => {
+                    var animationCurve = cv.curve;
+                    var keys = animationCurve.keys;
+                    if (keys.length > 0) {
+                        var lastkey = keys[keys.length - 1];
+                        pv = Math.max(pv, lastkey.time);
+                    }
+                    return pv;
+                }, 0);
+                return l;
+            }
             /**
              * Adds an animation event to the clip.
              */
-            AnimationClip.prototype.AddEvent = function (evt) {
+            AddEvent(evt) {
                 this.events.push(evt);
-            };
+            }
             /**
              * Clears all curves from the clip.
              */
-            AnimationClip.prototype.ClearCurves = function () {
+            ClearCurves() {
                 this.curvedatas = [];
-            };
+            }
             /**
              * Realigns quaternion keys to ensure shortest interpolation paths.
              */
-            AnimationClip.prototype.EnsureQuaternionContinuity = function () {
-            };
+            EnsureQuaternionContinuity() {
+            }
             /**
              * Samples an animation at a given time for any animated properties.
              *
              * @param go The animated game object.
              * @param time The time to sample an animation.
              */
-            AnimationClip.prototype.SampleAnimation = function (go, time) {
-                this.curvedatas.forEach(function (cd) {
+            SampleAnimation(go, time) {
+                this.curvedatas.forEach(cd => {
                     var anigo = go.find(cd.path);
                     var propertys = cd.propertyName.split(".");
                     cd.path;
@@ -1885,11 +1799,11 @@ var feng3d;
                             }
                             break;
                         default:
-                            console.warn("\u65E0\u6CD5\u5904\u7406\u52A8\u753B\u5C5E\u6027 " + propertys[0]);
+                            console.warn(`无法处理动画属性 ${propertys[0]}`);
                             break;
                     }
                 });
-            };
+            }
             /**
              * Assigns the curve to animate a specific property.
              *
@@ -1898,27 +1812,27 @@ var feng3d;
              * @param propertyName The name or path to the property being animated.
              * @param curve The animation curve.
              */
-            AnimationClip.prototype.SetCurve = function (relativePath, type, propertyName, curve) {
+            SetCurve(relativePath, type, propertyName, curve) {
                 var data = new unity.AnimationClipCurveData();
                 data.path = relativePath;
                 data.type = type;
                 data.propertyName = propertyName;
                 data.curve = curve;
                 this.curvedatas.push(data);
-            };
+            }
             /**
              * Retrieves all curves from a specific animation clip.
              *
              * 等价Unity中AnimationUtility.GetAllCurves
              */
-            AnimationClip.prototype.GetAllCurves = function () {
+            GetAllCurves() {
                 return this.curvedatas;
-            };
+            }
             /**
              * Returns all the float curve bindings currently stored in the clip.
              */
-            AnimationClip.prototype.GetCurveBindings = function () {
-                var bindings = this.curvedatas.map(function (v) {
+            GetCurveBindings() {
+                var bindings = this.curvedatas.map(v => {
                     var binding = new unity.EditorCurveBinding();
                     binding.path = v.path;
                     binding.propertyName = v.propertyName;
@@ -1926,9 +1840,8 @@ var feng3d;
                     return binding;
                 });
                 return bindings;
-            };
-            return AnimationClip;
-        }());
+            }
+        }
         unity.AnimationClip = AnimationClip;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1939,11 +1852,8 @@ var feng3d;
         /**
          * The runtime representation of the AnimatorController. Use this representation to change the Animator Controller during runtime.
          */
-        var RuntimeAnimatorController = /** @class */ (function () {
-            function RuntimeAnimatorController() {
-            }
-            return RuntimeAnimatorController;
-        }());
+        class RuntimeAnimatorController {
+        }
         unity.RuntimeAnimatorController = RuntimeAnimatorController;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1954,11 +1864,8 @@ var feng3d;
         /**
          * Used to communicate between scripting and the controller. Some parameters can be set in scripting and used by the controller, while other parameters are based on Custom Curves in Animation Clips and can be sampled using the scripting API.
          */
-        var AnimatorControllerParameter = /** @class */ (function () {
-            function AnimatorControllerParameter() {
-            }
-            return AnimatorControllerParameter;
-        }());
+        class AnimatorControllerParameter {
+        }
         unity.AnimatorControllerParameter = AnimatorControllerParameter;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -1969,9 +1876,7 @@ var feng3d;
         /**
          * Defines how a curve is attached to an object that it controls.
          */
-        var EditorCurveBinding = /** @class */ (function () {
-            function EditorCurveBinding() {
-            }
+        class EditorCurveBinding {
             /**
              * Creates a preconfigured binding for a curve where values should not be interpolated.
              *
@@ -1979,8 +1884,8 @@ var feng3d;
              * @param inType The type of the object to animate.
              * @param inPropertyName The name of the property to animate on the object.
              */
-            EditorCurveBinding.DiscreteCurve = function (inPath, inType, inPropertyName) {
-            };
+            static DiscreteCurve(inPath, inType, inPropertyName) {
+            }
             /**
              * Creates a preconfigured binding for a float curve.
              *
@@ -1988,8 +1893,8 @@ var feng3d;
              * @param inType The type of the object to animate.
              * @param inPropertyName The name of the property to animate on the object.
              */
-            EditorCurveBinding.FloatCurve = function (inPath, inType, inPropertyName) {
-            };
+            static FloatCurve(inPath, inType, inPropertyName) {
+            }
             /**
              * Creates a preconfigured binding for a curve that points to an Object.
              *
@@ -1997,10 +1902,9 @@ var feng3d;
              * @param inType The type of the object to animate.
              * @param inPropertyName The name of the property to animate on the object.
              */
-            EditorCurveBinding.PPtrCurve = function (inPath, inType, inPropertyName) {
-            };
-            return EditorCurveBinding;
-        }());
+            static PPtrCurve(inPath, inType, inPropertyName) {
+            }
+        }
         unity.EditorCurveBinding = EditorCurveBinding;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2011,11 +1915,8 @@ var feng3d;
         /**
          * An AnimationClipCurveData object contains all the information needed to identify a specific curve in an AnimationClip. The curve animates a specific property of a component / material attached to a game object / animated bone.
          */
-        var AnimationClipCurveData = /** @class */ (function () {
-            function AnimationClipCurveData() {
-            }
-            return AnimationClipCurveData;
-        }());
+        class AnimationClipCurveData {
+        }
         unity.AnimationClipCurveData = AnimationClipCurveData;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2026,13 +1927,8 @@ var feng3d;
         /**
          * The Animator Controller controls animation through layers with state machines, controlled by parameters.
          */
-        var AnimatorController = /** @class */ (function (_super) {
-            __extends(AnimatorController, _super);
-            function AnimatorController() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return AnimatorController;
-        }(unity.RuntimeAnimatorController));
+        class AnimatorController extends unity.RuntimeAnimatorController {
+        }
         unity.AnimatorController = AnimatorController;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2043,41 +1939,38 @@ var feng3d;
         /**
          * The Animation Layer contains a state machine that controls animations of a model or part of it.
          */
-        var AnimatorControllerLayer = /** @class */ (function () {
-            function AnimatorControllerLayer() {
-            }
+        class AnimatorControllerLayer {
             /**
              * Gets the override behaviour list for the state on the given layer.
              *
              * @param state The state which we want to get the behaviour list.
              */
-            AnimatorControllerLayer.prototype.GetOverrideBehaviours = function (state) {
-            };
+            GetOverrideBehaviours(state) {
+            }
             /**
              * Gets the override motion for the state on the given layer.
              *
              * @param state The state which we want to get the motion.
              */
-            AnimatorControllerLayer.prototype.GetOverrideMotion = function (state) {
-            };
+            GetOverrideMotion(state) {
+            }
             /**
              * Sets the override behaviour list for the state on the given layer.
              *
              * @param state The state which we want to set the behaviour list.
              * @param behaviours The behaviour list that will be set.
              */
-            AnimatorControllerLayer.prototype.SetOverrideBehaviours = function (state, behaviours) {
-            };
+            SetOverrideBehaviours(state, behaviours) {
+            }
             /**
              * Sets the override motion for the state on the given layer.
              *
              * @param state The state which we want to set the motion.
              * @param motion The motion that will be set.
              */
-            AnimatorControllerLayer.prototype.SetOverrideMotion = function (state, motion) {
-            };
-            return AnimatorControllerLayer;
-        }());
+            SetOverrideMotion(state, motion) {
+            }
+        }
         unity.AnimatorControllerLayer = AnimatorControllerLayer;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2090,74 +1983,69 @@ var feng3d;
          *
          * They can be used when importing animation or in an animator controller layer.
          */
-        var AvatarMask = /** @class */ (function () {
-            function AvatarMask() {
-            }
+        class AvatarMask {
             /**
              * Adds a transform path into the AvatarMask.
              *
              * @param transform The transform to add into the AvatarMask.
              * @param recursive Whether to also add all children of the specified transform.
              */
-            AvatarMask.prototype.AddTransformPath = function (transform, recursive) {
-                if (recursive === void 0) { recursive = true; }
-            };
+            AddTransformPath(transform, recursive = true) {
+            }
             /**
              * Returns true if the humanoid body part at the given index is active.
              *
              * @param index The index of the humanoid body part.
              */
-            AvatarMask.prototype.GetHumanoidBodyPartActive = function (index) {
-            };
+            GetHumanoidBodyPartActive(index) {
+            }
             /**
              * Returns true if the transform at the given index is active.
              *
              * @param index The index of the transform.
              */
-            AvatarMask.prototype.GetTransformActive = function (index) {
-            };
+            GetTransformActive(index) {
+            }
             /**
              * Returns the path of the transform at the given index.
              *
              * @param index The index of the transform.
              */
-            AvatarMask.prototype.GetTransformPath = function (index) {
-            };
+            GetTransformPath(index) {
+            }
             /**
              * Removes a transform path from the AvatarMask.
              *
              * @param transform The Transform that should be removed from the AvatarMask.
              * @param recursive Whether to also remove all children of the specified transform.
              */
-            AvatarMask.prototype.RemoveTransformPath = function (transform, recursive) {
-                if (recursive === void 0) { recursive = true; }
-            };
+            RemoveTransformPath(transform, recursive = true) {
+            }
             /**
              * Sets the humanoid body part at the given index to active or not.
              *
              * @param index The index of the humanoid body part.
              * @param value Active or not.
              */
-            AvatarMask.prototype.SetHumanoidBodyPartActive = function (index, value) {
-            };
+            SetHumanoidBodyPartActive(index, value) {
+            }
             /**
              * Sets the tranform at the given index to active or not.
              *
              * @param index The index of the transform.
              * @param value Active or not.
              */
-            AvatarMask.prototype.SetTransformActive = function (index, value) {
-            };
+            SetTransformActive(index, value) {
+            }
             /**
              * Sets the path of the transform at the given index.
              *
              * @param index The index of the transform.
              * @param path The path of the transform.
              */
-            AvatarMask.prototype.SetTransformPath = function (index, path) {
-            };
-            return AvatarMask;
-        }());
+            SetTransformPath(index, path) {
+            }
+        }
         unity.AvatarMask = AvatarMask;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2168,7 +2056,7 @@ var feng3d;
         /**
          * Avatar body part.
          */
-        var AvatarMaskBodyPart;
+        let AvatarMaskBodyPart;
         (function (AvatarMaskBodyPart) {
             /**
              * The Root.
@@ -2236,11 +2124,8 @@ var feng3d;
         /**
          * A graph controlling the interaction of states. Each state references a motion.
          */
-        var AnimatorStateMachine = /** @class */ (function () {
-            function AnimatorStateMachine() {
-            }
-            return AnimatorStateMachine;
-        }());
+        class AnimatorStateMachine {
+        }
         unity.AnimatorStateMachine = AnimatorStateMachine;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2253,9 +2138,7 @@ var feng3d;
          *
          * A transition happens when all its conditions are met.
          */
-        var AnimatorTransitionBase = /** @class */ (function () {
-            function AnimatorTransitionBase() {
-            }
+        class AnimatorTransitionBase {
             /**
              * Utility function to add a condition to a transition.
              *
@@ -2263,23 +2146,22 @@ var feng3d;
              * @param threshold The threshold value of the condition.
              * @param parameter The name of the parameter.
              */
-            AnimatorTransitionBase.prototype.AddCondition = function (mode, threshold, parameter) {
+            AddCondition(mode, threshold, parameter) {
                 var condition = new unity.AnimatorCondition();
                 condition.mode = mode;
                 condition.threshold = threshold;
                 condition.parameter = parameter;
                 this.conditions.push(condition);
-            };
+            }
             /**
              * Utility function to remove a condition from the transition.
              *
              * @param condition The condition to remove.
              */
-            AnimatorTransitionBase.prototype.RemoveCondition = function (condition) {
-                this.conditions = this.conditions.filter(function (v) { return v != condition; });
-            };
-            return AnimatorTransitionBase;
-        }());
+            RemoveCondition(condition) {
+                this.conditions = this.conditions.filter(v => v != condition);
+            }
+        }
         unity.AnimatorTransitionBase = AnimatorTransitionBase;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2292,13 +2174,8 @@ var feng3d;
          *
          * A transition happens when all its conditions are met. AnimatorStateTransition derives from AnimatorTransitionBase.
          */
-        var AnimatorStateTransition = /** @class */ (function (_super) {
-            __extends(AnimatorStateTransition, _super);
-            function AnimatorStateTransition() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return AnimatorStateTransition;
-        }(unity.AnimatorTransitionBase));
+        class AnimatorStateTransition extends unity.AnimatorTransitionBase {
+        }
         unity.AnimatorStateTransition = AnimatorStateTransition;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2309,11 +2186,8 @@ var feng3d;
         /**
          * AnimatorCondition conditions that need to be met for a transition to happen.
          */
-        var AnimatorCondition = /** @class */ (function () {
-            function AnimatorCondition() {
-            }
-            return AnimatorCondition;
-        }());
+        class AnimatorCondition {
+        }
         unity.AnimatorCondition = AnimatorCondition;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2324,39 +2198,36 @@ var feng3d;
         /**
          * States are the basic building blocks of a state machine. Each state contains a Motion ( AnimationClip or BlendTree) which will play while the character is in that state. When an event in the game triggers a state transition, the character will be left in a new state whose animation sequence will then take over.
          */
-        var AnimatorState = /** @class */ (function () {
-            function AnimatorState() {
-            }
+        class AnimatorState {
             /**
              * Utility function to add an outgoing transition to the exit of the state's parent state machine.
              *
              * @param defaultExitTime If true, the exit time will be the equivalent of 0.25 second.
              */
-            AnimatorState.prototype.AddExitTransition = function (defaultExitTime) {
-            };
+            AddExitTransition(defaultExitTime) {
+            }
             /**
              * Adds a state machine behaviour class of type stateMachineBehaviourType to the AnimatorState. C# Users can use a generic version.
              */
-            AnimatorState.prototype.AddStateMachineBehaviour = function (stateMachineBehaviourType) {
-            };
+            AddStateMachineBehaviour(stateMachineBehaviourType) {
+            }
             /**
              * Utility function to add an outgoing transition to the destination state.
              *
              * @param destinationState The destination state | machine.
              * @param defaultExitTime If true, the exit time will be the equivalent of 0.25 second.
              */
-            AnimatorState.prototype.AddTransition = function (destinationState, defaultExitTime) {
-            };
+            AddTransition(destinationState, defaultExitTime) {
+            }
             /**
              * Utility function to remove a transition from the state.
              *
              * @param transition Transition to remove.
              */
-            AnimatorState.prototype.RemoveTransition = function (transition) {
-                this.transitions = this.transitions.filter(function (v) { return v != transition; });
-            };
-            return AnimatorState;
-        }());
+            RemoveTransition(transition) {
+                this.transitions = this.transitions.filter(v => v != transition);
+            }
+        }
         unity.AnimatorState = AnimatorState;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2369,11 +2240,8 @@ var feng3d;
          *
          * Motions are used by animation States in the Mecanim StateMachines.
          */
-        var Motion = /** @class */ (function () {
-            function Motion() {
-            }
-            return Motion;
-        }());
+        class Motion {
+        }
         unity.Motion = Motion;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2386,13 +2254,8 @@ var feng3d;
          *
          * A transition happens when all its conditions are met.
          */
-        var AnimatorTransition = /** @class */ (function (_super) {
-            __extends(AnimatorTransition, _super);
-            function AnimatorTransition() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            return AnimatorTransition;
-        }(unity.AnimatorTransitionBase));
+        class AnimatorTransition extends unity.AnimatorTransitionBase {
+        }
         unity.AnimatorTransition = AnimatorTransition;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2403,11 +2266,8 @@ var feng3d;
         /**
          * Structure that represents a state machine in the context of its parent state machine.
          */
-        var ChildAnimatorStateMachine = /** @class */ (function () {
-            function ChildAnimatorStateMachine() {
-            }
-            return ChildAnimatorStateMachine;
-        }());
+        class ChildAnimatorStateMachine {
+        }
         unity.ChildAnimatorStateMachine = ChildAnimatorStateMachine;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2418,11 +2278,8 @@ var feng3d;
         /**
          * Structure that represents a state in the context of its parent state machine.
          */
-        var ChildAnimatorState = /** @class */ (function () {
-            function ChildAnimatorState() {
-            }
-            return ChildAnimatorState;
-        }());
+        class ChildAnimatorState {
+        }
         unity.ChildAnimatorState = ChildAnimatorState;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
@@ -2435,41 +2292,71 @@ var feng3d;
          *
          * The PlayableGraph is also the link to different systems, through structs that implement IPlayableOutput. For example, AnimationPlayableOutput or AudioPlayableOutput.
          */
-        var PlayableGraph = /** @class */ (function () {
-            function PlayableGraph() {
-            }
-            return PlayableGraph;
-        }());
+        class PlayableGraph {
+        }
         unity.PlayableGraph = PlayableGraph;
     })(unity = feng3d.unity || (feng3d.unity = {}));
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    feng3d.Line_Trail_vertex = "\n\nattribute vec3 a_position;\nattribute vec2 a_uv;\nattribute vec4 a_color;\n\nuniform mat4 u_modelMatrix;\nuniform mat4 u_viewProjection;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nvoid main() \n{\n    vec3 position = a_position;\n    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);\n    v_uv = a_uv;\n    v_color = a_color;\n}\n    ";
+    feng3d.Line_Trail_vertex = `
+
+attribute vec3 a_position;
+attribute vec2 a_uv;
+attribute vec4 a_color;
+
+uniform mat4 u_modelMatrix;
+uniform mat4 u_viewProjection;
+
+varying vec2 v_uv;
+varying vec4 v_color;
+
+void main() 
+{
+    vec3 position = a_position;
+    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);
+    v_uv = a_uv;
+    v_color = a_color;
+}
+    `;
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    feng3d.Line_Trail_fragment = "\nprecision mediump float;\n\nuniform sampler2D s_texture;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nuniform vec4 u_color;\n\nvoid main() \n{\n    vec4 color = texture2D(s_texture, v_uv);\n    gl_FragColor = color * u_color * v_color;\n}\n    ";
+    feng3d.Line_Trail_fragment = `
+precision mediump float;
+
+uniform sampler2D s_texture;
+
+varying vec2 v_uv;
+varying vec4 v_color;
+
+uniform vec4 u_color;
+
+void main() 
+{
+    vec4 color = texture2D(s_texture, v_uv);
+    gl_FragColor = color * u_color * v_color;
+}
+    `;
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
     /**
      * 线条拖尾
      */
-    var Line_TrailUniforms = /** @class */ (function () {
-        function Line_TrailUniforms() {
+    class Line_TrailUniforms {
+        constructor() {
             this.s_texture = feng3d.Texture2D.white;
             this.u_color = new feng3d.Color4();
         }
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], Line_TrailUniforms.prototype, "s_texture", void 0);
-        __decorate([
-            feng3d.oav()
-        ], Line_TrailUniforms.prototype, "u_color", void 0);
-        return Line_TrailUniforms;
-    }());
+    }
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], Line_TrailUniforms.prototype, "s_texture", void 0);
+    __decorate([
+        feng3d.oav()
+    ], Line_TrailUniforms.prototype, "u_color", void 0);
     feng3d.Line_TrailUniforms = Line_TrailUniforms;
     feng3d.shaderConfig.shaders["Line_Trail"] =
         {
@@ -2494,7 +2381,7 @@ var feng3d;
      *
      * 使用LineRenderer或TrailRenderer时，控制方向线的面。
      */
-    var LineAlignment;
+    let LineAlignment;
     (function (LineAlignment) {
         /**
          * Lines face the camera.
@@ -2517,7 +2404,7 @@ var feng3d;
      *
      * 选择如何将纹理应用于线和迹线。
      */
-    var LineTextureMode;
+    let LineTextureMode;
     (function (LineTextureMode) {
         /**
          * Map the texture once along the entire length of the line.
@@ -2547,220 +2434,186 @@ var feng3d;
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
+    var LineRenderer_1;
     /**
      * The line renderer is used to draw free-floating lines in 3D space.
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    var LineRenderer = /** @class */ (function (_super) {
-        __extends(LineRenderer, _super);
-        function LineRenderer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.geometry = new feng3d.Geometry();
-            _this.material = feng3d.Material.getDefault("Line_Trail-Material");
+    let LineRenderer = LineRenderer_1 = class LineRenderer extends feng3d.Renderer {
+        constructor() {
+            super(...arguments);
+            this.geometry = new feng3d.Geometry();
+            this.material = feng3d.Material.getDefault("Line_Trail-Material");
             /**
              * Connect the start and end positions of the line together to form a continuous loop.
              *
              * 将直线的起点和终点连接在一起，形成一个连续的回路。
              */
-            _this.loop = false;
+            this.loop = false;
             /**
              * 是否使用曲线。
              */
-            _this.useCurve = false;
+            this.useCurve = false;
             /**
              * 曲线采样频率。
              */
-            _this.curveSamples = 10;
+            this.curveSamples = 10;
             /**
              * 顶点列表。
              */
-            _this.positions = [];
+            this.positions = [];
             /**
              * 曲线宽度。
              */
-            _this.lineWidth = feng3d.serialization.setValue(new feng3d.MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: feng3d.MinMaxCurveMode.Curve });
+            this.lineWidth = feng3d.serialization.setValue(new feng3d.MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: feng3d.MinMaxCurveMode.Curve });
             /**
              *
              * 线条颜色。
              */
-            _this.lineColor = feng3d.serialization.setValue(new feng3d.MinMaxGradient(), { mode: feng3d.MinMaxGradientMode.Gradient });
+            this.lineColor = feng3d.serialization.setValue(new feng3d.MinMaxGradient(), { mode: feng3d.MinMaxGradientMode.Gradient });
             /**
              * Set this to a value greater than 0, to get rounded corners between each segment of the line.
              *
              * 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
              */
-            _this.numCornerVertices = 0;
+            this.numCornerVertices = 0;
             /**
              * Set this to a value greater than 0, to get rounded corners on each end of the line.
              *
              * 将此值设置为大于0的值，以在行的两端获得圆角。
              */
-            _this.numCapVertices = 0;
+            this.numCapVertices = 0;
             /**
              * Select whether the line will face the camera, or the orientation of the Transform Component.
              *
              * 选择线是否将面对摄像机，或转换组件的方向。
              */
             // alignment = LineAlignment.View;
-            _this.alignment = feng3d.LineAlignment.TransformZ;
+            this.alignment = feng3d.LineAlignment.TransformZ;
             /**
              * Choose whether the U coordinate of the line texture is tiled or stretched.
              *
              * 选择是平铺还是拉伸线纹理的U坐标。
              */
-            _this.textureMode = feng3d.LineTextureMode.Stretch;
+            this.textureMode = feng3d.LineTextureMode.Stretch;
             /**
              * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
              *
              * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
              */
-            _this.shadowBias = 0.5;
+            this.shadowBias = 0.5;
             /**
              * Configures a line to generate Normals and Tangents. With this data, Scene lighting can affect the line via Normal Maps and the Unity Standard Shader, or your own custom-built Shaders.
              *
              * 是否自动生成灯光所需的法线与切线。
              */
-            _this.generateLightingData = false;
+            this.generateLightingData = false;
             /**
              * If enabled, the lines are defined in world space.
              *
              * 如果启用，则在世界空间中定义线。
              */
-            _this.useWorldSpace = false;
-            return _this;
+            this.useWorldSpace = false;
         }
-        LineRenderer_1 = LineRenderer;
-        Object.defineProperty(LineRenderer.prototype, "widthCurve", {
-            /**
-             * Set the curve describing the width of the line at various points along its length.
-             *
-             * 设置曲线，以描述沿线长度在各个点处的线宽。
-             */
-            get: function () {
-                return this.lineWidth.curve;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "widthMultiplier", {
-            /**
-             * Set an overall multiplier that is applied to the LineRenderer.widthCurve to get the final width of the line.
-             *
-             * 设置一个应用于LineRenderer.widthCurve的总乘数，以获取线的最终宽度。
-             */
-            get: function () {
-                return this.lineWidth.curveMultiplier;
-            },
-            set: function (v) {
-                this.lineWidth.curveMultiplier = v;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "colorGradient", {
-            /**
-             * Set the color gradient describing the color of the line at various points along its length.
-             *
-             * 设置颜色渐变，以描述线条沿其长度的各个点的颜色。
-             */
-            get: function () {
-                return this.lineColor.gradient;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "endColor", {
-            /**
-             * Set the color at the end of the line.
-             *
-             * 设置线尾颜色。
-             */
-            get: function () {
-                var color4 = new feng3d.Color4();
-                var color3 = this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1];
-                var alpha = this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1];
-                color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
-                return color4;
-            },
-            set: function (v) {
-                this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1].alpha = v.a;
-                this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1].color.setTo(v.r, v.g, v.b);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "endWidth", {
-            /**
-             * Set the width at the end of the line.
-             *
-             * 设置线尾宽度。
-             */
-            get: function () {
-                return this.widthCurve.keys[this.widthCurve.keys.length - 1].value;
-            },
-            set: function (v) {
-                this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "positionCount", {
-            /**
-             * Set/get the number of vertices.
-             *
-             * 设置/获取顶点数。
-             */
-            get: function () {
-                return this.positions.length;
-            },
-            set: function (v) {
-                this.positions.length = v;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "startColor", {
-            /**
-             * Set the color at the start of the line.
-             *
-             * 设置行线头颜色。
-             */
-            get: function () {
-                var color4 = new feng3d.Color4();
-                var color3 = this.colorGradient.colorKeys[0];
-                var alpha = this.colorGradient.alphaKeys[0];
-                color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
-                return color4;
-            },
-            set: function (v) {
-                this.colorGradient.alphaKeys[0].alpha = v.a;
-                this.colorGradient.colorKeys[0].color.setTo(v.r, v.g, v.b);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(LineRenderer.prototype, "startWidth", {
-            /**
-             * Set the width at the start of the line.
-             *
-             * 设置线头宽度
-             */
-            get: function () {
-                return this.widthCurve.keys[0].value * this.widthMultiplier;
-            },
-            set: function (v) {
-                this.widthCurve.keys[0].value = v / this.widthMultiplier;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        LineRenderer.prototype.beforeRender = function (renderAtomic, scene, camera) {
+        /**
+         * Set the curve describing the width of the line at various points along its length.
+         *
+         * 设置曲线，以描述沿线长度在各个点处的线宽。
+         */
+        get widthCurve() {
+            return this.lineWidth.curve;
+        }
+        /**
+         * Set an overall multiplier that is applied to the LineRenderer.widthCurve to get the final width of the line.
+         *
+         * 设置一个应用于LineRenderer.widthCurve的总乘数，以获取线的最终宽度。
+         */
+        get widthMultiplier() {
+            return this.lineWidth.curveMultiplier;
+        }
+        set widthMultiplier(v) {
+            this.lineWidth.curveMultiplier = v;
+        }
+        /**
+         * Set the color gradient describing the color of the line at various points along its length.
+         *
+         * 设置颜色渐变，以描述线条沿其长度的各个点的颜色。
+         */
+        get colorGradient() {
+            return this.lineColor.gradient;
+        }
+        /**
+         * Set the color at the end of the line.
+         *
+         * 设置线尾颜色。
+         */
+        get endColor() {
+            var color4 = new feng3d.Color4();
+            var color3 = this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1];
+            var alpha = this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1];
+            color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
+            return color4;
+        }
+        set endColor(v) {
+            this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1].alpha = v.a;
+            this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1].color.setTo(v.r, v.g, v.b);
+        }
+        /**
+         * Set the width at the end of the line.
+         *
+         * 设置线尾宽度。
+         */
+        get endWidth() {
+            return this.widthCurve.keys[this.widthCurve.keys.length - 1].value;
+        }
+        set endWidth(v) {
+            this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v;
+        }
+        /**
+         * Set/get the number of vertices.
+         *
+         * 设置/获取顶点数。
+         */
+        get positionCount() {
+            return this.positions.length;
+        }
+        set positionCount(v) {
+            this.positions.length = v;
+        }
+        /**
+         * Set the color at the start of the line.
+         *
+         * 设置行线头颜色。
+         */
+        get startColor() {
+            var color4 = new feng3d.Color4();
+            var color3 = this.colorGradient.colorKeys[0];
+            var alpha = this.colorGradient.alphaKeys[0];
+            color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
+            return color4;
+        }
+        set startColor(v) {
+            this.colorGradient.alphaKeys[0].alpha = v.a;
+            this.colorGradient.colorKeys[0].color.setTo(v.r, v.g, v.b);
+        }
+        /**
+         * Set the width at the start of the line.
+         *
+         * 设置线头宽度
+         */
+        get startWidth() {
+            return this.widthCurve.keys[0].value * this.widthMultiplier;
+        }
+        set startWidth(v) {
+            this.widthCurve.keys[0].value = v / this.widthMultiplier;
+        }
+        beforeRender(renderAtomic, scene, camera) {
             this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
             renderAtomic.shaderMacro.HAS_a_color = true;
-            _super.prototype.beforeRender.call(this, renderAtomic, scene, camera);
-        };
+            super.beforeRender(renderAtomic, scene, camera);
+        }
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
@@ -2770,10 +2623,10 @@ var feng3d;
          * @param camera	The camera used for determining which way camera-space lines will face.
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
-        LineRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
+        BakeMesh(mesh, camera, useTransform) {
             var positions = this.positions.concat();
             // 移除重复点
-            positions = positions.filter(function (p, i) { if (i == 0)
+            positions = positions.filter((p, i) => { if (i == 0)
                 return true; if (p.subTo(positions[i - 1]).lengthSquared < 0.0001)
                 return false; return true; });
             if (positions.length < 2)
@@ -2803,7 +2656,7 @@ var feng3d;
             }
             // 计算网格
             LineRenderer_1.calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh);
-        };
+        }
         /**
          * Get the position of a vertex in the line.
          *
@@ -2811,9 +2664,9 @@ var feng3d;
          *
          * @param index	The index of the position to retrieve.
          */
-        LineRenderer.prototype.GetPosition = function (index) {
+        GetPosition(index) {
             return this.positions[index];
-        };
+        }
         /**
          * Get the positions of all vertices in the line.
          *
@@ -2823,15 +2676,14 @@ var feng3d;
          *
          * @returns How many positions were actually stored in the output array.
          */
-        LineRenderer.prototype.GetPositions = function (positions) {
-            if (positions === void 0) { positions = []; }
+        GetPositions(positions = []) {
             positions.length = this.positions.length;
-            for (var i = 0; i < this.positions.length; i++) {
+            for (let i = 0; i < this.positions.length; i++) {
                 positions[i] = positions[i] || new feng3d.Vector3();
                 positions[i].copy(this.positions[i]);
             }
             return positions;
-        };
+        }
         /**
          * Set the position of a vertex in the line.
          *
@@ -2840,9 +2692,9 @@ var feng3d;
          * @param index	Which position to set.
          * @param position	The new position.
          */
-        LineRenderer.prototype.setPosition = function (index, position) {
+        setPosition(index, position) {
             this.positions[index].copy(position);
-        };
+        }
         /**
          * Set the positions of all vertices in the line.
          *
@@ -2850,13 +2702,13 @@ var feng3d;
          *
          * @param positions	The array of positions to set.
          */
-        LineRenderer.prototype.SetPositions = function (positions) {
+        SetPositions(positions) {
             this.positions.length = positions.length;
-            for (var i = 0; i < positions.length; i++) {
+            for (let i = 0; i < positions.length; i++) {
                 this.positions[i] = this.positions[i] || new feng3d.Vector3();
                 this.positions[i].copy(positions[i]);
             }
-        };
+        }
         /**
          * 计算网格
          *
@@ -2869,7 +2721,7 @@ var feng3d;
          * @param numCornerVertices 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
          * @param loop 是否为换线
          */
-        LineRenderer.calcMesh = function (positionVertex, textureMode, colorGradient, totalLength, mesh) {
+        static calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh) {
             //
             var a_positions = [];
             var a_uvs = [];
@@ -2916,14 +2768,14 @@ var feng3d;
             //
             mesh.normals = feng3d.geometryUtils.createVertexNormals(mesh.indices, mesh.positions, true);
             mesh.tangents = feng3d.geometryUtils.createVertexTangents(mesh.indices, mesh.positions, mesh.uvs, true);
-        };
+        }
         /**
          * 计算线条拐点接缝
          *
          * @param numCornerVertices 接缝顶点数量
          * @param positionVertex 结点信息列表
          */
-        LineRenderer.calcCornerVertices = function (numCornerVertices, positionVertex) {
+        static calcCornerVertices(numCornerVertices, positionVertex) {
             var numNode = positionVertex.length;
             if (numNode < 3 || numCornerVertices == 0)
                 return;
@@ -2931,7 +2783,7 @@ var feng3d;
             positionVertex = positionVertex.concat();
             positionVertex0.length = 0;
             positionVertex0.push(positionVertex[0]);
-            for (var i = 0; i < numNode - 2; i++) {
+            for (let i = 0; i < numNode - 2; i++) {
                 var preVertex = positionVertex[i];
                 var curVertex = positionVertex[i + 1];
                 var nexVertex = positionVertex[i + 2];
@@ -2984,7 +2836,7 @@ var feng3d;
                 var outAngle = Math.acos(preTanget.dot(nexTanget));
                 var angleStep = outAngle / (numCornerVertices);
                 var startLineDir = startPosition.subTo(insidePosition).normalize();
-                for (var j = 1; j < numCornerVertices; j++) {
+                for (let j = 1; j < numCornerVertices; j++) {
                     var curAngle = angleStep * j;
                     var curOutSidePosition = insidePosition.addTo(startLineDir.scaleNumberTo(Math.cos(curAngle) * width).add(preTanget.scaleNumberTo(Math.sin(curAngle) * width)));
                     var addNewVertex = {
@@ -3005,7 +2857,7 @@ var feng3d;
             }
             //
             positionVertex0.push(positionVertex[numNode - 1]);
-        };
+        }
         /**
          * 计算线条帽子顶点
          *
@@ -3013,7 +2865,7 @@ var feng3d;
          * @param positionVertex 结点信息列表
          * @param ishead 是否为线条头部
          */
-        LineRenderer.calcCapVertices = function (numCapVertices, positionVertex, ishead) {
+        static calcCapVertices(numCapVertices, positionVertex, ishead) {
             if (numCapVertices < 1)
                 return;
             var step = Math.PI / (numCapVertices + 1);
@@ -3046,7 +2898,7 @@ var feng3d;
                 else
                     positionVertex.push(newVertex);
             }
-        };
+        }
         /**
          * 计算结点的三角形顶点列表
          *
@@ -3057,7 +2909,7 @@ var feng3d;
          * @param alignment 朝向方式
          * @param cameraPosition 摄像机局部坐标
          */
-        LineRenderer.calcPositionVertex = function (positions, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
+        static calcPositionVertex(positions, loop, rateAtLines, lineWidth, alignment, cameraPosition) {
             // 
             var positionVertex = [];
             if (positions.length == 0) {
@@ -3131,37 +2983,37 @@ var feng3d;
                 };
             }
             return positionVertex;
-        };
+        }
         /**
          * 计算线条总长度
          *
          * @param positions 顶点列表
          * @param loop 是否循环
          */
-        LineRenderer.calcTotalLength = function (positions, loop) {
+        static calcTotalLength(positions, loop) {
             var total = 0;
             var length = positions.length;
-            for (var i = 0, n = length - 1; i < n; i++) {
+            for (let i = 0, n = length - 1; i < n; i++) {
                 total += positions[i + 1].distance(positions[i]);
             }
             if (loop && length > 0) {
                 total += positions[length - 1].distance(positions[0]);
             }
             return total;
-        };
+        }
         /**
          * 计算结点所在线段位置
          *
          * @param positions 顶点列表
          * @param loop 是否循环
          */
-        LineRenderer.calcRateAtLines = function (positions, loop, textureMode) {
+        static calcRateAtLines(positions, loop, textureMode) {
             // 结点所在线段位置
             var rateAtLines = [0];
             // 线条总长度
             var totalLength = 0;
             var positionCount = positions.length;
-            for (var i = 0, n = positionCount - 1; i < n; i++) {
+            for (let i = 0, n = positionCount - 1; i < n; i++) {
                 totalLength += positions[i + 1].distance(positions[i]);
                 rateAtLines[i + 1] = totalLength;
             }
@@ -3170,7 +3022,7 @@ var feng3d;
                 rateAtLines[positionCount] = totalLength;
             }
             // 计算结点所在线段位置
-            rateAtLines = rateAtLines.map(function (v, i) {
+            rateAtLines = rateAtLines.map((v, i) => {
                 // 计算UV
                 if (textureMode == feng3d.LineTextureMode.Stretch || textureMode == feng3d.LineTextureMode.Tile) {
                     return v / totalLength;
@@ -3178,7 +3030,7 @@ var feng3d;
                 return i / (loop ? positionCount : (positionCount - 1));
             });
             return rateAtLines;
-        };
+        }
         /**
          * 拟合线段为曲线
          *
@@ -3187,8 +3039,7 @@ var feng3d;
          * @param rateAtLines 点在线条中的位置
          * @param numSamples 采样次数
          */
-        LineRenderer.calcPositionsToCurve = function (positions, loop, rateAtLines, numSamples) {
-            if (numSamples === void 0) { numSamples = 100; }
+        static calcPositionsToCurve(positions, loop, rateAtLines, numSamples = 100) {
             var xCurve = new feng3d.AnimationCurve();
             var yCurve = new feng3d.AnimationCurve();
             var zCurve = new feng3d.AnimationCurve();
@@ -3197,21 +3048,21 @@ var feng3d;
             zCurve.keys.length = 0;
             var position;
             var length = positions.length;
-            for (var i_1 = 0; i_1 < length; i_1++) {
-                position = positions[i_1];
+            for (let i = 0; i < length; i++) {
+                position = positions[i];
                 // 计算切线
-                var prei = i_1 - 1;
-                var nexti = i_1 + 1;
+                var prei = i - 1;
+                var nexti = i + 1;
                 var pretime = rateAtLines[prei];
                 var nexttime = rateAtLines[nexti];
-                if (i_1 == 0) {
+                if (i == 0) {
                     prei = 0;
                     pretime = 0;
                     if (loop) {
                         prei = length - 1;
                     }
                 }
-                else if (i_1 == length - 1) {
+                else if (i == length - 1) {
                     nexti = length - 1;
                     nexttime = 1;
                     if (loop) {
@@ -3219,9 +3070,9 @@ var feng3d;
                     }
                 }
                 var tangent = positions[nexti].subTo(positions[prei]).scaleNumber(1 / (nexttime - pretime));
-                xCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.x, inTangent: tangent.x, outTangent: tangent.x };
-                yCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.y, inTangent: tangent.y, outTangent: tangent.y };
-                zCurve.keys[i_1] = { time: rateAtLines[i_1], value: position.z, inTangent: tangent.z, outTangent: tangent.z };
+                xCurve.keys[i] = { time: rateAtLines[i], value: position.x, inTangent: tangent.x, outTangent: tangent.x };
+                yCurve.keys[i] = { time: rateAtLines[i], value: position.y, inTangent: tangent.y, outTangent: tangent.y };
+                zCurve.keys[i] = { time: rateAtLines[i], value: position.z, inTangent: tangent.z, outTangent: tangent.z };
             }
             if (loop && length > 0) {
                 position = positions[0];
@@ -3245,68 +3096,66 @@ var feng3d;
             if (loop && length > 0) {
                 positions.pop();
             }
-        };
-        var LineRenderer_1;
-        __decorate([
-            feng3d.oav({ exclude: true })
-        ], LineRenderer.prototype, "geometry", void 0);
-        __decorate([
-            feng3d.oav({ tooltip: "将直线的起点和终点连接在一起，形成一个连续的回路。" }),
-            feng3d.serialize
-        ], LineRenderer.prototype, "loop", void 0);
-        __decorate([
-            feng3d.oav({ tooltip: "是否使用曲线。" }),
-            feng3d.serialize
-        ], LineRenderer.prototype, "useCurve", void 0);
-        __decorate([
-            feng3d.oav({ tooltip: "曲线采样频率。" }),
-            feng3d.serialize
-        ], LineRenderer.prototype, "curveSamples", void 0);
-        __decorate([
-            feng3d.oav({ component: "OAVArray", tooltip: "顶点列表。", componentParam: { defaultItem: function () { return new feng3d.Vector3(); } } }),
-            feng3d.serialize
-        ], LineRenderer.prototype, "positions", void 0);
-        __decorate([
-            feng3d.oav({ tooltip: "曲线宽度。" }),
-            feng3d.serialize
-        ], LineRenderer.prototype, "lineWidth", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "线条颜色。" })
-        ], LineRenderer.prototype, "lineColor", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
-        ], LineRenderer.prototype, "numCornerVertices", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
-        ], LineRenderer.prototype, "numCapVertices", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ component: "OAVEnum", tooltip: "选择线是否将面对摄像机，或转换组件的方向。", componentParam: { enumClass: feng3d.LineAlignment } })
-        ], LineRenderer.prototype, "alignment", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ component: "OAVEnum", tooltip: "选择是平铺还是拉伸线纹理的U坐标。", componentParam: { enumClass: feng3d.LineTextureMode } })
-        ], LineRenderer.prototype, "textureMode", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
-        ], LineRenderer.prototype, "shadowBias", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
-        ], LineRenderer.prototype, "generateLightingData", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "如果启用，则在世界空间中定义线。" })
-        ], LineRenderer.prototype, "useWorldSpace", void 0);
-        LineRenderer = LineRenderer_1 = __decorate([
-            feng3d.AddComponentMenu("Effects/LineRenderer")
-        ], LineRenderer);
-        return LineRenderer;
-    }(feng3d.Renderer));
+        }
+    };
+    __decorate([
+        feng3d.oav({ exclude: true })
+    ], LineRenderer.prototype, "geometry", void 0);
+    __decorate([
+        feng3d.oav({ tooltip: "将直线的起点和终点连接在一起，形成一个连续的回路。" }),
+        feng3d.serialize
+    ], LineRenderer.prototype, "loop", void 0);
+    __decorate([
+        feng3d.oav({ tooltip: "是否使用曲线。" }),
+        feng3d.serialize
+    ], LineRenderer.prototype, "useCurve", void 0);
+    __decorate([
+        feng3d.oav({ tooltip: "曲线采样频率。" }),
+        feng3d.serialize
+    ], LineRenderer.prototype, "curveSamples", void 0);
+    __decorate([
+        feng3d.oav({ component: "OAVArray", tooltip: "顶点列表。", componentParam: { defaultItem: () => { return new feng3d.Vector3(); } } }),
+        feng3d.serialize
+    ], LineRenderer.prototype, "positions", void 0);
+    __decorate([
+        feng3d.oav({ tooltip: "曲线宽度。" }),
+        feng3d.serialize
+    ], LineRenderer.prototype, "lineWidth", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "线条颜色。" })
+    ], LineRenderer.prototype, "lineColor", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
+    ], LineRenderer.prototype, "numCornerVertices", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
+    ], LineRenderer.prototype, "numCapVertices", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ component: "OAVEnum", tooltip: "选择线是否将面对摄像机，或转换组件的方向。", componentParam: { enumClass: feng3d.LineAlignment } })
+    ], LineRenderer.prototype, "alignment", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ component: "OAVEnum", tooltip: "选择是平铺还是拉伸线纹理的U坐标。", componentParam: { enumClass: feng3d.LineTextureMode } })
+    ], LineRenderer.prototype, "textureMode", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
+    ], LineRenderer.prototype, "shadowBias", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
+    ], LineRenderer.prototype, "generateLightingData", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "如果启用，则在世界空间中定义线。" })
+    ], LineRenderer.prototype, "useWorldSpace", void 0);
+    LineRenderer = LineRenderer_1 = __decorate([
+        feng3d.AddComponentMenu("Effects/LineRenderer")
+    ], LineRenderer);
     feng3d.LineRenderer = LineRenderer;
 })(feng3d || (feng3d = {}));
 var feng3d;
@@ -3316,219 +3165,184 @@ var feng3d;
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    var TrailRenderer = /** @class */ (function (_super) {
-        __extends(TrailRenderer, _super);
-        function TrailRenderer() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.geometry = new feng3d.Geometry();
-            _this.material = feng3d.Material.getDefault("Line_Trail-Material");
+    let TrailRenderer = class TrailRenderer extends feng3d.Renderer {
+        constructor() {
+            super(...arguments);
+            this.geometry = new feng3d.Geometry();
+            this.material = feng3d.Material.getDefault("Line_Trail-Material");
             /**
              * 结点列表。
              */
-            _this.positions = [];
+            this.positions = [];
             /**
              * 曲线宽度。
              */
-            _this.lineWidth = feng3d.serialization.setValue(new feng3d.MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: feng3d.MinMaxCurveMode.Curve });
+            this.lineWidth = feng3d.serialization.setValue(new feng3d.MinMaxCurve(), { between0And1: true, curveMultiplier: 0.1, mode: feng3d.MinMaxCurveMode.Curve });
             /**
              * How long does the trail take to fade out.
              */
-            _this.time = 5;
+            this.time = 5;
             /**
              * Set the minimum distance the trail can travel before a new vertex is added to it.
              */
-            _this.minVertexDistance = 0.1;
+            this.minVertexDistance = 0.1;
             /**
              * Does the GameObject of this Trail Renderer auto destruct?
              */
-            _this.autodestruct = false;
+            this.autodestruct = false;
             /**
              * Creates trails when the GameObject moves.
              */
-            _this.emitting = true;
+            this.emitting = true;
             /**
              *
              * 线条颜色。
              */
-            _this.lineColor = feng3d.serialization.setValue(new feng3d.MinMaxGradient(), { mode: feng3d.MinMaxGradientMode.Gradient });
+            this.lineColor = feng3d.serialization.setValue(new feng3d.MinMaxGradient(), { mode: feng3d.MinMaxGradientMode.Gradient });
             /**
              * Set this to a value greater than 0, to get rounded corners between each segment of the line.
              *
              * 将此值设置为大于0的值，以在直线的每个线段之间获取圆角。
              */
-            _this.numCornerVertices = 0;
+            this.numCornerVertices = 0;
             /**
              * Set this to a value greater than 0, to get rounded corners on each end of the line.
              *
              * 将此值设置为大于0的值，以在行的两端获得圆角。
              */
-            _this.numCapVertices = 0;
+            this.numCapVertices = 0;
             /**
              * Select whether the line will face the camera, or the orientation of the Transform Component.
              *
              * 选择线是否将面对摄像机，或转换组件的方向。
              */
             // alignment = LineAlignment.View;
-            _this.alignment = feng3d.LineAlignment.TransformZ;
+            this.alignment = feng3d.LineAlignment.TransformZ;
             /**
              * Choose whether the U coordinate of the line texture is tiled or stretched.
              *
              * 选择是平铺还是拉伸线纹理的U坐标。
              */
-            _this.textureMode = feng3d.LineTextureMode.Stretch;
+            this.textureMode = feng3d.LineTextureMode.Stretch;
             /**
              * Configures a line to generate Normals and Tangents. With this data, Scene lighting can affect the line via Normal Maps and the Unity Standard Shader, or your own custom-built Shaders.
              *
              * 是否自动生成灯光所需的法线与切线。
              */
-            _this.generateLightingData = false;
+            this.generateLightingData = false;
             /**
              * Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the line width at each segment.
              *
              * 应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。
              */
-            _this.shadowBias = 0.5;
+            this.shadowBias = 0.5;
             /**
              * 上次结点位置
              */
-            _this._preworldPos = null;
-            return _this;
+            this._preworldPos = null;
         }
-        Object.defineProperty(TrailRenderer.prototype, "widthCurve", {
-            /**
-             * Set the curve describing the width of the line at various points along its length.
-             *
-             * 设置曲线，以描述沿线长度在各个点处的线宽。
-             */
-            get: function () {
-                return this.lineWidth.curve;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "widthMultiplier", {
-            /**
-             * Set an overall multiplier that is applied to the LineRenderer.widthCurve to get the final width of the line.
-             *
-             * 设置一个应用于LineRenderer.widthCurve的总乘数，以获取线的最终宽度。
-             */
-            get: function () {
-                return this.lineWidth.curveMultiplier;
-            },
-            set: function (v) {
-                this.lineWidth.curveMultiplier = v;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "colorGradient", {
-            /**
-             * Set the color gradient describing the color of the line at various points along its length.
-             *
-             * 设置颜色渐变，以描述线条沿其长度的各个点的颜色。
-             */
-            get: function () {
-                return this.lineColor.gradient;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "endColor", {
-            /**
-             * Set the color at the end of the line.
-             *
-             * 设置线尾颜色。
-             */
-            get: function () {
-                var color4 = new feng3d.Color4();
-                var color3 = this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1];
-                var alpha = this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1];
-                color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
-                return color4;
-            },
-            set: function (v) {
-                this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1].alpha = v.a;
-                this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1].color.setTo(v.r, v.g, v.b);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "endWidth", {
-            /**
-             * Set the width at the end of the line.
-             *
-             * 设置线尾宽度。
-             */
-            get: function () {
-                return this.widthCurve.keys[this.widthCurve.keys.length - 1].value * this.widthMultiplier;
-            },
-            set: function (v) {
-                this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v / this.widthMultiplier;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "positionCount", {
-            /**
-             * Set/get the number of vertices.
-             *
-             * 设置/获取顶点数。
-             */
-            get: function () {
-                return this.positions.length;
-            },
-            set: function (v) {
-                this.positions.length = v;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "startColor", {
-            /**
-             * Set the color at the start of the line.
-             *
-             * 设置行线头颜色。
-             */
-            get: function () {
-                var color4 = new feng3d.Color4();
-                var color3 = this.colorGradient.colorKeys[0];
-                var alpha = this.colorGradient.alphaKeys[0];
-                color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
-                return color4;
-            },
-            set: function (v) {
-                this.colorGradient.alphaKeys[0].alpha = v.a;
-                this.colorGradient.colorKeys[0].color.setTo(v.r, v.g, v.b);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(TrailRenderer.prototype, "startWidth", {
-            /**
-             * Set the width at the start of the line.
-             *
-             * 设置线头宽度
-             */
-            get: function () {
-                return this.widthCurve.keys[0].value * this.widthMultiplier;
-            },
-            set: function (v) {
-                this.widthCurve.keys[0].value = v / this.widthMultiplier;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        TrailRenderer.prototype.beforeRender = function (renderAtomic, scene, camera) {
+        /**
+         * Set the curve describing the width of the line at various points along its length.
+         *
+         * 设置曲线，以描述沿线长度在各个点处的线宽。
+         */
+        get widthCurve() {
+            return this.lineWidth.curve;
+        }
+        /**
+         * Set an overall multiplier that is applied to the LineRenderer.widthCurve to get the final width of the line.
+         *
+         * 设置一个应用于LineRenderer.widthCurve的总乘数，以获取线的最终宽度。
+         */
+        get widthMultiplier() {
+            return this.lineWidth.curveMultiplier;
+        }
+        set widthMultiplier(v) {
+            this.lineWidth.curveMultiplier = v;
+        }
+        /**
+         * Set the color gradient describing the color of the line at various points along its length.
+         *
+         * 设置颜色渐变，以描述线条沿其长度的各个点的颜色。
+         */
+        get colorGradient() {
+            return this.lineColor.gradient;
+        }
+        /**
+         * Set the color at the end of the line.
+         *
+         * 设置线尾颜色。
+         */
+        get endColor() {
+            var color4 = new feng3d.Color4();
+            var color3 = this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1];
+            var alpha = this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1];
+            color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
+            return color4;
+        }
+        set endColor(v) {
+            this.colorGradient.alphaKeys[this.colorGradient.alphaKeys.length - 1].alpha = v.a;
+            this.colorGradient.colorKeys[this.colorGradient.colorKeys.length - 1].color.setTo(v.r, v.g, v.b);
+        }
+        /**
+         * Set the width at the end of the line.
+         *
+         * 设置线尾宽度。
+         */
+        get endWidth() {
+            return this.widthCurve.keys[this.widthCurve.keys.length - 1].value * this.widthMultiplier;
+        }
+        set endWidth(v) {
+            this.widthCurve.keys[this.widthCurve.keys.length - 1].value = v / this.widthMultiplier;
+        }
+        /**
+         * Set/get the number of vertices.
+         *
+         * 设置/获取顶点数。
+         */
+        get positionCount() {
+            return this.positions.length;
+        }
+        set positionCount(v) {
+            this.positions.length = v;
+        }
+        /**
+         * Set the color at the start of the line.
+         *
+         * 设置行线头颜色。
+         */
+        get startColor() {
+            var color4 = new feng3d.Color4();
+            var color3 = this.colorGradient.colorKeys[0];
+            var alpha = this.colorGradient.alphaKeys[0];
+            color4.setTo(color3.color.r, color3.color.g, color3.color.b, alpha.alpha);
+            return color4;
+        }
+        set startColor(v) {
+            this.colorGradient.alphaKeys[0].alpha = v.a;
+            this.colorGradient.colorKeys[0].color.setTo(v.r, v.g, v.b);
+        }
+        /**
+         * Set the width at the start of the line.
+         *
+         * 设置线头宽度
+         */
+        get startWidth() {
+            return this.widthCurve.keys[0].value * this.widthMultiplier;
+        }
+        set startWidth(v) {
+            this.widthCurve.keys[0].value = v / this.widthMultiplier;
+        }
+        beforeRender(renderAtomic, scene, camera) {
             this.geometry.clear();
             this.BakeMesh(this.geometry, camera, false);
             renderAtomic.shaderMacro.HAS_a_color = true;
-            _super.prototype.beforeRender.call(this, renderAtomic, scene, camera);
-        };
+            super.beforeRender(renderAtomic, scene, camera);
+        }
         /**
          * 每帧执行
          */
-        TrailRenderer.prototype.update = function (interval) {
-            var _this = this;
+        update(interval) {
             if (this.emitting) {
                 var currentPosition = this.transform.worldPosition.clone();
                 // 初始化一个必定添加顶点的值
@@ -3543,12 +3357,12 @@ var feng3d;
             }
             // 移除死亡结点
             var nowTime = Date.now();
-            this.positions = this.positions.filter(function (v) { return ((nowTime - v.birthTime) < _this.time * 1000); });
+            this.positions = this.positions.filter(v => ((nowTime - v.birthTime) < this.time * 1000));
             //
             if (this.positions.length == 0) {
                 this._preworldPos == null;
             }
-        };
+        }
         /**
          * Creates a snapshot of LineRenderer and stores it in mesh.
          *
@@ -3558,9 +3372,8 @@ var feng3d;
          * @param camera	The camera used for determining which way camera-space lines will face.
          * @param useTransform	Include the rotation and scale of the Transform in the baked mesh.
          */
-        TrailRenderer.prototype.BakeMesh = function (mesh, camera, useTransform) {
-            var _this = this;
-            var positions = this.positions.map(function (v) { return v.position; });
+        BakeMesh(mesh, camera, useTransform) {
+            var positions = this.positions.map(v => v.position);
             if (positions.length < 2)
                 return;
             var textureMode = this.textureMode;
@@ -3584,22 +3397,22 @@ var feng3d;
                 feng3d.LineRenderer.calcCapVertices(this.numCapVertices, positionVertex, false);
             }
             // 世界坐标转换为局部坐标
-            positionVertex.forEach(function (v) {
-                v.vertexs.forEach(function (ver) {
-                    _this.transform.worldToLocalMatrix.transformVector(ver, ver);
+            positionVertex.forEach(v => {
+                v.vertexs.forEach(ver => {
+                    this.transform.worldToLocalMatrix.transformVector(ver, ver);
                 });
             });
             // 计算网格
             feng3d.LineRenderer.calcMesh(positionVertex, textureMode, colorGradient, totalLength, mesh);
-        };
+        }
         /**
          * Adds a position to the trail.
          *
          * @param position	The position to add to the trail.
          */
-        TrailRenderer.prototype.AddPosition = function (position) {
+        AddPosition(position) {
             this.positions.unshift({ position: position, birthTime: Date.now() });
-        };
+        }
         /**
          * Add an array of positions to the trail.
          *
@@ -3607,21 +3420,21 @@ var feng3d;
          *
          * @param positions	The positions to add to the trail.
          */
-        TrailRenderer.prototype.AddPositions = function (positions) {
+        AddPositions(positions) {
             var preTime = Date.now();
             if (this.positions.length > 0)
                 preTime = this.positions[this.positions.length - 1].birthTime;
-            for (var i = 0, n = positions.length; i < n; i++) {
+            for (let i = 0, n = positions.length; i < n; i++) {
                 this.positions.unshift({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
             }
-        };
+        }
         /**
          * Removes all points from the TrailRenderer. Useful for restarting a trail from a new position.
          */
-        TrailRenderer.prototype.Clear = function () {
+        Clear() {
             this.positions.length = 0;
             this._preworldPos = null;
-        };
+        }
         /**
          * Get the position of a vertex in the line.
          *
@@ -3629,9 +3442,9 @@ var feng3d;
          *
          * @param index	The index of the position to retrieve.
          */
-        TrailRenderer.prototype.GetPosition = function (index) {
+        GetPosition(index) {
             return this.positions[index];
-        };
+        }
         /**
          * Get the positions of all vertices in the line.
          *
@@ -3641,15 +3454,14 @@ var feng3d;
          *
          * @returns How many positions were actually stored in the output array.
          */
-        TrailRenderer.prototype.GetPositions = function (positions) {
-            if (positions === void 0) { positions = []; }
+        GetPositions(positions = []) {
             positions.length = this.positions.length;
-            for (var i = 0; i < this.positions.length; i++) {
+            for (let i = 0; i < this.positions.length; i++) {
                 positions[i] = positions[i] || new feng3d.Vector3();
                 positions[i].copy(this.positions[i].position);
             }
             return positions;
-        };
+        }
         /**
          * Set the position of a vertex in the line.
          *
@@ -3658,9 +3470,9 @@ var feng3d;
          * @param index	Which position to set.
          * @param position	The new position.
          */
-        TrailRenderer.prototype.setPosition = function (index, position) {
+        setPosition(index, position) {
             this.positions[index].position.copy(position);
-        };
+        }
         /**
          * Set the positions of all vertices in the line.
          *
@@ -3668,89 +3480,344 @@ var feng3d;
          *
          * @param positions	The array of positions to set.
          */
-        TrailRenderer.prototype.SetPositions = function (positions) {
+        SetPositions(positions) {
             this.positions.length = positions.length;
-            for (var i = 0; i < positions.length; i++) {
+            for (let i = 0; i < positions.length; i++) {
                 if (this.positions[i])
                     this.positions[i].position.copy(positions[i]);
             }
-        };
-        __decorate([
-            feng3d.oav({ exclude: true })
-        ], TrailRenderer.prototype, "geometry", void 0);
-        __decorate([
-            feng3d.oav({ tooltip: "曲线宽度。" }),
-            feng3d.serialize
-        ], TrailRenderer.prototype, "lineWidth", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
-        ], TrailRenderer.prototype, "time", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
-        ], TrailRenderer.prototype, "minVertexDistance", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
-        ], TrailRenderer.prototype, "autodestruct", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "How long does the trail take to fade out." })
-        ], TrailRenderer.prototype, "emitting", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "线条颜色。" })
-        ], TrailRenderer.prototype, "lineColor", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
-        ], TrailRenderer.prototype, "numCornerVertices", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
-        ], TrailRenderer.prototype, "numCapVertices", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ component: "OAVEnum", tooltip: "选择线是否将面对摄像机，或转换组件的方向。", componentParam: { enumClass: feng3d.LineAlignment } })
-        ], TrailRenderer.prototype, "alignment", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ component: "OAVEnum", tooltip: "选择是平铺还是拉伸线纹理的U坐标。", componentParam: { enumClass: feng3d.LineTextureMode } })
-        ], TrailRenderer.prototype, "textureMode", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
-        ], TrailRenderer.prototype, "generateLightingData", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
-        ], TrailRenderer.prototype, "shadowBias", void 0);
-        TrailRenderer = __decorate([
-            feng3d.AddComponentMenu("Effects/TrailRenderer")
-        ], TrailRenderer);
-        return TrailRenderer;
-    }(feng3d.Renderer));
+        }
+    };
+    __decorate([
+        feng3d.oav({ exclude: true })
+    ], TrailRenderer.prototype, "geometry", void 0);
+    __decorate([
+        feng3d.oav({ tooltip: "曲线宽度。" }),
+        feng3d.serialize
+    ], TrailRenderer.prototype, "lineWidth", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+    ], TrailRenderer.prototype, "time", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+    ], TrailRenderer.prototype, "minVertexDistance", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+    ], TrailRenderer.prototype, "autodestruct", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "How long does the trail take to fade out." })
+    ], TrailRenderer.prototype, "emitting", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "线条颜色。" })
+    ], TrailRenderer.prototype, "lineColor", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
+    ], TrailRenderer.prototype, "numCornerVertices", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "将此值设置为大于0的值，以在直线的每个线段之间获取圆角。" })
+    ], TrailRenderer.prototype, "numCapVertices", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ component: "OAVEnum", tooltip: "选择线是否将面对摄像机，或转换组件的方向。", componentParam: { enumClass: feng3d.LineAlignment } })
+    ], TrailRenderer.prototype, "alignment", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ component: "OAVEnum", tooltip: "选择是平铺还是拉伸线纹理的U坐标。", componentParam: { enumClass: feng3d.LineTextureMode } })
+    ], TrailRenderer.prototype, "textureMode", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "是否自动生成灯光所需的法线与切线。" })
+    ], TrailRenderer.prototype, "generateLightingData", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
+    ], TrailRenderer.prototype, "shadowBias", void 0);
+    TrailRenderer = __decorate([
+        feng3d.AddComponentMenu("Effects/TrailRenderer")
+    ], TrailRenderer);
     feng3d.TrailRenderer = TrailRenderer;
-    feng3d.GameObject.registerPrimitive("TrailRenderer", function (g) {
+    feng3d.GameObject.registerPrimitive("TrailRenderer", (g) => {
         g.addComponent(TrailRenderer);
     });
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    feng3d.TransparentParticlesStandard_vertex = "\n\nprecision mediump float;\n\nattribute vec3 a_position;\nattribute vec2 a_uv;\nattribute vec4 a_color;\n\nuniform vec4 _MainTex_ST;\n\nuniform vec2 _Panning;\nuniform vec2 _Time;\n\nuniform vec4 _NoiseTex_ST;\nuniform vec4 _NoisePanning;\n\nuniform mat4 u_modelMatrix;\nuniform mat4 u_viewProjection;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nuniform float EXTENDED_PARTICLES;\nvarying vec2 v_particledata;\n\nuniform float NOISE_TEXTURE;\nuniform float NOISEUV;\nvarying vec2 v_noiseuv;\n\nvoid main() \n{\n    vec3 position = a_position;\n    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);\n    v_uv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_Panning.xy * _Time.yy);\n    // v_color = a_color;\n    v_color = vec4(1.0,1.0,1.0,1.0);\n\n    if(EXTENDED_PARTICLES > 0.5)\n    {\n        if( NOISE_TEXTURE > 0.5)\n        {\n            if( NOISEUV > 0.5)\n            {\n                v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);\n            }\n            else\n            {\n                v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);\n            }\n        }\n    }\n    else\n    {\n        // v_particledata = a_uv.zw;\n        v_particledata = a_uv;\n    }\n}\n    ";
+    feng3d.TransparentParticlesStandard_vertex = `
+
+precision mediump float;
+
+attribute vec3 a_position;
+attribute vec2 a_uv;
+attribute vec4 a_color;
+
+uniform vec4 _MainTex_ST;
+
+uniform vec2 _Panning;
+uniform vec2 _Time;
+
+uniform vec4 _NoiseTex_ST;
+uniform vec4 _NoisePanning;
+
+uniform mat4 u_modelMatrix;
+uniform mat4 u_viewProjection;
+
+varying vec2 v_uv;
+varying vec4 v_color;
+
+uniform float EXTENDED_PARTICLES;
+varying vec2 v_particledata;
+
+uniform float NOISE_TEXTURE;
+uniform float NOISEUV;
+varying vec2 v_noiseuv;
+
+void main() 
+{
+    vec3 position = a_position;
+    gl_Position = u_viewProjection * u_modelMatrix * vec4(position, 1.0);
+    v_uv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_Panning.xy * _Time.yy);
+    // v_color = a_color;
+    v_color = vec4(1.0,1.0,1.0,1.0);
+
+    if(EXTENDED_PARTICLES > 0.5)
+    {
+        if( NOISE_TEXTURE > 0.5)
+        {
+            if( NOISEUV > 0.5)
+            {
+                v_noiseuv = a_uv * _NoiseTex_ST.xy + _NoiseTex_ST.zw + (_NoisePanning.xy * _Time.yy);
+            }
+            else
+            {
+                v_noiseuv = a_uv * _MainTex_ST.xy + _MainTex_ST.zw + (_NoisePanning.xy * _Time.yy);
+            }
+        }
+    }
+    else
+    {
+        // v_particledata = a_uv.zw;
+        v_particledata = a_uv;
+    }
+}
+    `;
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
-    feng3d.TransparentParticlesStandard_fragment = "\nprecision mediump float;\n\nuniform sampler2D _MainTex;\n\nuniform vec4 u_color;\n\nuniform float EXTENDED_PARTICLES;\nuniform float _EmissionSaturation;\nuniform float _OpacitySaturation;\nuniform float _ColorMultiplier;\n\nuniform float COLOR_RAMP;\nuniform sampler2D _ColorRamp;\nuniform vec4 _ColorRamp_ST;\nuniform float COLOR_TINT;\nuniform vec4 _BasicColor;\nuniform vec4 _SaturatedColor;\n\nuniform float DISSOLVE_ENABLED;\nuniform vec4 _DissolveStep;\n\nuniform float NOISE_TEXTURE;\nuniform sampler2D _NoiseTex;\nuniform vec4 _TintColor;\n\nuniform float EMISSIVEPOWER;\nuniform float _EmissivePower;\n\nuniform float BLENDMODE_ADDITIVEALPHABLEND;\nuniform float _ABOffset;\n\nuniform float _GlobalAlpha;\n\nvarying vec2 v_uv;\nvarying vec4 v_color;\n\nvarying vec2 v_particledata;\nvarying vec2 v_noiseuv;\n\nuniform float APPLY_RGB_COLOR_VERTEX;\nuniform float NOISE_TEXTURE_EMISSION;\nuniform float NOISE_TEXTURE_ALPHA;\nuniform float NOISE_TEXTURE_DISSOLVE;\nuniform float BLENDMODE_ALPHABLEND;\nuniform float BLENDMODE_ADDITIVEDOUBLE;\nuniform float BLENDMODE_SOFTADDITIVE;\n\nvoid main() \n{\n    vec4 tex = texture2D(_MainTex, v_uv);\n\n    vec4 col = vec4(1.0, 1.0, 1.0, 1.0);\n\n    vec4 vcolor = vec4(1.0, 1.0, 1.0, v_color.w);\n\n    if( EXTENDED_PARTICLES > 0.5 )\n    {\n        if( APPLY_RGB_COLOR_VERTEX > 0.5)\n        {\n            vcolor = v_color;\n        }\n\n        float nEmission = 1.0;\n        float nAlpha = 1.0;\n        float nDissolve = 1.0;\n        \n        if( NOISE_TEXTURE > 0.5)\n        {\n            vec3 noise = texture2D(_NoiseTex, v_noiseuv).xyz;\n        \n            if( NOISE_TEXTURE_EMISSION > 0.5)\n            {\n                nEmission = noise.x;\n            }\n            else\n            {\n                nEmission = 1.0;\n            }\n            \n            if( NOISE_TEXTURE_ALPHA > 0.5)\n            {\n                nAlpha = noise.y;\n            }\n            else\n            {\n                nAlpha = 1.0;\n            }\n            \n            if( NOISE_TEXTURE_DISSOLVE > 0.5)\n            {\n                nDissolve = noise.z;\n            }\n            else\n            {\n                nDissolve = 1.0;\n            }\n        }\n    \n        if( DISSOLVE_ENABLED > 0.5)\n        {\n            float ramp = -1.0 + (v_particledata.x * 2.0);\n            col.a = clamp(tex.g * smoothstep(_DissolveStep.x, _DissolveStep.y, (tex.b + ramp) * nDissolve) * _OpacitySaturation * vcolor.w * nAlpha, 0.0, 1.0);\n        }\n        else\n        {\n            col.a = clamp(tex.g * _OpacitySaturation * vcolor.w, 0.0, 1.0) * nAlpha;\n        }\n    \n        float lerpValue = 0.0;\n        if(COLOR_TINT < 0.5)\n        {\n            lerpValue = clamp(tex.r * v_particledata.y * _ColorMultiplier * nEmission, 0.0, 1.0);\n        }\n    \n        if( BLENDMODE_ALPHABLEND > 0.5)\n        {\n            if( COLOR_RAMP > 0.5)\n            {\n                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * _EmissionSaturation;\n            }\n            else\n            {\n                if( COLOR_TINT > 0.5)\n                {\n                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation;\n                }\n                else\n                {\n                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * _EmissionSaturation;\n                }\n            }\n            col.a *= _GlobalAlpha;\n        }\n        else\n        {\n            if( COLOR_RAMP > 0.5)\n            {\n                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * col.a * _EmissionSaturation;\n            }\n            else\n            {\n                if( COLOR_TINT > 0.5 )\n                {\n                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation * col.a;\n                }\n                else\n                {\n                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * col.a * _EmissionSaturation;\n                }\n            }\n            col *= _GlobalAlpha;\n        }\n    }\n    else\n    {\n        if( BLENDMODE_ADDITIVEALPHABLEND > 0.5)\n        {\n            tex *= _TintColor;\n            float luminance = clamp(dot(tex, vec4(0.2126, 0.7152, 0.0722, 0.0)) * tex.a * _ABOffset, 0.0, 1.0);\n            vec4 one = vec4(1, 1, 1, 1);\n            col = mix(2.0 * (v_color * tex), one - 2.0 * (one - v_color) * (one - tex), luminance);\n        }\n        else\n        {\n            col = v_color * tex;\n            col *= _TintColor;\n        \n            if( EMISSIVEPOWER > 0.5)\n            {\n                col *= _EmissivePower;\n            }\n            \n            if( BLENDMODE_SOFTADDITIVE > 0.5 )\n            {\n                col.rgb *= col.a;\n            }\n            else\n            {\n                if( BLENDMODE_ALPHABLEND > 0.5 )\n                {\n                    col *= 2.0;\n                }\n                else\n                {\n                    if( BLENDMODE_ADDITIVEDOUBLE > 0.5 )\n                    {\n                        col *= 4.0;\n                    }\n                }\n            }\n        }\n    \n        col *= _GlobalAlpha;\n\n    }\n\n    gl_FragColor = col;\n}\n    ";
+    feng3d.TransparentParticlesStandard_fragment = `
+precision mediump float;
+
+uniform sampler2D _MainTex;
+
+uniform vec4 u_color;
+
+uniform float EXTENDED_PARTICLES;
+uniform float _EmissionSaturation;
+uniform float _OpacitySaturation;
+uniform float _ColorMultiplier;
+
+uniform float COLOR_RAMP;
+uniform sampler2D _ColorRamp;
+uniform vec4 _ColorRamp_ST;
+uniform float COLOR_TINT;
+uniform vec4 _BasicColor;
+uniform vec4 _SaturatedColor;
+
+uniform float DISSOLVE_ENABLED;
+uniform vec4 _DissolveStep;
+
+uniform float NOISE_TEXTURE;
+uniform sampler2D _NoiseTex;
+uniform vec4 _TintColor;
+
+uniform float EMISSIVEPOWER;
+uniform float _EmissivePower;
+
+uniform float BLENDMODE_ADDITIVEALPHABLEND;
+uniform float _ABOffset;
+
+uniform float _GlobalAlpha;
+
+varying vec2 v_uv;
+varying vec4 v_color;
+
+varying vec2 v_particledata;
+varying vec2 v_noiseuv;
+
+uniform float APPLY_RGB_COLOR_VERTEX;
+uniform float NOISE_TEXTURE_EMISSION;
+uniform float NOISE_TEXTURE_ALPHA;
+uniform float NOISE_TEXTURE_DISSOLVE;
+uniform float BLENDMODE_ALPHABLEND;
+uniform float BLENDMODE_ADDITIVEDOUBLE;
+uniform float BLENDMODE_SOFTADDITIVE;
+
+void main() 
+{
+    vec4 tex = texture2D(_MainTex, v_uv);
+
+    vec4 col = vec4(1.0, 1.0, 1.0, 1.0);
+
+    vec4 vcolor = vec4(1.0, 1.0, 1.0, v_color.w);
+
+    if( EXTENDED_PARTICLES > 0.5 )
+    {
+        if( APPLY_RGB_COLOR_VERTEX > 0.5)
+        {
+            vcolor = v_color;
+        }
+
+        float nEmission = 1.0;
+        float nAlpha = 1.0;
+        float nDissolve = 1.0;
+        
+        if( NOISE_TEXTURE > 0.5)
+        {
+            vec3 noise = texture2D(_NoiseTex, v_noiseuv).xyz;
+        
+            if( NOISE_TEXTURE_EMISSION > 0.5)
+            {
+                nEmission = noise.x;
+            }
+            else
+            {
+                nEmission = 1.0;
+            }
+            
+            if( NOISE_TEXTURE_ALPHA > 0.5)
+            {
+                nAlpha = noise.y;
+            }
+            else
+            {
+                nAlpha = 1.0;
+            }
+            
+            if( NOISE_TEXTURE_DISSOLVE > 0.5)
+            {
+                nDissolve = noise.z;
+            }
+            else
+            {
+                nDissolve = 1.0;
+            }
+        }
+    
+        if( DISSOLVE_ENABLED > 0.5)
+        {
+            float ramp = -1.0 + (v_particledata.x * 2.0);
+            col.a = clamp(tex.g * smoothstep(_DissolveStep.x, _DissolveStep.y, (tex.b + ramp) * nDissolve) * _OpacitySaturation * vcolor.w * nAlpha, 0.0, 1.0);
+        }
+        else
+        {
+            col.a = clamp(tex.g * _OpacitySaturation * vcolor.w, 0.0, 1.0) * nAlpha;
+        }
+    
+        float lerpValue = 0.0;
+        if(COLOR_TINT < 0.5)
+        {
+            lerpValue = clamp(tex.r * v_particledata.y * _ColorMultiplier * nEmission, 0.0, 1.0);
+        }
+    
+        if( BLENDMODE_ALPHABLEND > 0.5)
+        {
+            if( COLOR_RAMP > 0.5)
+            {
+                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * _EmissionSaturation;
+            }
+            else
+            {
+                if( COLOR_TINT > 0.5)
+                {
+                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation;
+                }
+                else
+                {
+                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * _EmissionSaturation;
+                }
+            }
+            col.a *= _GlobalAlpha;
+        }
+        else
+        {
+            if( COLOR_RAMP > 0.5)
+            {
+                col.xyz = texture2D(_ColorRamp, vec2((1.0 - lerpValue), 0.0)).xyz * vcolor.xyz * col.a * _EmissionSaturation;
+            }
+            else
+            {
+                if( COLOR_TINT > 0.5 )
+                {
+                    col.xyz = tex.x * _BasicColor.xyz * vcolor.xyz * nEmission * _EmissionSaturation * col.a;
+                }
+                else
+                {
+                    col.xyz = mix(_BasicColor.xyz * vcolor.xyz, _SaturatedColor.xyz, lerpValue) * col.a * _EmissionSaturation;
+                }
+            }
+            col *= _GlobalAlpha;
+        }
+    }
+    else
+    {
+        if( BLENDMODE_ADDITIVEALPHABLEND > 0.5)
+        {
+            tex *= _TintColor;
+            float luminance = clamp(dot(tex, vec4(0.2126, 0.7152, 0.0722, 0.0)) * tex.a * _ABOffset, 0.0, 1.0);
+            vec4 one = vec4(1, 1, 1, 1);
+            col = mix(2.0 * (v_color * tex), one - 2.0 * (one - v_color) * (one - tex), luminance);
+        }
+        else
+        {
+            col = v_color * tex;
+            col *= _TintColor;
+        
+            if( EMISSIVEPOWER > 0.5)
+            {
+                col *= _EmissivePower;
+            }
+            
+            if( BLENDMODE_SOFTADDITIVE > 0.5 )
+            {
+                col.rgb *= col.a;
+            }
+            else
+            {
+                if( BLENDMODE_ALPHABLEND > 0.5 )
+                {
+                    col *= 2.0;
+                }
+                else
+                {
+                    if( BLENDMODE_ADDITIVEDOUBLE > 0.5 )
+                    {
+                        col *= 4.0;
+                    }
+                }
+            }
+        }
+    
+        col *= _GlobalAlpha;
+
+    }
+
+    gl_FragColor = col;
+}
+    `;
 })(feng3d || (feng3d = {}));
 var feng3d;
 (function (feng3d) {
     /**
      * 线条拖尾
      */
-    var TransparentParticlesStandardUniforms = /** @class */ (function () {
-        function TransparentParticlesStandardUniforms() {
+    class TransparentParticlesStandardUniforms {
+        constructor() {
             this._BasicColor = new feng3d.Color4(0.5, 0.5, 0.5, 0.5);
             this._SaturatedColor = new feng3d.Color4(0.5, 0.5, 0.5, 0.5);
             this._MainTex = feng3d.Texture2D.white;
@@ -3786,144 +3853,143 @@ var feng3d;
             this.BLENDMODE_ADDITIVEDOUBLE = false;
             this.BLENDMODE_SOFTADDITIVE = false;
         }
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_BasicColor", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_SaturatedColor", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_MainTex", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_MainTex_ST", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_ColorRamp", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_NoiseTex", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_NoiseTex_ST", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_EmissionSaturation", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_OpacitySaturation", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_ColorMultiplier", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_ABOffset", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_DissolveStep", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_Panning", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_TintColor", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_GlobalAlpha", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_EmissivePower", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "_NoisePanning", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "COLOR_RAMP", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "COLOR_TINT", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "APPLY_RGB_COLOR_VERTEX", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "DISSOLVE_ENABLED", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "AUTOMATICPANNING", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "EMISSIVEPOWER", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "EXTENDED_PARTICLES", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_EMISSION", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_ALPHA", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_DISSOLVE", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "NOISEUV", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "FLOWMAP", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ADDITIVEALPHABLEND", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ALPHABLEND", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ADDITIVEDOUBLE", void 0);
-        __decorate([
-            feng3d.serialize,
-            feng3d.oav()
-        ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_SOFTADDITIVE", void 0);
-        return TransparentParticlesStandardUniforms;
-    }());
+    }
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_BasicColor", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_SaturatedColor", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_MainTex", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_MainTex_ST", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_ColorRamp", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_NoiseTex", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_NoiseTex_ST", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_EmissionSaturation", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_OpacitySaturation", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_ColorMultiplier", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_ABOffset", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_DissolveStep", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_Panning", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_TintColor", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_GlobalAlpha", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_EmissivePower", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "_NoisePanning", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "COLOR_RAMP", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "COLOR_TINT", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "APPLY_RGB_COLOR_VERTEX", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "DISSOLVE_ENABLED", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "AUTOMATICPANNING", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "EMISSIVEPOWER", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "EXTENDED_PARTICLES", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_EMISSION", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_ALPHA", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "NOISE_TEXTURE_DISSOLVE", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "NOISEUV", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "FLOWMAP", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ADDITIVEALPHABLEND", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ALPHABLEND", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_ADDITIVEDOUBLE", void 0);
+    __decorate([
+        feng3d.serialize,
+        feng3d.oav()
+    ], TransparentParticlesStandardUniforms.prototype, "BLENDMODE_SOFTADDITIVE", void 0);
     feng3d.TransparentParticlesStandardUniforms = TransparentParticlesStandardUniforms;
     feng3d.shaderConfig.shaders["TransparentParticlesStandard"] =
         {
