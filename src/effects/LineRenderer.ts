@@ -824,5 +824,8 @@ namespace feng3d
         normal: Vector3;
     }
 
-
+    export interface ComponentMap
+    {
+        LineRenderer: LineRenderer
+    }
 }

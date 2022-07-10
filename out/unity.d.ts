@@ -2795,6 +2795,9 @@ declare namespace feng3d {
         tangent: Vector3;
         normal: Vector3;
     };
+    export interface ComponentMap {
+        LineRenderer: LineRenderer;
+    }
     export {};
 }
 declare namespace feng3d {
