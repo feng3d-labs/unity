@@ -151,7 +151,7 @@ namespace feng3d.unity
                         anigo.transform.rotation[propertys[1]] = value;
                         break;
                     case "material":
-                        var meshRenderer = anigo.getComponent(MeshRenderer);
+                        var meshRenderer = anigo.getComponent("MeshRenderer");
                         if (meshRenderer && meshRenderer.material)
                         {
                             var uniforms = meshRenderer.material.uniforms;

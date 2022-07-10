@@ -6,7 +6,7 @@ namespace feng3d
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
     @AddComponentMenu("Effects/LineRenderer")
-    export class LineRenderer extends Renderer
+    export class LineRenderer extends Renderable
     {
         @oav({ exclude: true })
         geometry = <any>new Geometry();
@@ -277,7 +277,7 @@ namespace feng3d
             var colorGradient = this.colorGradient;
 
             // 计算摄像机本地坐标
-            var cameraPosition = this.transform.worldToLocalMatrix.transformVector(camera.transform.worldPosition);
+            var cameraPosition = this.transform.worldToLocalMatrix.transformPoint3(camera.transform.worldPosition);
 
             // 计算线条总长度
             var totalLength = LineRenderer.calcTotalLength(positions, loop);

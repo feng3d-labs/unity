@@ -1791,7 +1791,7 @@ var feng3d;
                             anigo.transform.rotation[propertys[1]] = value;
                             break;
                         case "material":
-                            var meshRenderer = anigo.getComponent(feng3d.MeshRenderer);
+                            var meshRenderer = anigo.getComponent("MeshRenderer");
                             if (meshRenderer && meshRenderer.material) {
                                 var uniforms = meshRenderer.material.uniforms;
                                 // serialization.setValue(uniforms,)
@@ -2440,7 +2440,7 @@ var feng3d;
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    let LineRenderer = LineRenderer_1 = class LineRenderer extends feng3d.Renderer {
+    let LineRenderer = LineRenderer_1 = class LineRenderer extends feng3d.Renderable {
         constructor() {
             super(...arguments);
             this.geometry = new feng3d.Geometry();
@@ -2637,7 +2637,7 @@ var feng3d;
             var alignment = this.alignment;
             var colorGradient = this.colorGradient;
             // 计算摄像机本地坐标
-            var cameraPosition = this.transform.worldToLocalMatrix.transformVector(camera.transform.worldPosition);
+            var cameraPosition = this.transform.worldToLocalMatrix.transformPoint3(camera.transform.worldPosition);
             // 计算线条总长度
             var totalLength = LineRenderer_1.calcTotalLength(positions, loop);
             // 计算结点所在线段位置
@@ -3165,7 +3165,7 @@ var feng3d;
      *
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
-    let TrailRenderer = class TrailRenderer extends feng3d.Renderer {
+    let TrailRenderer = class TrailRenderer extends feng3d.Renderable {
         constructor() {
             super(...arguments);
             this.geometry = new feng3d.Geometry();
@@ -3399,7 +3399,7 @@ var feng3d;
             // 世界坐标转换为局部坐标
             positionVertex.forEach(v => {
                 v.vertexs.forEach(ver => {
-                    this.transform.worldToLocalMatrix.transformVector(ver, ver);
+                    this.transform.worldToLocalMatrix.transformPoint3(ver, ver);
                 });
             });
             // 计算网格
@@ -3544,7 +3544,7 @@ var feng3d;
     ], TrailRenderer);
     feng3d.TrailRenderer = TrailRenderer;
     feng3d.GameObject.registerPrimitive("TrailRenderer", (g) => {
-        g.addComponent(TrailRenderer);
+        g.addComponent("TrailRenderer");
     });
 })(feng3d || (feng3d = {}));
 var feng3d;

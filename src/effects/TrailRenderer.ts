@@ -6,10 +6,10 @@ namespace feng3d
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
     @AddComponentMenu("Effects/TrailRenderer")
-    export class TrailRenderer extends Renderer
+    export class TrailRenderer extends Renderable
     {
         "__class__": "feng3d.TrailRenderer";
-        
+
         @oav({ exclude: true })
         geometry = <any>new Geometry();
 
@@ -328,7 +328,7 @@ namespace feng3d
             {
                 v.vertexs.forEach(ver =>
                 {
-                    this.transform.worldToLocalMatrix.transformVector(ver, ver);
+                    this.transform.worldToLocalMatrix.transformPoint3(ver, ver);
                 });
             });
 
@@ -444,8 +444,13 @@ namespace feng3d
 
     GameObject.registerPrimitive("TrailRenderer", (g) =>
     {
-        g.addComponent(TrailRenderer);
+        g.addComponent("TrailRenderer");
     });
+
+    export interface ComponentMap
+    {
+        TrailRenderer: TrailRenderer
+    }
 
     export interface PrimitiveGameObject
     {
