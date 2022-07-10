@@ -3154,7 +3154,8 @@ var feng3d;
         feng3d.oav({ tooltip: "如果启用，则在世界空间中定义线。" })
     ], LineRenderer.prototype, "useWorldSpace", void 0);
     LineRenderer = LineRenderer_1 = __decorate([
-        feng3d.AddComponentMenu("Effects/LineRenderer")
+        feng3d.AddComponentMenu("Effects/LineRenderer"),
+        feng3d.RegisterComponent()
     ], LineRenderer);
     feng3d.LineRenderer = LineRenderer;
 })(feng3d || (feng3d = {}));
@@ -3540,7 +3541,8 @@ var feng3d;
         feng3d.oav({ tooltip: "应用阴影偏差以防止自阴影伪影。指定的值是每段线宽的比例。" })
     ], TrailRenderer.prototype, "shadowBias", void 0);
     TrailRenderer = __decorate([
-        feng3d.AddComponentMenu("Effects/TrailRenderer")
+        feng3d.AddComponentMenu("Effects/TrailRenderer"),
+        feng3d.RegisterComponent()
     ], TrailRenderer);
     feng3d.TrailRenderer = TrailRenderer;
     feng3d.GameObject.registerPrimitive("TrailRenderer", (g) => {

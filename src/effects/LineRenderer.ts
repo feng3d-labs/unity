@@ -6,6 +6,7 @@ namespace feng3d
      * 线渲染器用于在三维空间中绘制自由浮动的线。
      */
     @AddComponentMenu("Effects/LineRenderer")
+    @RegisterComponent()
     export class LineRenderer extends Renderable
     {
         @oav({ exclude: true })
