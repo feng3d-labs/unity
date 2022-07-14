@@ -1791,7 +1791,7 @@ var feng3d;
                             anigo.transform.rotation[propertys[1]] = value;
                             break;
                         case "material":
-                            var meshRenderer = anigo.getComponent("MeshRenderer");
+                            var meshRenderer = anigo.getComponent(feng3d.MeshRenderer);
                             if (meshRenderer && meshRenderer.material) {
                                 var uniforms = meshRenderer.material.uniforms;
                                 // serialization.setValue(uniforms,)
@@ -3546,7 +3546,7 @@ var feng3d;
     ], TrailRenderer);
     feng3d.TrailRenderer = TrailRenderer;
     feng3d.GameObject.registerPrimitive("TrailRenderer", (g) => {
-        g.addComponent("TrailRenderer");
+        g.addComponent(TrailRenderer);
     });
 })(feng3d || (feng3d = {}));
 var feng3d;

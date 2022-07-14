@@ -445,7 +445,7 @@ namespace feng3d
 
     GameObject.registerPrimitive("TrailRenderer", (g) =>
     {
-        g.addComponent("TrailRenderer");
+        g.addComponent(TrailRenderer);
     });
 
     export interface ComponentMap
