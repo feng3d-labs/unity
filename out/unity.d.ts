@@ -2477,7 +2477,7 @@ declare namespace feng3d {
      */
     class Line_TrailUniforms {
         __class__: "feng3d.Line_TrailUniforms";
-        s_texture: Texture2D;
+        s_texture: Texture2D<Texture2DEventMap>;
         u_color: Color4;
     }
 }
@@ -3026,10 +3026,10 @@ declare namespace feng3d {
         __class__: "feng3d.TransparentParticlesStandardUniforms";
         _BasicColor: Color4;
         _SaturatedColor: Color4;
-        _MainTex: Texture2D;
+        _MainTex: Texture2D<Texture2DEventMap>;
         _MainTex_ST: Vector4;
-        _ColorRamp: Texture2D;
-        _NoiseTex: Texture2D;
+        _ColorRamp: Texture2D<Texture2DEventMap>;
+        _NoiseTex: Texture2D<Texture2DEventMap>;
         _NoiseTex_ST: Vector4;
         _EmissionSaturation: number;
         _OpacitySaturation: number;
