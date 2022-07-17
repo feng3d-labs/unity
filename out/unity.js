@@ -2967,7 +2967,7 @@ var feng3d;
                 offset.copy(tangent).cross(normal).normalize(currentLineWidth / 2);
                 // 保持线条宽度
                 var sin = Math.sqrt(1 - Math.pow(offset.clone().normalize().dot(tangent0), 2));
-                sin = Math.clamp(sin, 0.2, 5);
+                sin = feng3d.mathUtil.clamp(sin, 0.2, 5);
                 offset.scaleNumber(1 / sin);
                 //
                 var offset0 = currentPosition.clone().add(offset);
@@ -3426,7 +3426,7 @@ var feng3d;
             if (this.positions.length > 0)
                 preTime = this.positions[this.positions.length - 1].birthTime;
             for (let i = 0, n = positions.length; i < n; i++) {
-                this.positions.unshift({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
+                this.positions.unshift({ position: positions[i], birthTime: feng3d.mathUtil.lerp(preTime, Date.now(), (i + 1) / n) });
             }
         }
         /**

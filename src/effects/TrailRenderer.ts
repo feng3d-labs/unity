@@ -362,7 +362,7 @@ namespace feng3d
 
             for (let i = 0, n = positions.length; i < n; i++)
             {
-                this.positions.unshift({ position: positions[i], birthTime: Math.lerp(preTime, Date.now(), (i + 1) / n) });
+                this.positions.unshift({ position: positions[i], birthTime: mathUtil.lerp(preTime, Date.now(), (i + 1) / n) });
             }
         }
 
