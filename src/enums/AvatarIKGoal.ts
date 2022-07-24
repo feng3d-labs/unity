@@ -1,7 +1,6 @@
-
 /**
  * IK Goal.
- * 
+ *
  * Used to set and get IK weights, position and rotation. See Also: Animator.SetIKPosition, Animator.SetIKPositionWeight, Animator.SetIKRotation and Animator.SetIKRotationWeight.
  */
 export enum AvatarIKGoal

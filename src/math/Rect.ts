@@ -1,18 +1,19 @@
+import { Vector2 } from 'feng3d';
 
 /**
  * A 2D Rectangle defined by X and Y position, width and height.
- * 
+ *
  * Unity uses a number of 2D coordinate spaces, most of which define X as increasing to the right, and Y increasing upwards. The one exception is in the GUI and GUILayout classes, where Y increases downwards.
- * 
+ *
  * The following examples are illustrated in GUI space, where (0,0) represents the top-left corner and Y increases downwards.
- * 
+ *
  * Rectangles can be specified in two different ways. The first is with an x and y position and a width and height:
- * 
+ *
  * The other way is with the X and Y coordinates of each of its edges. These are called xMin, xMax, yMin and yMax:
- * 
+ *
  * Note that although x and y have the same values as xMin and yMin, they behave differently when you set them. Setting x or y changes the position of the rectangle, but preserves its size:
- * 
- * 
+ *
+ *
  * Setting any of xMin, xMax, yMin and yMax will resize the rectangle, but preserve the position of the opposite edge:
  */
 export class Rect
@@ -89,7 +90,7 @@ export class Rect
 
     /**
      * Rect	Creates a new rectangle.
-     * 
+     *
      * @param x	The X value the rect is measured from.
      * @param y	The Y value the rect is measured from.
      * @param width	The width of the rectangle.
@@ -105,31 +106,31 @@ export class Rect
 
     /**
      * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
-     * 
-     * @param point Point to test.
-     * 
+     *
+     * @param _point Point to test.
+     *
      * @returns bool True if the point lies within the specified rectangle.
      */
-    Contains(point: Vector2)
+    Contains(_point: Vector2)
     {
 
     }
 
     /**
-     * Returns true if the other rectangle overlaps this one. 
-     * 
-     * @param other Other rectangle to test overlapping with.
-     * 
-     * @returns Returns true if the other rectangle overlaps this one. 
+     * Returns true if the other rectangle overlaps this one.
+     *
+     * @param _other Other rectangle to test overlapping with.
+     *
+     * @returns Returns true if the other rectangle overlaps this one.
      */
-    Overlaps(other: Rect)
+    Overlaps(_other: Rect)
     {
 
     }
 
     /**
      * Set components of an existing Rect.
-     * 
+     *
      * @param x	The X value the rect is measured from.
      * @param y	The Y value the rect is measured from.
      * @param width	The width of the rectangle.
@@ -145,7 +146,7 @@ export class Rect
 
     /**
      * Returns a nicely formatted string for this Rect.
-     * 
+     *
      * @todo
      */
     ToString()
@@ -155,12 +156,12 @@ export class Rect
 
     /**
      * Creates a rectangle from min/max coordinate values.
-     * 
+     *
      * @param xmin	The minimum X coordinate.
      * @param ymin	The minimum Y coordinate.
      * @param xmax	The maximum X coordinate.
      * @param ymax	The maximum Y coordinate.
-     * 
+     *
      * @returns Rect A rectangle matching the specified coordinates.
      */
     static MinMaxRect(xmin: number, ymin: number, xmax: number, ymax: number)
@@ -170,34 +171,34 @@ export class Rect
 
     /**
      * Returns a point inside a rectangle, given normalized coordinates.
-     * 
-     * @param rectangle	Rectangle to get a point inside.
-     * @param normalizedRectCoordinates	Normalized coordinates to get a point for.
-     * 
+     *
+     * @param _rectangle	Rectangle to get a point inside.
+     * @param _normalizedRectCoordinates	Normalized coordinates to get a point for.
+     *
      * @returns Returns a point inside a rectangle, given normalized coordinates.
-     * 
+     *
      * The rectangle has coordinates between zero and one for the x and y axes. This function will compute the real screen coordinates and return as a Vector2.
-     * 
+     *
      * @todo
      */
-    static NormalizedToPoint(rectangle: Rect, normalizedRectCoordinates: Vector2)
+    static NormalizedToPoint(_rectangle: Rect, _normalizedRectCoordinates: Vector2)
     {
 
     }
 
     /**
      * Returns the normalized coordinates cooresponding the the point.
-     * 
-     * @param rectangle	Rectangle to get normalized coordinates inside.
-     * @param point	A point inside the rectangle to get normalized coordinates for.
-     * 
+     *
+     * @param _rectangle	Rectangle to get normalized coordinates inside.
+     * @param _point	A point inside the rectangle to get normalized coordinates for.
+     *
      * @returns Returns the normalized coordinates cooresponding the the point.
-     * 
+     *
      * The returned Vector2 is in the range 0 to 1 with values more 1 or less than zero clamped.
-     * 
+     *
      * @todo
      */
-    static PointToNormalized(rectangle: Rect, point: Vector2)
+    static PointToNormalized(_rectangle: Rect, _point: Vector2)
     {
 
     }
@@ -207,10 +208,11 @@ export class Rect
      */
     static equals(lhs: Rect, rhs: Rect)
     {
-        if (lhs.x != rhs.x) return false;
-        if (lhs.y != rhs.y) return false;
-        if (lhs.width != rhs.width) return false;
-        if (lhs.height != rhs.height) return false;
+        if (lhs.x !== rhs.x) return false;
+        if (lhs.y !== rhs.y) return false;
+        if (lhs.width !== rhs.width) return false;
+        if (lhs.height !== rhs.height) return false;
+
         return true;
     }
 }

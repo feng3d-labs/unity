@@ -1,7 +1,6 @@
-
 /**
  * IK Hint.
- * 
+ *
  * Used to set and get IK weights and position. See Also: Animator.GetIKHintPosition, Animator.GetIKHintPositionWeight, Animator.SetIKHintPosition, and Animator.SetIKHintPositionWeight.
  */
 export enum AvatarIKHint

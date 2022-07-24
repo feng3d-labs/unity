@@ -1,21 +1,14 @@
 {
-  "name": "@feng3d/cannon",
+  "name": "@feng3d/unity",
   "version": "0.5.0",
-  "description": "3d物理引擎",
+  "description": "实现Unity中相关组件",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "bundle": "dist/index.js",
   "types": "dist/index.d.ts",
-  "namespace": "CANNON",
+  "namespace": "unity",
   "author": "feng",
   "license": "MIT",
-  "old": {
-    "name": "0.4.1",
-    "version": "0.6.2",
-    "description": "A lightweight 3D physics engine written in JavaScript.",
-    "homepage": "https://github.com/schteppe/cannon.js",
-    "author": "Stefan Hedman <schteppe@gmail.com> (http://steffe.se)"
-  },
   "scripts": {
     "start": "npm run watch",
     "clean": "rimraf \"{lib,dist}\"",
@@ -28,15 +21,13 @@
     "docs": "typedoc"
   },
   "keywords": [
-    "cannon.js",
-    "cannon",
-    "physics",
+    "unity",
     "engine",
     "3d"
   ],
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/feng3d/cannon.git"
+    "url": "https://gitlab.com/feng3d/unity.git"
   },
   "publishConfig": {
     "access": "public"

@@ -1,10 +1,26 @@
+import { BlendFactor, Color4, ColorMask, CullFace, Material, oav, serialize, shaderConfig, Texture2D, Vector4 } from 'feng3d';
+import { transparentParticlesStandardFragment } from './TransparentParticlesStandard.fragment.glsl';
+import { transparentParticlesStandardVertex } from './TransparentParticlesStandard.vertex.glsl';
+
+declare global
+{
+    export interface MixinsUniformsTypes
+    {
+        'TransparentParticlesStandard': TransparentParticlesStandardUniforms
+    }
+
+    export interface MixinsDefaultMaterial
+    {
+        'TransparentParticlesStandard-Material': Material;
+    }
+}
 
 /**
  * 线条拖尾
  */
 export class TransparentParticlesStandardUniforms
 {
-    __class__: "feng3d.TransparentParticlesStandardUniforms";
+    __class__: 'TransparentParticlesStandardUniforms';
 
     @serialize
     @oav()
@@ -16,7 +32,7 @@ export class TransparentParticlesStandardUniforms
 
     @serialize
     @oav()
-    _MainTex = feng3d.Texture2D.white;
+    _MainTex = Texture2D.white;
 
     @serialize
     @oav()
@@ -24,11 +40,11 @@ export class TransparentParticlesStandardUniforms
 
     @serialize
     @oav()
-    _ColorRamp = feng3d.Texture2D.white;
+    _ColorRamp = Texture2D.white;
 
     @serialize
     @oav()
-    _NoiseTex = feng3d.Texture2D.white;
+    _NoiseTex = Texture2D.white;
 
     @serialize
     @oav()
@@ -143,26 +159,18 @@ export class TransparentParticlesStandardUniforms
     BLENDMODE_SOFTADDITIVE = false;
 }
 
-feng3d.shaderConfig.shaders["TransparentParticlesStandard"] =
-{
-    vertex: TransparentParticlesStandard_vertex,
-    fragment: TransparentParticlesStandard_fragment,
+shaderConfig.shaders['TransparentParticlesStandard']
+    = {
+    vertex: transparentParticlesStandardVertex,
+    fragment: transparentParticlesStandardFragment,
     cls: TransparentParticlesStandardUniforms,
     renderParams: {
         enableBlend: true,
-        sfactor: feng3d.BlendFactor.ONE,
-        dfactor: feng3d.BlendFactor.ONE_MINUS_SRC_ALPHA,
-        colorMask: feng3d.ColorMask.RGBA,
-        cullFace: feng3d.CullFace.NONE,
+        sfactor: BlendFactor.ONE,
+        dfactor: BlendFactor.ONE_MINUS_SRC_ALPHA,
+        colorMask: ColorMask.RGBA,
+        cullFace: CullFace.NONE,
         depthMask: true,
     },
-}
-feng3d.Material.setDefault("TransparentParticlesStandard-Material", { shaderName: "TransparentParticlesStandard" });
-
-
-export interface UniformsTypes { "TransparentParticlesStandard": TransparentParticlesStandardUniforms }
-
-export interface DefaultMaterial
-{
-    "TransparentParticlesStandard-Material": Material;
-}
+};
+Material.setDefault('TransparentParticlesStandard-Material', { shaderName: 'TransparentParticlesStandard' });

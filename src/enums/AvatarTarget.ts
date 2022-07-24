@@ -1,7 +1,6 @@
-
 /**
  * Target.
- * 
+ *
  * See Also: Animator.SetTarget and Animator.MatchTarget.
  */
 export enum AvatarTarget

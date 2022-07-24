@@ -1,8 +1,8 @@
 {
-    "name": "@feng3d/cannon",
+    "name": "@feng3d/unity",
     "entryPoints": [
         "src/index.ts"
     ],
-    "sourcefile-url-prefix": "https://gitlab.com/feng3d/cannon/tree/master/src/",
+    "sourcefile-url-prefix": "https://gitlab.com/feng3d/unity/tree/master/src/",
     "out": "public"
 }

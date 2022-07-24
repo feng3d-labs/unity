@@ -1,5 +1,4 @@
-
-export var TransparentParticlesStandard_vertex = `
+export const transparentParticlesStandardVertex = `
 
 precision mediump float;
 

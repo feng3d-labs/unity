@@ -1,5 +1,4 @@
-
-export var Line_Trail_fragment = `
+export const lineTrailfragment = `
 precision mediump float;
 
 uniform sampler2D s_texture;

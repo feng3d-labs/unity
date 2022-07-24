@@ -1,5 +1,4 @@
-
-export var TransparentParticlesStandard_fragment = `
+export const transparentParticlesStandardFragment = `
 precision mediump float;
 
 uniform sampler2D _MainTex;
