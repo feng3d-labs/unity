@@ -1,6 +1,5 @@
-namespace feng3d
-{
-    export var TransparentParticlesStandard_fragment = `
+
+export var TransparentParticlesStandard_fragment = `
 precision mediump float;
 
 uniform sampler2D _MainTex;
@@ -200,4 +199,3 @@ void main()
     gl_FragColor = col;
 }
     `;
-}

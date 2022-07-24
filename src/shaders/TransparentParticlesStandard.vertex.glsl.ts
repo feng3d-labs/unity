@@ -1,6 +1,5 @@
-namespace feng3d
-{
-    export var TransparentParticlesStandard_vertex = `
+
+export var TransparentParticlesStandard_vertex = `
 
 precision mediump float;
 
@@ -58,4 +57,3 @@ void main()
     }
 }
     `;
-}

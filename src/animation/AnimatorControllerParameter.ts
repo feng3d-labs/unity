@@ -1,39 +1,37 @@
-namespace feng3d.unity
+import { AnimatorControllerParameterType } from './enums/AnimatorControllerParameterType';
+
+/**
+ * Used to communicate between scripting and the controller. Some parameters can be set in scripting and used by the controller, while other parameters are based on Custom Curves in Animation Clips and can be sampled using the scripting API.
+ */
+export class AnimatorControllerParameter
 {
     /**
-     * Used to communicate between scripting and the controller. Some parameters can be set in scripting and used by the controller, while other parameters are based on Custom Curves in Animation Clips and can be sampled using the scripting API.
+     * The default bool value for the parameter.
      */
-    export class AnimatorControllerParameter
-    {
-        /**
-         * The default bool value for the parameter.
-         */
-        defaultBool: boolean;
+    defaultBool: boolean;
 
-        /**
-         * The default float value for the parameter.
-         */
-        defaultFloat: number;
+    /**
+     * The default float value for the parameter.
+     */
+    defaultFloat: number;
 
-        /**
-         * The default int value for the parameter.
-         */
-        defaultInt: number;
+    /**
+     * The default int value for the parameter.
+     */
+    defaultInt: number;
 
-        /**
-         * The name of the parameter.
-         */
-        name: string;
+    /**
+     * The name of the parameter.
+     */
+    name: string;
 
-        /**
-         * Returns the hash of the parameter based on its name.
-         */
-        nameHash: number;
+    /**
+     * Returns the hash of the parameter based on its name.
+     */
+    nameHash: number;
 
-        /**
-         * The type of the parameter.
-         */
-        type: AnimatorControllerParameterType;
-
-    }
+    /**
+     * The type of the parameter.
+     */
+    type: AnimatorControllerParameterType;
 }

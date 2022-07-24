@@ -1,31 +1,29 @@
-namespace feng3d.unity
+
+/**
+ * IK Goal.
+ * 
+ * Used to set and get IK weights, position and rotation. See Also: Animator.SetIKPosition, Animator.SetIKPositionWeight, Animator.SetIKRotation and Animator.SetIKRotationWeight.
+ */
+export enum AvatarIKGoal
 {
     /**
-     * IK Goal.
-     * 
-     * Used to set and get IK weights, position and rotation. See Also: Animator.SetIKPosition, Animator.SetIKPositionWeight, Animator.SetIKRotation and Animator.SetIKRotationWeight.
+     * The left foot.
      */
-    export enum AvatarIKGoal
-    {
-        /**
-         * The left foot.
-         */
-        LeftFoot,
+    LeftFoot,
 
-        /**
-         * The right foot.
-         */
-        RightFoot,
+    /**
+     * The right foot.
+     */
+    RightFoot,
 
-        /**
-         * The left hand.
-         */
-        LeftHand,
+    /**
+     * The left hand.
+     */
+    LeftHand,
 
-        /**
-         * The right hand.
-         */
-        RightHand,
+    /**
+     * The right hand.
+     */
+    RightHand,
 
-    }
 }

@@ -1,41 +1,39 @@
-namespace feng3d.unity
+
+/**
+ * Target.
+ * 
+ * See Also: Animator.SetTarget and Animator.MatchTarget.
+ */
+export enum AvatarTarget
 {
     /**
-     * Target.
-     * 
-     * See Also: Animator.SetTarget and Animator.MatchTarget.
+     * The root, the position of the game object.
      */
-    export enum AvatarTarget
-    {
-        /**
-         * The root, the position of the game object.
-         */
-        Root,
+    Root,
 
-        /**
-         * The body, center of mass.
-         */
-        Body,
+    /**
+     * The body, center of mass.
+     */
+    Body,
 
-        /**
-         * The left foot.
-         */
-        LeftFoot,
+    /**
+     * The left foot.
+     */
+    LeftFoot,
 
-        /**
-         * The right foot.
-         */
-        RightFoot,
+    /**
+     * The right foot.
+     */
+    RightFoot,
 
-        /**
-         * The left hand.
-         */
-        LeftHand,
+    /**
+     * The left hand.
+     */
+    LeftHand,
 
-        /**
-         * The right hand.
-         */
-        RightHand,
+    /**
+     * The right hand.
+     */
+    RightHand,
 
-    }
 }

@@ -1,21 +1,19 @@
-namespace feng3d.unity
+
+/**
+ * Options for how to send a message.
+ * 
+ * This is used by SendMessage & BroadcastMessage in GameObject & Component.
+ */
+export enum SendMessageOptions
 {
     /**
-     * Options for how to send a message.
-     * 
-     * This is used by SendMessage & BroadcastMessage in GameObject & Component.
+     * A receiver is required for SendMessage.
      */
-    export enum SendMessageOptions
-    {
-        /**
-         * A receiver is required for SendMessage.
-         */
-        RequireReceiver,
+    RequireReceiver,
 
-        /**
-         * No receiver is required for SendMessage.
-         */
-        DontRequireReceiver,
+    /**
+     * No receiver is required for SendMessage.
+     */
+    DontRequireReceiver,
 
-    }
 }

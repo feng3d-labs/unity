@@ -1,78 +1,75 @@
-namespace feng3d.unity
+/**
+ * Avatar body part.
+ */
+export enum AvatarMaskBodyPart
 {
     /**
-     * Avatar body part.
+     * The Root.
      */
-    export enum AvatarMaskBodyPart
-    {
-        /**
-         * The Root.
-         */
-        Root,
+    Root,
 
-        /**
-         * The Body.
-         */
-        Body,
+    /**
+     * The Body.
+     */
+    Body,
 
-        /**
-         * The Head.
-         */
-        Head,
+    /**
+     * The Head.
+     */
+    Head,
 
-        /**
-         * The Left Leg.
-         */
-        LeftLeg,
+    /**
+     * The Left Leg.
+     */
+    LeftLeg,
 
-        /**
-         * The Right Leg.
-         */
-        RightLeg,
+    /**
+     * The Right Leg.
+     */
+    RightLeg,
 
-        /**
-         * The Left Arm.
-         */
-        LeftArm,
+    /**
+     * The Left Arm.
+     */
+    LeftArm,
 
-        /**
-         * The Right Arm.
-         */
-        RightArm,
+    /**
+     * The Right Arm.
+     */
+    RightArm,
 
-        /**
-         * Left Fingers.
-         */
-        LeftFingers,
+    /**
+     * Left Fingers.
+     */
+    LeftFingers,
 
-        /**
-         * Right Fingers.
-         */
-        RightFingers,
+    /**
+     * Right Fingers.
+     */
+    RightFingers,
 
-        /**
-         * Left Foot IK.
-         */
-        LeftFootIK,
+    /**
+     * Left Foot IK.
+     */
+    LeftFootIK,
 
-        /**
-         * Right Foot IK.
-         */
-        RightFootIK,
+    /**
+     * Right Foot IK.
+     */
+    RightFootIK,
 
-        /**
-         * Left Hand IK.
-         */
-        LeftHandIK,
+    /**
+     * Left Hand IK.
+     */
+    LeftHandIK,
 
-        /**
-         * Right Hand IK.
-         */
-        RightHandIK,
+    /**
+     * Right Hand IK.
+     */
+    RightHandIK,
 
-        /**
-         * Total number of body parts.
-         */
-        LastBodyPart,
-    }
+    /**
+     * Total number of body parts.
+     */
+    LastBodyPart,
 }
