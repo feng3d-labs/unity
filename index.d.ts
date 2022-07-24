@@ -1,4 +1,4 @@
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * A 2D Rectangle defined by X and Y position, width and height.
      *
@@ -155,7 +155,7 @@ declare namespace feng3d.unity {
         static equals(lhs: Rect, rhs: Rect): boolean;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Target.
      *
@@ -188,7 +188,7 @@ declare namespace feng3d.unity {
         RightHand = 5
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * IK Hint.
      *
@@ -213,7 +213,7 @@ declare namespace feng3d.unity {
         RightElbow = 3
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * IK Goal.
      *
@@ -238,7 +238,7 @@ declare namespace feng3d.unity {
         RightHand = 3
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Human Body Bones.
      */
@@ -469,7 +469,7 @@ declare namespace feng3d.unity {
         LastBone = 55
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Options for how to send a message.
      *
@@ -486,7 +486,7 @@ declare namespace feng3d.unity {
         DontRequireReceiver = 1
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Represents an axis aligned bounding box.
      *
@@ -497,7 +497,7 @@ declare namespace feng3d.unity {
     class Bounds extends Box3 {
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Position, size, anchor and pivot information for a rectangle.
      *
@@ -595,7 +595,7 @@ declare namespace feng3d.unity {
         SetSizeWithCurrentAnchors(axis: RectTransform.Axis, size: number): void;
     }
 }
-declare namespace feng3d.unity.RectTransform {
+declare namespace unity.RectTransform {
     /**
      * Enum used to specify one edge of a rectangle.
      */
@@ -639,7 +639,7 @@ declare namespace feng3d.unity.RectTransform {
         Z = 3
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Skinning bone weights of a vertex in the mesh.
      *
@@ -680,7 +680,7 @@ declare namespace feng3d.unity {
         weight3: number;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * 网格数据
      */
@@ -759,7 +759,7 @@ declare namespace feng3d.unity {
         get vertexCount(): number;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Avatar definition.
      */
@@ -774,7 +774,7 @@ declare namespace feng3d.unity {
         isValid: boolean;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Interface to control the Mecanim animation system.
      */
@@ -1321,7 +1321,7 @@ declare namespace feng3d.unity {
         static StringToHash(name: string): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The mode of the Animator's recorder.
      *
@@ -1342,7 +1342,7 @@ declare namespace feng3d.unity {
         Record = 2
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The update mode of the Animator.
      */
@@ -1361,7 +1361,7 @@ declare namespace feng3d.unity {
         UnscaledTime = 2
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Culling mode for the Animator.
      */
@@ -1380,7 +1380,7 @@ declare namespace feng3d.unity {
         CullCompletely = 2
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The type of the parameter.
      *
@@ -1405,7 +1405,7 @@ declare namespace feng3d.unity {
         Trigger = 3
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Used by Animation.Play function.
      */
@@ -1420,7 +1420,7 @@ declare namespace feng3d.unity {
         Additive = 1
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Specifies how the layer is blended with the previous layers.
      */
@@ -1435,7 +1435,7 @@ declare namespace feng3d.unity {
         Additive = 1
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The mode of the condition.
      */
@@ -1466,7 +1466,7 @@ declare namespace feng3d.unity {
         NotEqual = 5
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Which AnimatorState transitions can interrupt the Transition.
      */
@@ -1493,7 +1493,7 @@ declare namespace feng3d.unity {
         DestinationThenSource = 4
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Use this struct to specify the position and rotation weight mask for Animator.MatchTarget.
      */
@@ -1508,7 +1508,7 @@ declare namespace feng3d.unity {
         rotationWeight: number;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * AnimationEvent lets you call a script function similar to SendMessage as part of playing back an animation.
      *
@@ -1565,7 +1565,7 @@ declare namespace feng3d.unity {
         time: number;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * StateMachineBehaviour is a component that can be added to a state machine state. It's the base class every script on a state derives from.
      */
@@ -1606,7 +1606,7 @@ declare namespace feng3d.unity {
         OnStateUpdate(animator: Animator, animatorStateInfo: AnimatorStateInfo, layerIndex: number): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The animator state info related to this event (Read Only).
      */
@@ -1653,7 +1653,7 @@ declare namespace feng3d.unity {
         IsTag(tag: string): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Information about clip being played and blended by the Animator.
      */
@@ -1668,7 +1668,7 @@ declare namespace feng3d.unity {
         weight: number;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The AnimationState gives full control over animation blending.
      */
@@ -1730,7 +1730,7 @@ declare namespace feng3d.unity {
         RemoveMixingTransform(mix: Transform): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Stores keyframe based animations.
      *
@@ -1834,7 +1834,7 @@ declare namespace feng3d.unity {
         GetCurveBindings(): EditorCurveBinding[];
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The runtime representation of the AnimatorController. Use this representation to change the Animator Controller during runtime.
      */
@@ -1845,7 +1845,7 @@ declare namespace feng3d.unity {
         animationClips: AnimationClip[];
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Used to communicate between scripting and the controller. Some parameters can be set in scripting and used by the controller, while other parameters are based on Custom Curves in Animation Clips and can be sampled using the scripting API.
      */
@@ -1876,7 +1876,7 @@ declare namespace feng3d.unity {
         type: AnimatorControllerParameterType;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Defines how a curve is attached to an object that it controls.
      */
@@ -1919,12 +1919,12 @@ declare namespace feng3d.unity {
         static PPtrCurve(inPath: string, inType: new () => any, inPropertyName: string): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * An AnimationClipCurveData object contains all the information needed to identify a specific curve in an AnimationClip. The curve animates a specific property of a component / material attached to a game object / animated bone.
      */
     class AnimationClipCurveData {
-        __class__: "feng3d.unity.AnimationClipCurveData";
+        __class__: "unity.AnimationClipCurveData";
         /**
          * The actual animation curve.
          */
@@ -1943,7 +1943,7 @@ declare namespace feng3d.unity {
         type: new () => any;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The Animator Controller controls animation through layers with state machines, controlled by parameters.
      */
@@ -1958,7 +1958,7 @@ declare namespace feng3d.unity {
         parameters: AnimatorControllerParameter[];
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * The Animation Layer contains a state machine that controls animations of a model or part of it.
      */
@@ -2023,7 +2023,7 @@ declare namespace feng3d.unity {
         SetOverrideMotion(state: AnimatorState, motion: Motion): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * AvatarMask is used to mask out humanoid body parts and transforms.
      *
@@ -2089,7 +2089,7 @@ declare namespace feng3d.unity {
         SetTransformPath(index: number, path: string): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Avatar body part.
      */
@@ -2152,7 +2152,7 @@ declare namespace feng3d.unity {
         LastBodyPart = 13
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * A graph controlling the interaction of states. Each state references a motion.
      */
@@ -2199,7 +2199,7 @@ declare namespace feng3d.unity {
         states: ChildAnimatorState[];
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Base class for animator transitions. Transitions define when and how the state machine switches from one state to another.
      *
@@ -2246,7 +2246,7 @@ declare namespace feng3d.unity {
         RemoveCondition(condition: AnimatorCondition): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Transitions define when and how the state machine switch from one state to another. AnimatorStateTransition always originate from an Animator State (or AnyState) and have timing parameters.
      *
@@ -2287,7 +2287,7 @@ declare namespace feng3d.unity {
         orderedInterruption: boolean;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * AnimatorCondition conditions that need to be met for a transition to happen.
      */
@@ -2306,7 +2306,7 @@ declare namespace feng3d.unity {
         threshold: number;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * States are the basic building blocks of a state machine. Each state contains a Motion ( AnimationClip or BlendTree) which will play while the character is in that state. When an event in the game triggers a state transition, the character will be left in a new state whose animation sequence will then take over.
      */
@@ -2408,7 +2408,7 @@ declare namespace feng3d.unity {
         RemoveTransition(transition: AnimatorStateTransition): void;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Base class for AnimationClips and BlendTrees.
      *
@@ -2417,7 +2417,7 @@ declare namespace feng3d.unity {
     class Motion {
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Transitions define when and how the state machine switch from on state to another. AnimatorTransition always originate from a StateMachine or a StateMachine entry. They do not define timing parameters.
      *
@@ -2426,7 +2426,7 @@ declare namespace feng3d.unity {
     class AnimatorTransition extends AnimatorTransitionBase {
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Structure that represents a state machine in the context of its parent state machine.
      */
@@ -2441,7 +2441,7 @@ declare namespace feng3d.unity {
         stateMachine: AnimatorStateMachine;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Structure that represents a state in the context of its parent state machine.
      */
@@ -2456,7 +2456,7 @@ declare namespace feng3d.unity {
         state: AnimatorState;
     }
 }
-declare namespace feng3d.unity {
+declare namespace unity {
     /**
      * Use the PlayableGraph to manage Playable creations and destructions.
      *
