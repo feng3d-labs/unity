@@ -1,6 +1,4 @@
-namespace feng3d
-{
-    export var Line_Trail_fragment = `
+export const lineTrailfragment = `
 precision mediump float;
 
 uniform sampler2D s_texture;
@@ -16,4 +14,3 @@ void main()
     gl_FragColor = color * u_color * v_color;
 }
     `;
-}

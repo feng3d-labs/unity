@@ -1,141 +1,25 @@
 {
     "compilerOptions": {
-        "target": "ES2015",
+        "target": "ES5",
+        "module": "CommonJS",
         "noImplicitAny": false,
         "sourceMap": true,
         "declarationMap": true,
         "declaration": true,
-        "composite": true,
-        "skipLibCheck": true,
         "experimentalDecorators": true,
         "lib": [
             "ES2015",
             "DOM",
         ],
-        "outFile": "out/unity.js",
+        "outDir": "lib"
     },
-    "references": [
-        {
-            "path": "../feng3d/packages/event",
-        },
-        {
-            "path": "../feng3d/packages/bezier",
-        },
-        {
-            "path": "../feng3d/packages/objectview",
-        },
-        {
-            "path": "../feng3d/packages/polyfill",
-        },
-        {
-            "path": "../feng3d/packages/task",
-        },
-        {
-            "path": "../feng3d/packages/watcher",
-        },
-        {
-            "path": "../feng3d/packages/serialization",
-        },
-        {
-            "path": "../feng3d/packages/math",
-        },
-        {
-            "path": "../feng3d/packages/filesystem",
-        },
-        {
-            "path": "../feng3d/packages/shortcut",
-        },
-        {
-            "path": "../feng3d/packages/renderer",
-        },
-        {
-            "path": "../feng3d/packages/core",
-        },
-        {
-            "path": "../feng3d/packages/terrain",
-        },
-        {
-            "path": "../feng3d/packages/particlesystem",
-        },
-        {
-            "path": "../feng3d/packages/assets",
-        },
-        {
-            "path": "../feng3d/packages/parsers",
-        },
-        {
-            "path": "../feng3d/packages/ui",
-        },
-        {
-            "path": "../feng3d",
-        },
+    "include": [
+        "src/**/*.ts"
     ],
-    "files": [
-        //
-        "src/math/Rect.ts",
-        //
-        "src/enums/AvatarTarget.ts",
-        "src/enums/AvatarIKHint.ts",
-        "src/enums/AvatarIKGoal.ts",
-        "src/enums/HumanBodyBones.ts",
-        "src/enums/SendMessageOptions.ts",
-        //
-        "src/base/Bounds.ts",
-        //
-        "src/core/RectTransform.ts",
-        "src/core/BoneWeight.ts",
-        "src/core/Mesh.ts",
-        //
-        "src/core/Avatar.ts",
-        "src/core/Animator.ts",
-        //
-        "src/animation/enums/AnimatorRecorderMode.ts",
-        "src/animation/enums/AnimatorUpdateMode.ts",
-        "src/animation/enums/AnimatorCullingMode.ts",
-        "src/animation/enums/AnimatorControllerParameterType.ts",
-        "src/animation/enums/AnimationBlendMode.ts",
-        "src/animation/enums/AnimatorLayerBlendingMode.ts",
-        "src/animation/enums/AnimatorConditionMode.ts",
-        "src/animation/enums/TransitionInterruptionSource.ts",
-        //
-        "src/animation/MatchTargetWeightMask.ts",
-        "src/animation/AnimationEvent.ts",
-        "src/animation/StateMachineBehaviour.ts",
-        "src/animation/AnimatorStateInfo.ts",
-        "src/animation/AnimatorClipInfo.ts",
-        "src/animation/AnimationState.ts",
-        "src/animation/AnimationClip.ts",
-        "src/animation/RuntimeAnimatorController.ts",
-        "src/animation/AnimatorControllerParameter.ts",
-        "src/animation/EditorCurveBinding.ts",
-        "src/animation/AnimationClipCurveData.ts",
-        "src/animation/AnimatorController.ts",
-        "src/animation/AnimatorControllerLayer.ts",
-        "src/animation/AvatarMask.ts",
-        "src/animation/AvatarMaskBodyPart.ts",
-        "src/animation/AnimatorStateMachine.ts",
-        "src/animation/AnimatorTransitionBase.ts",
-        "src/animation/AnimatorStateTransition.ts",
-        "src/animation/AnimatorCondition.ts",
-        "src/animation/AnimatorState.ts",
-        "src/animation/Motion.ts",
-        "src/animation/AnimatorTransition.ts",
-        "src/animation/ChildAnimatorStateMachine.ts",
-        "src/animation/ChildAnimatorState.ts",
-        //
-        "src/playables/PlayableGraph.ts",
-        //
-        "src/shaders/Line_Trail.vertex.glsl.ts",
-        "src/shaders/Line_Trail.fragment.glsl.ts",
-        "src/shaders/Line_Trail.shader.ts",
-        //
-        "src/effects/enums/LineAlignment.ts",
-        "src/effects/enums/LineTextureMode.ts",
-        "src/effects/LineRenderer.ts",
-        "src/effects/TrailRenderer.ts",
-        //
-        "src/shaders/TransparentParticlesStandard.vertex.glsl.ts",
-        "src/shaders/TransparentParticlesStandard.fragment.glsl.ts",
-        "src/shaders/TransparentParticlesStandard.shader.ts",
-    ]
+    "ts-node": {
+        "files": true,
+        "compilerOptions": {
+            "esModuleInterop": true
+        }
+    }
 }

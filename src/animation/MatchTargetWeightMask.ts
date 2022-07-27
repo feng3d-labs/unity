@@ -1,20 +1,17 @@
-namespace feng3d.unity
+import { Vector3 } from 'feng3d';
+
+/**
+ * Use this struct to specify the position and rotation weight mask for Animator.MatchTarget.
+ */
+export class MatchTargetWeightMask
 {
     /**
-     * Use this struct to specify the position and rotation weight mask for Animator.MatchTarget.
+     * Position XYZ weight.
      */
-    export class MatchTargetWeightMask
-    {
+    positionXYZWeight: Vector3;
 
-        /**
-         * Position XYZ weight.
-         */
-        positionXYZWeight: Vector3;
-
-        /**
-         * Rotation weight.
-         */
-        rotationWeight: number;
-
-    }
+    /**
+     * Rotation weight.
+     */
+    rotationWeight: number;
 }

@@ -1,19 +1,16 @@
-namespace feng3d.unity
+/**
+ * Specifies how the layer is blended with the previous layers.
+ */
+export enum AnimatorLayerBlendingMode
 {
+
     /**
-     * Specifies how the layer is blended with the previous layers.
+     * Animations overrides to the previous layers.
      */
-    export enum AnimatorLayerBlendingMode
-    {
+    Override,
 
-        /**
-         * Animations overrides to the previous layers.
-         */
-        Override,
-
-        /**
-         * Animations are added to the previous layers.
-         */
-        Additive,
-    }
+    /**
+     * Animations are added to the previous layers.
+     */
+    Additive,
 }

@@ -1,6 +1,4 @@
-namespace feng3d
-{
-    export var Line_Trail_vertex = `
+export const lineTrailvertex = `
 
 attribute vec3 a_position;
 attribute vec2 a_uv;
@@ -20,4 +18,3 @@ void main()
     v_color = a_color;
 }
     `;
-}

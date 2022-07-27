@@ -1,23 +1,22 @@
-namespace feng3d.unity
+import { AnimatorConditionMode } from './enums/AnimatorConditionMode';
+
+/**
+ * AnimatorCondition conditions that need to be met for a transition to happen.
+ */
+export class AnimatorCondition
 {
     /**
-     * AnimatorCondition conditions that need to be met for a transition to happen.
+     * The mode of the condition.
      */
-    export class AnimatorCondition
-    {
-        /**
-         * The mode of the condition.
-         */
-        mode: AnimatorConditionMode;
+    mode: AnimatorConditionMode;
 
-        /**
-         * The name of the parameter used in the condition.
-         */
-        parameter: string;
+    /**
+     * The name of the parameter used in the condition.
+     */
+    parameter: string;
 
-        /**
-         * The AnimatorParameter's threshold value for the condition to be true.
-         */
-        threshold: number;
-    }
+    /**
+     * The AnimatorParameter's threshold value for the condition to be true.
+     */
+    threshold: number;
 }

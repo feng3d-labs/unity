@@ -1,31 +1,28 @@
-namespace feng3d.unity
+/**
+ * IK Hint.
+ *
+ * Used to set and get IK weights and position. See Also: Animator.GetIKHintPosition, Animator.GetIKHintPositionWeight, Animator.SetIKHintPosition, and Animator.SetIKHintPositionWeight.
+ */
+export enum AvatarIKHint
 {
     /**
-     * IK Hint.
-     * 
-     * Used to set and get IK weights and position. See Also: Animator.GetIKHintPosition, Animator.GetIKHintPositionWeight, Animator.SetIKHintPosition, and Animator.SetIKHintPositionWeight.
+     * The left knee IK hint.
      */
-    export enum AvatarIKHint
-    {
-        /**
-         * The left knee IK hint.
-         */
-        LeftKnee,
+    LeftKnee,
 
-        /**
-         * The right knee IK hint.
-         */
-        RightKnee,
+    /**
+     * The right knee IK hint.
+     */
+    RightKnee,
 
-        /**
-         * The left elbow IK hint.
-         */
-        LeftElbow,
+    /**
+     * The left elbow IK hint.
+     */
+    LeftElbow,
 
-        /**
-         * The right elbow IK hint.
-         */
-        RightElbow,
+    /**
+     * The right elbow IK hint.
+     */
+    RightElbow,
 
-    }
 }

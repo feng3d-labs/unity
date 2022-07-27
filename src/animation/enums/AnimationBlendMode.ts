@@ -1,18 +1,15 @@
-namespace feng3d.unity
+/**
+ * Used by Animation.Play function.
+ */
+export enum AnimationBlendMode
 {
     /**
-     * Used by Animation.Play function.
+     * Animations will be blended.
      */
-    export enum AnimationBlendMode
-    {
-        /**
-         * Animations will be blended.
-         */
-        Blend,
+    Blend,
 
-        /**
-         * Animations will be added.
-         */
-        Additive,
-    }
+    /**
+     * Animations will be added.
+     */
+    Additive,
 }
